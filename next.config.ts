@@ -1,16 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
+  reactStrictMode: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/fr/traiteur-indien-paris",
+        permanent: false,
       },
-    },
+      {
+        source: "/fr",
+        destination: "/fr/traiteur-indien-paris",
+        permanent: true,
+      },
+      {
+        source: "/en",
+        destination: "/en/indian-catering-paris",
+        permanent: true,
+      },
+    ];
   },
 };
 
