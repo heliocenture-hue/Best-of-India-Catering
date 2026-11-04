@@ -1,0 +1,441 @@
+---
+import { CONFIG } from '../config';
+import type { Language } from '../i18n/utils';
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+const baseNav = lang === 'en' ? '/en/' : '/';
+
+// 6 Photo strip images
+const photoStrip = [
+  { src: '/assets/images/boi/hero-1.webp', alt: t.menu.photo_strip_alts[0] },
+  { src: '/assets/images/boi/hero-2.webp', alt: t.menu.photo_strip_alts[1] },
+  { src: '/assets/images/boi/hero-3.webp', alt: t.menu.photo_strip_alts[2] },
+  { src: '/assets/images/boi/about-1.webp', alt: t.menu.photo_strip_alts[3] },
+  { src: '/assets/images/boi/menu-chicken65.webp', alt: t.menu.photo_strip_alts[4] },
+  { src: '/assets/images/boi/strip-1.webp', alt: t.menu.photo_strip_alts[5] },
+];
+---
+
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="eyebrow">{t.menu.eyebrow}</span>
+      <h2 class="section-h2">{t.menu.h2}</h2>
+      <p class="section-subtitle mx-auto">{t.menu.text}</p>
+    </div>
+
+    <!-- Tabs Navigation: Horizontally scrollable pill row on mobile -->
+    <div class="tabs-nav-wrapper">
+      <div class="tabs-nav" role="tablist" aria-label="Menu categories">
+        {t.menu.tabs.map((tab, idx) => (
+          <button
+            type="button"
+            class={`tab-pill ${idx === 0 ? 'active' : ''}`}
+            role="tab"
+            aria-selected={idx === 0 ? 'true' : 'false'}
+            aria-controls={`panel-${tab.id}`}
+            id={`tab-${tab.id}`}
+            data-target={tab.id}
+          >
+            {tab.title}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="tabs-content">
+      {t.menu.tabs.map((tab, idx) => (
+        <div
+          class={`tab-panel ${idx === 0 ? 'active' : ''}`}
+          id={`panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${tab.id}`}
+          hidden={idx !== 0}
+        >
+          <div class="tab-panel-grid">
+            <!-- Left: Large Photo (45%) -->
+            <div class="panel-image-wrap hover-zoom-wrapper">
+              <img
+                src={tab.image}
+                alt={tab.image_alt}
+                width="600"
+                height="450"
+                class="panel-img hover-zoom-img"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Right: Two-Column Dish List (55%) -->
+            <div class="panel-dishes-wrap">
+              <div class="dishes-list">
+                {tab.dishes.map((dish) => (
+                  <div class="dish-item">
+                    <span class="dish-name">{dish.name}</span>
+                    {dish.tag === 'veg' && (
+                      <span class="dietary-badge veg" title={t.menu.tag_veg}>
+                        {t.menu.tag_veg}
+                      </span>
+                    )}
+                    {dish.tag === 'vegan' && (
+                      <span class="dietary-badge vegan" title={t.menu.tag_vegan}>
+                        {t.menu.tag_vegan}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Service Formats Chips -->
+    <div class="service-formats-wrap">
+      <div class="formats-list">
+        {CONFIG.SERVICE_FORMATS.map((fmt) => (
+          <span class="format-chip">
+            <svg class="chip-check" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span>{lang === 'fr' ? fmt.fr : fmt.en}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA Band -->
+    <div class="menu-cta-band">
+      <h3 class="cta-band-title">{t.menu.cta_text}</h3>
+      <a href={`${baseNav}#contact`} class="btn-primary" data-track="menu_request_custom">
+        {t.menu.cta_button}
+      </a>
+    </div>
+
+    <!-- Ruby's-style Photo Strip of 6 Real BOI Images -->
+    <div class="photo-strip" aria-hidden="true">
+      {photoStrip.map((item) => (
+        <div class="photo-strip-item hover-zoom-wrapper">
+          <img
+            src={item.src}
+            alt={item.alt}
+            width="240"
+            height="180"
+            class="photo-strip-img hover-zoom-img"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu-section {
+    background-color: var(--color-warm-cream);
+    padding-top: 80px;
+    padding-bottom: 90px;
+  }
+
+  @media (min-width: 992px) {
+    .menu-section {
+      padding-top: 100px;
+      padding-bottom: 110px;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Tabs Nav */
+  .tabs-nav-wrapper {
+    margin: 36px 0 28px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .tabs-nav {
+    display: inline-flex;
+    gap: 10px;
+    min-width: 100%;
+    justify-content: flex-start;
+  }
+
+  @media (min-width: 992px) {
+    .tabs-nav {
+      justify-content: center;
+    }
+  }
+
+  .tab-pill {
+    padding: 10px 20px;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-deep-brown);
+    background-color: var(--color-white);
+    border: 1px solid rgba(74, 36, 18, 0.12);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .tab-pill:hover {
+    border-color: var(--color-saffron-orange);
+    color: var(--color-dark-orange);
+  }
+
+  .tab-pill.active {
+    background-color: var(--color-deep-brown);
+    color: var(--color-white);
+    border-color: var(--color-deep-brown);
+    box-shadow: 0 4px 12px rgba(74, 36, 18, 0.2);
+  }
+
+  /* Tab Panel */
+  .tab-panel {
+    display: none;
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(74, 36, 18, 0.08);
+  }
+
+  .tab-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .tab-panel-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 992px) {
+    .tab-panel-grid {
+      grid-template-columns: 45% 55%;
+    }
+  }
+
+  .panel-image-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-warm-cream);
+  }
+
+  @media (min-width: 992px) {
+    .panel-image-wrap {
+      aspect-ratio: auto;
+      height: 100%;
+      min-height: 380px;
+    }
+  }
+
+  .panel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .panel-dishes-wrap {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .panel-dishes-wrap {
+      padding: 44px 40px;
+    }
+  }
+
+  .dishes-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px 28px;
+  }
+
+  @media (min-width: 640px) {
+    .dishes-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .dish-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(74, 36, 18, 0.12);
+  }
+
+  .dish-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-deep-brown);
+  }
+
+  .dietary-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .dietary-badge.veg {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+  }
+
+  .dietary-badge.vegan {
+    background-color: #E0F2F1;
+    color: #00695C;
+    border: 1px solid #80CBC4;
+  }
+
+  /* Formats Chips */
+  .service-formats-wrap {
+    margin-top: 36px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .formats-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .format-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-deep-brown);
+    border: 1px solid rgba(74, 36, 18, 0.1);
+  }
+
+  .chip-check {
+    color: var(--color-saffron-orange);
+  }
+
+  /* CTA Band */
+  .menu-cta-band {
+    margin-top: 48px;
+    background-color: var(--color-deep-brown);
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  @media (min-width: 768px) {
+    .menu-cta-band {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+      padding: 36px 48px;
+    }
+  }
+
+  .cta-band-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  @media (min-width: 768px) {
+    .cta-band-title {
+      font-size: 28px;
+    }
+  }
+
+  /* Photo Strip of 6 Real BOI Images */
+  .photo-strip {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  @media (min-width: 768px) {
+    .photo-strip {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+  }
+
+  .photo-strip-item {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    background-color: var(--color-white);
+  }
+
+  .photo-strip-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab-pill');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const targetId = tab.getAttribute('data-target');
+
+      tabs.forEach((t) => {
+        const isActive = t === tab;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      panels.forEach((p) => {
+        const isMatch = p.id === `panel-${targetId}`;
+        p.classList.toggle('active', isMatch);
+        p.hidden = !isMatch;
+      });
+    });
+  });
+</script>

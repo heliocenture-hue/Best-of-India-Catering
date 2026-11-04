@@ -1,0 +1,191 @@
+---
+import { CONFIG } from '../config';
+import type { Language } from '../i18n/utils';
+import { getTranslations } from '../i18n/utils';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import '../styles/global.css';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const canonicalUrl = lang === 'en'
+  ? 'https://traiteur.bestofindiaparis.com/en/'
+  : 'https://traiteur.bestofindiaparis.com/';
+
+const frUrl = 'https://traiteur.bestofindiaparis.com/';
+const enUrl = 'https://traiteur.bestofindiaparis.com/en/';
+
+// Schema JSON-LD FoodEstablishment without fake reviews or ratings
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["FoodEstablishment", "Restaurant"],
+  "name": CONFIG.BRAND,
+  "description": t.meta.description,
+  "url": canonicalUrl,
+  "telephone": CONFIG.PHONE_LINK,
+  "email": CONFIG.EMAIL,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "170 Rue du Faubourg Saint-Denis",
+    "addressLocality": "Paris",
+    "postalCode": "75010",
+    "addressCountry": "FR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 48.8778,
+    "longitude": 2.3578
+  },
+  "servesCuisine": ["Indian", "South Indian", "Chettinad"],
+  "openingHours": "Mo-Su 11:30-23:00",
+  "sameAs": [CONFIG.INSTAGRAM, CONFIG.FACEBOOK, CONFIG.WEBSITE],
+  "image": "https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp"
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+
+    <!-- Canonical & Hreflang Tags -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="fr" href={frUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={frUrl} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/assets/boi-logo.png" />
+    <link rel="apple-touch-icon" href="/assets/boi-logo.png" />
+
+    <!-- Preload Self-Hosted Fonts -->
+    <link
+      rel="preload"
+      href="/assets/fonts/cormorant-garamond-normal-600.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/mulish-normal-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/mulish-normal-600.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/mulish-normal-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Preload Hero Image -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/images/boi/hero-1.webp"
+      type="image/webp"
+    />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:image" content="https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp" />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.meta.title} />
+    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:image" content="https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp" />
+
+    <!-- Structured Data JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+
+    <!-- First visit redirect: On first visit to /, redirect to /en/ only if browser language is not French and no choice is saved. Never redirect after manual choice. -->
+    <script is:inline>
+      (function() {
+        if (typeof window === 'undefined') return;
+        try {
+          var saved = localStorage.getItem('boi_preferred_lang');
+          if (saved) return; // user already made manual choice
+          var path = window.location.pathname;
+          if (path === '/' || path === '') {
+            var userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            if (userLang && !userLang.startsWith('fr')) {
+              window.location.replace('/en/' + window.location.hash);
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Google Tag Manager Slot (Commented out until user consent) -->
+    <!--
+    <script>
+      // Load Google Tag Manager only after user consent
+      function loadGTM(gtmId) {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',gtmId);
+      }
+    </script>
+    -->
+
+    <!-- Global dataLayer initialization -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+  </head>
+  <body>
+    <!-- 1. Sticky Header -->
+    <Header lang={lang} />
+
+    <!-- Main Content Slot -->
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- 10. Footer -->
+    <Footer lang={lang} />
+
+    <!-- Always Visible Floating Actions (Desktop Stack & Mobile Bar) -->
+    <FloatingActions lang={lang} />
+
+    <!-- Click tracking for analytics dataLayer -->
+    <script is:inline>
+      document.addEventListener('click', function(e) {
+        var target = e.target.closest('[data-track]');
+        if (target && window.dataLayer) {
+          var eventName = target.getAttribute('data-track');
+          window.dataLayer.push({
+            event: eventName,
+            url: target.getAttribute('href') || ''
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

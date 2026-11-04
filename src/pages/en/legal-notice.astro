@@ -1,0 +1,76 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { CONFIG } from '../../config';
+---
+
+<Layout lang="en">
+  <section class="legal-page-section">
+    <div class="container legal-container">
+      <a href="/en/" class="back-link">← Back to Home</a>
+      <h1 class="legal-title">Legal Notice</h1>
+
+      <div class="legal-content">
+        <h2>1. Site Information</h2>
+        <p>
+          In accordance with Article 6 of French Law No. 2004-575 of June 21, 2004, users are informed of the identity of the contributors:
+        </p>
+        <ul>
+          <li><strong>Owner / Legal Entity:</strong> {CONFIG.LEGAL_DETAILS.entityName}</li>
+          <li><strong>SIRET Number:</strong> {CONFIG.LEGAL_DETAILS.siret} <!-- TODO: [CONFIRM: SIRET Number] --></li>
+          <li><strong>Address:</strong> {CONFIG.ADDRESS}</li>
+          <li><strong>Publication Director:</strong> {CONFIG.LEGAL_DETAILS.director}</li>
+          <li><strong>Telephone:</strong> {CONFIG.PHONE_DISPLAY}</li>
+          <li><strong>Email:</strong> {CONFIG.EMAIL}</li>
+        </ul>
+
+        <h2>2. Hosting</h2>
+        <p>
+          Hosted by: <strong>{CONFIG.LEGAL_DETAILS.host}</strong><br />
+          Address: {CONFIG.LEGAL_DETAILS.hostAddress}
+        </p>
+
+        <h2>3. Intellectual Property</h2>
+        <p>
+          All trademarks, photographs, illustrations, and texts presented on this website are protected under international intellectual property and copyright laws.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-page-section {
+    padding: 80px 0 100px;
+    background-color: var(--color-white);
+  }
+  .legal-container {
+    max-width: 800px;
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--color-dark-orange);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .legal-title {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    color: var(--color-deep-brown);
+    margin-bottom: 32px;
+  }
+  .legal-content h2 {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    color: var(--color-deep-brown);
+    margin: 28px 0 12px;
+  }
+  .legal-content p, .legal-content ul {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-grey);
+    margin-bottom: 16px;
+  }
+  .legal-content ul {
+    padding-left: 20px;
+  }
+</style>

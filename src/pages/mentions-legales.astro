@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CONFIG } from '../config';
+---
+
+<Layout lang="fr">
+  <section class="legal-page-section">
+    <div class="container legal-container">
+      <a href="/" class="back-link">← Retour à l'accueil</a>
+      <h1 class="legal-title">Mentions Légales</h1>
+
+      <div class="legal-content">
+        <h2>1. Présentation du site</h2>
+        <p>
+          En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :
+        </p>
+        <ul>
+          <li><strong>Propriétaire / Raison sociale :</strong> {CONFIG.LEGAL_DETAILS.entityName}</li>
+          <li><strong>Numéro SIRET :</strong> {CONFIG.LEGAL_DETAILS.siret} <!-- TODO: [CONFIRM: SIRET Number] --></li>
+          <li><strong>Adresse :</strong> {CONFIG.ADDRESS}</li>
+          <li><strong>Directeur de la publication :</strong> {CONFIG.LEGAL_DETAILS.director}</li>
+          <li><strong>Téléphone :</strong> {CONFIG.PHONE_DISPLAY}</li>
+          <li><strong>E-mail :</strong> {CONFIG.EMAIL}</li>
+        </ul>
+
+        <h2>2. Hébergement</h2>
+        <p>
+          Le site est hébergé par : <strong>{CONFIG.LEGAL_DETAILS.host}</strong><br />
+          Adresse : {CONFIG.LEGAL_DETAILS.hostAddress}
+        </p>
+
+        <h2>3. Propriété intellectuelle</h2>
+        <p>
+          L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés pour les marques, photos et textes.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-page-section {
+    padding: 80px 0 100px;
+    background-color: var(--color-white);
+  }
+  .legal-container {
+    max-width: 800px;
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--color-dark-orange);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .legal-title {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    color: var(--color-deep-brown);
+    margin-bottom: 32px;
+  }
+  .legal-content h2 {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    color: var(--color-deep-brown);
+    margin: 28px 0 12px;
+  }
+  .legal-content p, .legal-content ul {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-grey);
+    margin-bottom: 16px;
+  }
+  .legal-content ul {
+    padding-left: 20px;
+  }
+</style>

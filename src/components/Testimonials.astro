@@ -1,0 +1,337 @@
+---
+import rawReviews from '../data/testimonials.json';
+import type { Language } from '../i18n/utils';
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+// Build warning for unfilled reviews as required in Section 9
+const unfilledReviews = rawReviews.filter((r) => !r.verified || !r.name);
+if (unfilledReviews.length > 0) {
+  console.warn(
+    `\x1b[33m[Best of India Build Notice]\x1b[0m ${unfilledReviews.length} client review entry/entries in src/data/testimonials.json are unverified or awaiting client submission. Visible placeholders will be displayed according to brief specifications.`
+  );
+}
+
+const displayReviews = rawReviews.map((r) => {
+  const isVerified = r.verified === true && !!r.name;
+  const quote = isVerified
+    ? (lang === 'fr' ? r.quote_fr : r.quote_en) || t.reviews.placeholder_quote
+    : t.reviews.placeholder_quote;
+  const author = isVerified
+    ? `${r.name} · ${lang === 'fr' ? r.event_fr : r.event_en}`
+    : t.reviews.placeholder_author;
+
+  return { quote, author, isVerified };
+});
+---
+
+<section class="reviews-section" id="reviews">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="eyebrow">{t.reviews.eyebrow}</span>
+      <h2 class="section-h2">{t.reviews.h2}</h2>
+    </div>
+
+    <!-- Carousel Container -->
+    <div class="carousel-wrapper" id="reviews-carousel">
+      <div class="carousel-track-container">
+        <div class="carousel-track" id="carousel-track">
+          {displayReviews.map((item, index) => (
+            <div class="carousel-slide" data-index={index}>
+              <div class="review-card">
+                <div class="quote-mark" aria-hidden="true">“</div>
+                <blockquote class={`review-quote ${!item.isVerified ? 'placeholder-text' : ''}`}>
+                  {item.quote}
+                </blockquote>
+                <div class={`review-author ${!item.isVerified ? 'placeholder-author' : ''}`}>
+                  {item.author}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Controls: Arrows and Dots (No Autoplay) -->
+      <div class="carousel-controls">
+        <button
+          type="button"
+          class="carousel-btn prev-btn"
+          id="prev-btn"
+          aria-label={t.reviews.prev_slide}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Review slides">
+          {displayReviews.map((_, i) => (
+            <button
+              type="button"
+              class={`carousel-dot ${i === 0 ? 'active' : ''}`}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-label={`Slide ${i + 1}`}
+              data-dot-index={i}
+            ></button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          class="carousel-btn next-btn"
+          id="next-btn"
+          aria-label={t.reviews.next_slide}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews-section {
+    background-color: var(--color-white);
+    padding-top: 80px;
+    padding-bottom: 90px;
+    overflow: hidden;
+  }
+
+  @media (min-width: 992px) {
+    .reviews-section {
+      padding-top: 100px;
+      padding-bottom: 110px;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .carousel-wrapper {
+    position: relative;
+    max-width: 1140px;
+    margin: 40px auto 0;
+  }
+
+  .carousel-track-container {
+    overflow: hidden;
+    padding: 10px 4px;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    gap: 24px;
+    will-change: transform;
+  }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    .carousel-slide {
+      flex: 0 0 calc((100% - 24px) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-slide {
+      flex: 0 0 calc((100% - 48px) / 3);
+    }
+  }
+
+  .review-card {
+    background-color: var(--color-warm-cream);
+    border-radius: var(--radius-md);
+    padding: 36px 28px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(74, 36, 18, 0.08);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+  }
+
+  .quote-mark {
+    font-family: var(--font-heading);
+    font-size: 60px;
+    line-height: 1;
+    color: var(--color-saffron-orange);
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .review-quote {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-deep-brown);
+    font-style: italic;
+    margin-bottom: 24px;
+    flex-grow: 1;
+  }
+
+  .placeholder-text {
+    color: var(--color-grey);
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  .review-author {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-dark-orange);
+    letter-spacing: 0.02em;
+    padding-top: 14px;
+    border-top: 1px solid rgba(74, 36, 18, 0.08);
+  }
+
+  .placeholder-author {
+    color: var(--color-grey);
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  /* Controls */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .carousel-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--color-deep-brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-deep-brown);
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  }
+
+  .carousel-btn:hover {
+    background-color: var(--color-deep-brown);
+    color: var(--color-white);
+    transform: scale(1.05);
+  }
+
+  .carousel-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background-color: rgba(74, 36, 18, 0.2);
+    transition: background-color 0.25s ease, transform 0.25s ease, width 0.25s ease;
+  }
+
+  .carousel-dot.active {
+    background-color: var(--color-saffron-orange);
+    width: 24px;
+  }
+</style>
+
+<script>
+  // Accessible, touch-enabled Carousel with NO autoplay
+  const track = document.getElementById('carousel-track');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  let currentIndex = 0;
+
+  function getVisibleCount() {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, slides.length - getVisibleCount());
+  }
+
+  function updateCarousel() {
+    const maxIdx = getMaxIndex();
+    if (currentIndex > maxIdx) currentIndex = maxIdx;
+    if (currentIndex < 0) currentIndex = 0;
+
+    const visibleCount = getVisibleCount();
+    const gap = 24;
+    // Calculate slide percentage
+    const slidePercent = 100 / visibleCount;
+    // Offset
+    const offset = currentIndex * (slidePercent);
+    // Use calc for gap
+    if (track) {
+      track.style.transform = `translateX(-${currentIndex * (100 / visibleCount + (gap / track.clientWidth) * 100)}%)`;
+    }
+
+    dots.forEach((dot, idx) => {
+      const isActive = idx === currentIndex;
+      dot.classList.toggle('active', isActive);
+      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    currentIndex = Math.max(0, currentIndex - 1);
+    updateCarousel();
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    currentIndex = Math.min(getMaxIndex(), currentIndex + 1);
+    updateCarousel();
+  });
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      currentIndex = Math.min(getMaxIndex(), idx);
+      updateCarousel();
+    });
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track?.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  track?.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        currentIndex = Math.min(getMaxIndex(), currentIndex + 1);
+      } else {
+        currentIndex = Math.max(0, currentIndex - 1);
+      }
+      updateCarousel();
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateCarousel, { passive: true });
+</script>

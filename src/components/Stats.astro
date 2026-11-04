@@ -1,0 +1,182 @@
+---
+import type { Language } from '../i18n/utils';
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const statsData = [
+  { target: 50, suffix: '+', numberStr: t.stats.stat1_number, label: t.stats.stat1_label },
+  { target: 100, suffix: '+', numberStr: t.stats.stat2_number, label: t.stats.stat2_label },
+  { target: 5, suffix: 'M+', numberStr: t.stats.stat3_number, label: t.stats.stat3_label }
+];
+---
+
+<section class="stats-strip" aria-label="Authority statistics">
+  <div class="container stats-container">
+    <div class="stats-grid">
+      {statsData.map((stat, i) => (
+        <div class="stat-item">
+          <div
+            class="stat-number"
+            data-target={stat.target}
+            data-suffix={stat.suffix}
+          >
+            {stat.numberStr}
+          </div>
+          <div class="stat-label">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats-strip {
+    background-color: var(--color-deep-brown);
+    color: var(--color-white);
+    padding: 36px 0;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(74, 36, 18, 0.15);
+  }
+
+  @media (min-width: 992px) {
+    .stats-strip {
+      margin-top: -30px;
+      padding: 44px 0;
+      border-radius: var(--radius-md);
+      max-width: var(--max-width);
+      margin-left: auto;
+      margin-right: auto;
+      width: calc(100% - 64px);
+    }
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      divide-x: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    position: relative;
+  }
+
+  @media (max-width: 767px) {
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: -14px;
+      left: 30%;
+      width: 40%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .stat-item:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-saffron-orange);
+    margin-bottom: 8px;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 768px) {
+    .stat-number {
+      font-size: 64px;
+    }
+  }
+
+  .stat-label {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .stat-label {
+      font-size: 17px;
+    }
+  }
+</style>
+
+<script>
+  // Subtle count-up animation on first intersection
+  const statElements = document.querySelectorAll('.stat-number');
+  let animated = false;
+
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          statElements.forEach((el) => {
+            const target = el.getAttribute('data-target') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+            el.textContent = target + suffix;
+          });
+          return;
+        }
+
+        statElements.forEach((el) => {
+          const target = parseInt(el.getAttribute('data-target') || '0', 10);
+          const suffix = el.getAttribute('data-suffix') || '';
+          if (target <= 0) return;
+
+          const duration = 600;
+          const startTime = performance.now();
+
+          function updateNumber(now: number) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const current = Math.floor(target * (1 - Math.pow(1 - progress, 3)));
+            el.textContent = current + suffix;
+
+            if (progress < 1) {
+              requestAnimationFrame(updateNumber);
+            } else {
+              el.textContent = target + suffix;
+            }
+          }
+          requestAnimationFrame(updateNumber);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const strip = document.querySelector('.stats-strip');
+  if (strip) countObserver.observe(strip);
+</script>

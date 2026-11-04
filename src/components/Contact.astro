@@ -1,0 +1,854 @@
+---
+import { CONFIG } from '../config';
+import type { Language } from '../i18n/utils';
+import { getTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const waMessage = encodeURIComponent(t.floating.whatsapp_message);
+const waLink = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${waMessage}`;
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CONFIG.ADDRESS)}`;
+
+// Event type options based on the 8 occasions + Other
+const eventTypeOptions = [
+  ...t.occasions.cards.map((c) => ({ id: c.id, label: c.title })),
+  { id: 'other', label: t.contact.form.event_type_other }
+];
+
+const privacyLink = lang === 'en' ? '/en/privacy-policy/' : '/politique-confidentialite/';
+---
+
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="eyebrow">{t.contact.eyebrow}</span>
+      <h2 class="section-h2">{t.contact.h2}</h2>
+      <p class="section-subtitle mx-auto">{t.contact.text}</p>
+    </div>
+
+    <!-- 2 Columns: Left 55% Form, Right 45% Details & Map -->
+    <div class="contact-grid">
+      <!-- Left Column: Form on White Card (First on Mobile) -->
+      <div class="form-card" id="form-card-container">
+        <form id="catering-quote-form" class="quote-form" novalidate data-endpoint={CONFIG.FORM_ENDPOINT}>
+          <!-- Hidden Fields -->
+          <input type="hidden" name="page_language" value={lang} />
+          <input type="hidden" name="clicked_occasion" id="hidden-occasion" value="" />
+          <input type="hidden" name="utm_source" id="utm_source" value="" />
+          <input type="hidden" name="utm_medium" id="utm_medium" value="" />
+          <input type="hidden" name="utm_campaign" id="utm_campaign" value="" />
+          <input type="hidden" name="gclid" id="gclid" value="" />
+          <!-- Honeypot Field -->
+          <div style="display:none;" aria-hidden="true">
+            <label for="company_website_url">Leave empty</label>
+            <input type="text" name="company_website_url" id="company_website_url" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <!-- Form Fields Grid -->
+          <div class="form-row">
+            <!-- Full Name* -->
+            <div class="form-group">
+              <label for="form-name" class="form-label">{t.contact.form.name_label}</label>
+              <input
+                type="text"
+                id="form-name"
+                name="name"
+                required
+                class="form-input"
+                placeholder={t.contact.form.name_placeholder}
+                autocomplete="name"
+              />
+              <span class="error-msg" id="name-error" aria-live="polite"></span>
+            </div>
+
+            <!-- Phone* -->
+            <div class="form-group">
+              <label for="form-phone" class="form-label">{t.contact.form.phone_label}</label>
+              <input
+                type="tel"
+                id="form-phone"
+                name="phone"
+                required
+                class="form-input"
+                placeholder={t.contact.form.phone_placeholder}
+                autocomplete="tel"
+              />
+              <span class="error-msg" id="phone-error" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Email* -->
+            <div class="form-group">
+              <label for="form-email" class="form-label">{t.contact.form.email_label}</label>
+              <input
+                type="email"
+                id="form-email"
+                name="email"
+                required
+                class="form-input"
+                placeholder={t.contact.form.email_placeholder}
+                autocomplete="email"
+              />
+              <span class="error-msg" id="email-error" aria-live="polite"></span>
+            </div>
+
+            <!-- Event Type* -->
+            <div class="form-group">
+              <label for="form-event-type" class="form-label">{t.contact.form.event_type_label}</label>
+              <div class="select-wrapper">
+                <select id="form-event-type" name="event_type" required class="form-select">
+                  <option value="" disabled selected>{t.contact.form.event_type_placeholder}</option>
+                  {eventTypeOptions.map((opt) => (
+                    <option value={opt.id}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+              <span class="error-msg" id="event-error" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- Event Date -->
+            <div class="form-group">
+              <label for="form-date" class="form-label">{t.contact.form.event_date_label}</label>
+              <input
+                type="date"
+                id="form-date"
+                name="event_date"
+                class="form-input"
+                min={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+
+            <!-- Number of Guests* -->
+            <div class="form-group">
+              <label for="form-guests" class="form-label">{t.contact.form.guests_label}</label>
+              <div class="select-wrapper">
+                <select id="form-guests" name="guests" required class="form-select">
+                  <option value="" disabled selected>{t.contact.form.guests_placeholder}</option>
+                  {t.contact.form.guests_options.map((g) => (
+                    <option value={g.id}>{g.label}</option>
+                  ))}
+                </select>
+              </div>
+              <span class="error-msg" id="guests-error" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <!-- Event Location -->
+          <div class="form-group full-width">
+            <label for="form-location" class="form-label">{t.contact.form.location_label}</label>
+            <input
+              type="text"
+              id="form-location"
+              name="location"
+              class="form-input"
+              placeholder={t.contact.form.location_placeholder}
+            />
+          </div>
+
+          <!-- Dietary Preferences Checkboxes -->
+          <div class="form-group full-width">
+            <span class="form-label">{t.contact.form.dietary_label}</span>
+            <div class="checkbox-group">
+              {t.contact.form.dietary_options.map((d) => (
+                <label class="checkbox-label">
+                  <input type="checkbox" name="dietary" value={d.id} class="form-checkbox" />
+                  <span>{d.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="form-group full-width">
+            <label for="form-message" class="form-label">{t.contact.form.message_label}</label>
+            <textarea
+              id="form-message"
+              name="message"
+              rows="3"
+              class="form-textarea"
+              placeholder={t.contact.form.message_placeholder}
+            ></textarea>
+          </div>
+
+          <!-- Consent Checkbox* (Not pre-ticked) -->
+          <div class="form-group full-width consent-group">
+            <label class="checkbox-label consent-label">
+              <input type="checkbox" id="form-consent" name="consent" required class="form-checkbox" />
+              <span>
+                {t.contact.form.consent_label.split(t.contact.form.privacy_policy_link_text)[0]}
+                <a href={privacyLink} target="_blank" class="privacy-link">
+                  {t.contact.form.privacy_policy_link_text}
+                </a>
+                {t.contact.form.consent_label.split(t.contact.form.privacy_policy_link_text)[1] || ''}
+              </span>
+            </label>
+            <span class="error-msg" id="consent-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Submit Button & Guarantee -->
+          <div class="form-submit-wrap full-width">
+            <button type="submit" class="btn-primary form-submit-btn" id="submit-btn">
+              <span class="btn-text">{t.contact.form.submit_button}</span>
+              <span class="loading-spinner" aria-hidden="true" style="display:none;">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" class="spin">
+                  <circle cx="12" cy="12" r="10" stroke-width="4" stroke-opacity="0.3"></circle>
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke-width="4"></path>
+                </svg>
+              </span>
+            </button>
+            <p class="form-reassurance">{t.contact.form.under_button}</p>
+          </div>
+
+          <!-- Inline Failure Alert Container -->
+          <div id="form-failure-alert" class="alert-box alert-error" style="display:none;" role="alert">
+            <p id="failure-msg-text">{t.contact.form.failure_message}</p>
+          </div>
+        </form>
+
+        <!-- Inline Success State (Replaces Form on completion) -->
+        <div id="form-success-container" class="form-success-state" style="display:none;" role="alert">
+          <div class="success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <p class="success-message-text">{t.contact.form.success_message}</p>
+          <div class="success-actions">
+            <a href={waLink} target="_blank" rel="noopener noreferrer" class="btn-secondary">
+              {t.hero.cta_secondary}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Contact Details, Hours & Lazy Map (45%) -->
+      <div class="details-column">
+        <!-- Contact Cards -->
+        <div class="details-cards">
+          <!-- Phone Card -->
+          <a href={`tel:${CONFIG.PHONE_LINK}`} class="detail-card" data-track="click_phone">
+            <div class="detail-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">{t.nav.contact}</span>
+              <span class="detail-val">{CONFIG.PHONE_DISPLAY}</span>
+            </div>
+          </a>
+
+          <!-- Email Card -->
+          <a href={`mailto:${CONFIG.EMAIL}`} class="detail-card">
+            <div class="detail-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">Email</span>
+              <span class="detail-val">{CONFIG.EMAIL}</span>
+            </div>
+          </a>
+
+          <!-- Address Card (Opens Google Maps Directions) -->
+          <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="detail-card">
+            <div class="detail-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">Adresse</span>
+              <span class="detail-val">{CONFIG.ADDRESS}</span>
+            </div>
+          </a>
+
+          <!-- Hours Card -->
+          <div class="detail-card no-link">
+            <div class="detail-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="detail-info">
+              <span class="detail-label">{t.contact.details.restaurant_hours_label}</span>
+              <span class="detail-val">{lang === 'fr' ? CONFIG.HOURS_FR : CONFIG.HOURS_EN}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Channels -->
+        <div class="social-channels">
+          <a href={CONFIG.INSTAGRAM} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram Best of India">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href={CONFIG.FACEBOOK} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook Best of India">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+            <span>Facebook</span>
+          </a>
+        </div>
+
+        <!-- Google Maps Iframe (Lazy, 340px) -->
+        <div class="map-container">
+          <iframe
+            src={CONFIG.MAP_EMBED}
+            title={t.contact.details.map_title}
+            class="map-iframe"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+          <div class="map-action">
+            <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="btn-secondary map-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+              </svg>
+              <span>{t.contact.details.get_directions_button}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    background-color: var(--color-warm-cream);
+    padding-top: 80px;
+    padding-bottom: 90px;
+  }
+
+  @media (min-width: 992px) {
+    .contact-section {
+      padding-top: 100px;
+      padding-bottom: 110px;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 48px;
+  }
+
+  @media (min-width: 992px) {
+    .contact-grid {
+      grid-template-columns: 55% 45%;
+      gap: 48px;
+      align-items: start;
+    }
+  }
+
+  /* Form Card */
+  .form-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    box-shadow: var(--shadow-hover);
+    border: 1px solid rgba(74, 36, 18, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .form-card {
+      padding: 44px 40px;
+    }
+  }
+
+  .quote-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .form-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-deep-brown);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(74, 36, 18, 0.18);
+    background-color: var(--color-white);
+    font-size: 15px;
+    color: var(--color-deep-brown);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--color-saffron-orange);
+    box-shadow: 0 0 0 3px rgba(242, 140, 30, 0.15);
+  }
+
+  .form-input.input-error,
+  .form-select.input-error {
+    border-color: #D32F2F;
+    background-color: #FFF8F8;
+  }
+
+  .select-wrapper {
+    position: relative;
+  }
+
+  .select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--color-deep-brown);
+    pointer-events: none;
+  }
+
+  .form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--color-deep-brown);
+    cursor: pointer;
+  }
+
+  .form-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-saffron-orange);
+    cursor: pointer;
+  }
+
+  .consent-label {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-grey);
+  }
+
+  .privacy-link {
+    color: var(--color-dark-orange);
+    text-decoration: underline;
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: #D32F2F;
+    min-height: 16px;
+    font-weight: 600;
+  }
+
+  .form-submit-wrap {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .form-submit-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  .form-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .spin {
+    animation: rotate 1s linear infinite;
+  }
+
+  @keyframes rotate {
+    100% { transform: rotate(360deg); }
+  }
+
+  .form-reassurance {
+    font-size: 13px;
+    color: var(--color-grey);
+    text-align: center;
+  }
+
+  /* Alerts */
+  .alert-box {
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .alert-error {
+    background-color: #FFEBEE;
+    border: 1px solid #FFCDD2;
+    color: #C62828;
+  }
+
+  /* Success State */
+  .form-success-state {
+    padding: 40px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-full);
+    background-color: rgba(37, 211, 102, 0.15);
+    color: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .success-message-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-deep-brown);
+    max-width: 480px;
+  }
+
+  /* Right Details Column */
+  .details-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .details-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (min-width: 640px) and (max-width: 991px) {
+    .details-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .detail-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    border: 1px solid rgba(74, 36, 18, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .detail-card:not(.no-link):hover {
+    transform: translateY(-2px);
+    border-color: rgba(242, 140, 30, 0.4);
+  }
+
+  .detail-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background-color: rgba(242, 140, 30, 0.12);
+    color: var(--color-dark-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .detail-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-grey);
+  }
+
+  .detail-val {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-deep-brown);
+    margin-top: 2px;
+  }
+
+  .social-channels {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-deep-brown);
+    border: 1px solid rgba(74, 36, 18, 0.08);
+    transition: all 0.2s ease;
+  }
+
+  .social-link:hover {
+    color: var(--color-dark-orange);
+    border-color: var(--color-saffron-orange);
+  }
+
+  /* Map */
+  .map-container {
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(74, 36, 18, 0.08);
+  }
+
+  .map-iframe {
+    width: 100%;
+    height: 340px;
+    border: none;
+    display: block;
+  }
+
+  .map-action {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--color-white);
+    border-top: 1px solid rgba(74, 36, 18, 0.06);
+  }
+
+  .map-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-height: 38px;
+  }
+</style>
+
+<script>
+  // Capture UTM params & gclid from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = document.getElementById('utm_source') as HTMLInputElement | null;
+  const utmMedium = document.getElementById('utm_medium') as HTMLInputElement | null;
+  const utmCampaign = document.getElementById('utm_campaign') as HTMLInputElement | null;
+  const gclidInput = document.getElementById('gclid') as HTMLInputElement | null;
+
+  if (utmSource && urlParams.get('utm_source')) utmSource.value = urlParams.get('utm_source')!;
+  if (utmMedium && urlParams.get('utm_medium')) utmMedium.value = urlParams.get('utm_medium')!;
+  if (utmCampaign && urlParams.get('utm_campaign')) utmCampaign.value = urlParams.get('utm_campaign')!;
+  if (gclidInput && urlParams.get('gclid')) gclidInput.value = urlParams.get('gclid')!;
+
+  // Form submission & inline validation
+  const form = document.getElementById('catering-quote-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  const btnText = submitBtn?.querySelector('.btn-text');
+  const spinner = submitBtn?.querySelector('.loading-spinner');
+  const failureAlert = document.getElementById('form-failure-alert');
+  const successContainer = document.getElementById('form-success-container');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Honeypot check
+    const honeypot = (document.getElementById('company_website_url') as HTMLInputElement)?.value;
+    if (honeypot) {
+      console.warn('Spam submission detected.');
+      return;
+    }
+
+    // Reset errors
+    const errorSpans = form.querySelectorAll('.error-msg');
+    errorSpans.forEach((s) => (s.textContent = ''));
+    const inputs = form.querySelectorAll('.form-input, .form-select');
+    inputs.forEach((i) => i.classList.remove('input-error'));
+    if (failureAlert) failureAlert.style.display = 'none';
+
+    // Validation
+    let isValid = true;
+    const nameInput = document.getElementById('form-name') as HTMLInputElement;
+    const phoneInput = document.getElementById('form-phone') as HTMLInputElement;
+    const emailInput = document.getElementById('form-email') as HTMLInputElement;
+    const eventInput = document.getElementById('form-event-type') as HTMLSelectElement;
+    const guestsInput = document.getElementById('form-guests') as HTMLSelectElement;
+    const consentInput = document.getElementById('form-consent') as HTMLInputElement;
+
+    const lang = (form.querySelector('input[name="page_language"]') as HTMLInputElement)?.value || 'fr';
+
+    const errRequired = lang === 'fr' ? 'Ce champ est obligatoire.' : 'This field is required.';
+    const errEmail = lang === 'fr' ? 'Veuillez saisir une adresse e-mail valide.' : 'Please enter a valid email address.';
+    const errPhone = lang === 'fr' ? 'Veuillez saisir un numéro de téléphone valide.' : 'Please enter a valid phone number.';
+    const errConsent = lang === 'fr' ? 'Veuillez accepter la politique de confidentialité.' : 'Please agree to the privacy policy to submit.';
+
+    if (!nameInput.value.trim()) {
+      isValid = false;
+      nameInput.classList.add('input-error');
+      const err = document.getElementById('name-error');
+      if (err) err.textContent = errRequired;
+    }
+
+    if (!phoneInput.value.trim() || phoneInput.value.trim().length < 6) {
+      isValid = false;
+      phoneInput.classList.add('input-error');
+      const err = document.getElementById('phone-error');
+      if (err) err.textContent = phoneInput.value.trim() ? errPhone : errRequired;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+      isValid = false;
+      emailInput.classList.add('input-error');
+      const err = document.getElementById('email-error');
+      if (err) err.textContent = emailInput.value.trim() ? errEmail : errRequired;
+    }
+
+    if (!eventInput.value) {
+      isValid = false;
+      eventInput.classList.add('input-error');
+      const err = document.getElementById('event-error');
+      if (err) err.textContent = errRequired;
+    }
+
+    if (!guestsInput.value) {
+      isValid = false;
+      guestsInput.classList.add('input-error');
+      const err = document.getElementById('guests-error');
+      if (err) err.textContent = errRequired;
+    }
+
+    if (!consentInput.checked) {
+      isValid = false;
+      const err = document.getElementById('consent-error');
+      if (err) err.textContent = errConsent;
+    }
+
+    if (!isValid) return;
+
+    // Loading state
+    if (submitBtn) submitBtn.disabled = true;
+    if (btnText) (btnText as HTMLElement).style.display = 'none';
+    if (spinner) (spinner as HTMLElement).style.display = 'inline-block';
+
+    try {
+      const formData = new FormData(form);
+      const dataObj = Object.fromEntries(formData.entries());
+
+      // Collect multiple dietary checkboxes
+      const dietary = formData.getAll('dietary');
+      (dataObj as any).dietary = dietary;
+
+      const endpoint = form.getAttribute('data-endpoint') || 'https://api.web3forms.com/submit';
+
+      // Submit lead to endpoint or local backend
+      const resp = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataObj)
+      }).catch(() => null);
+
+      // Push generate_lead event to dataLayer
+      if (typeof window !== 'undefined' && (window as any).dataLayer) {
+        (window as any).dataLayer.push({
+          event: 'generate_lead',
+          event_type: dataObj.event_type,
+          guests: dataObj.guests,
+          page_language: lang
+        });
+      }
+
+      // Success state replaces form
+      form.style.display = 'none';
+      if (successContainer) successContainer.style.display = 'flex';
+
+    } catch (err) {
+      console.error('Submission failed:', err);
+      // Failure state keeps data in form
+      if (failureAlert) failureAlert.style.display = 'block';
+      if (submitBtn) submitBtn.disabled = false;
+      if (btnText) (btnText as HTMLElement).style.display = 'inline-block';
+      if (spinner) (spinner as HTMLElement).style.display = 'none';
+    }
+  });
+</script>

@@ -1,0 +1,276 @@
+/* Self-Hosted Fonts */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/cormorant-garamond-normal-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/cormorant-garamond-italic-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/mulish-normal-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/mulish-normal-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/mulish-normal-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/mulish-italic-400.woff2') format('woff2');
+}
+
+/* CSS Variables */
+:root {
+  --color-deep-brown: #4A2412;
+  --color-saffron-orange: #F28C1E;
+  --color-dark-orange: #B85C00;
+  --color-grey: #6D6E71;
+  --color-warm-cream: #FBF6EE;
+  --color-white: #FFFFFF;
+  --color-border: rgba(74, 36, 18, 0.12);
+  --color-shadow: rgba(74, 36, 18, 0.08);
+
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --max-width: 1200px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --shadow-soft: 0 4px 20px -2px var(--color-shadow);
+  --shadow-hover: 0 10px 30px -4px rgba(74, 36, 18, 0.14);
+
+  --header-height-full: 84px;
+  --header-height-scrolled: 64px;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  color: var(--color-deep-brown);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 72px; /* space for mobile fixed bottom bar */
+}
+
+@media (min-width: 769px) {
+  body {
+    padding-bottom: 0;
+  }
+}
+
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Anchor offset for sticky header */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Typography Helpers */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dark-orange);
+  margin-bottom: 12px;
+}
+
+.section-h2 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--color-deep-brown);
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .section-h2 {
+    font-size: 44px;
+  }
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: var(--color-grey);
+  max-width: 640px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .section-subtitle {
+    font-size: 18px;
+  }
+}
+
+/* Subtle Dome Section Divider */
+.dome-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 32px;
+  height: 16px;
+  color: var(--color-saffron-orange);
+  opacity: 0.8;
+}
+
+/* Primary Button (Orange with Deep Brown Text for WCAG AA) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-saffron-orange);
+  color: var(--color-deep-brown);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 14px rgba(242, 140, 30, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+  min-height: 48px;
+}
+
+.btn-primary:hover {
+  background-color: #e57d10;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(242, 140, 30, 0.45);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--color-deep-brown);
+  border: 1.5px solid var(--color-deep-brown);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 26px;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  text-align: center;
+  min-height: 48px;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(74, 36, 18, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Accessible focus ring */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--color-dark-orange);
+  outline-offset: 3px;
+}
+
+/* Animations & Transitions */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hover-zoom-img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-zoom-wrapper:hover .hover-zoom-img {
+    transform: scale(1.04);
+  }
+}

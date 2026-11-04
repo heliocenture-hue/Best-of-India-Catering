@@ -1,0 +1,338 @@
+{
+  "meta": {
+    "title": "Indian Catering in Paris | Best of India Catering",
+    "description": "Authentic Indian catering in Paris for weddings, corporate events, birthdays and receptions. Vegetarian, vegan and halal options. Request your free quote."
+  },
+  "nav": {
+    "about": "About",
+    "occasions": "Occasions",
+    "reviews": "Reviews",
+    "menu": "Menu",
+    "why": "Why us",
+    "contact": "Contact",
+    "cta": "Get a quote",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
+  },
+  "hero": {
+    "eyebrow": "BEST OF INDIA · CATERING IN PARIS",
+    "h1": "Authentic Indian Catering in Paris",
+    "subheading": "From intimate family celebrations to grand weddings and corporate events, we bring freshly prepared South Indian and Chettinad cuisine to your event in {SERVICE_AREA_EN}.",
+    "cta_primary": "Get a free quote",
+    "cta_secondary": "Chat on WhatsApp",
+    "small_text": "Vegetarian, vegan and halal options · Reply {REPLY_TIME_EN}",
+    "image_alts": {
+      "img1": "Traditional South Indian feast served with authentic spices",
+      "img2": "Crispy freshly fried Indian appetizers and snacks",
+      "img3": "Aromatic Indian biryani garnished with herbs",
+      "img4": "Chettinad curry with freshly roasted spices"
+    }
+  },
+  "stats": {
+    "stat1_number": "50+",
+    "stat1_label": "Years of Experience",
+    "stat2_number": "100+",
+    "stat2_label": "Satisfied Clients",
+    "stat3_number": "5M+",
+    "stat3_label": "People Served"
+  },
+  "about": {
+    "eyebrow": "WHO WE ARE",
+    "h2": "The Taste of Southern India, Served at Your Event",
+    "p1": "Best of India is your destination for authentic South Indian cuisine in Paris. We specialise in Chettinad cuisine, one of the richest and most refined culinary traditions of South India. Originating in Tamil Nadu, it is known for its character, its intense spices and its balance of boldness and subtlety.",
+    "p2": "Every dish is prepared according to traditional recipes, with a unique blend of freshly ground spices such as black pepper, fennel, cinnamon and curry leaves. We select our ingredients carefully to guarantee freshness, quality and respect for Indian culinary traditions.",
+    "p3": "Our catering service brings this same care to your celebration. Tell us about your event, your guests and your budget, and we will help you build the right menu.",
+    "button": "Plan my menu",
+    "image_alts": {
+      "img1": "Authentic Chettinad culinary preparations by Best of India",
+      "img2": "Traditional South Indian dishes prepared with freshly ground spices"
+    }
+  },
+  "occasions": {
+    "eyebrow": "WHO WE SERVE",
+    "h2": "Catering for Every Occasion",
+    "text": "Whatever you are celebrating, we create a menu that suits your event, your guests and your budget.",
+    "cta_card": "Get a quote",
+    "cards": [
+      {
+        "id": "wedding",
+        "title": "Wedding Catering",
+        "text": "A generous Indian feast for the biggest day of your life.",
+        "image": "/assets/images/events/placeholder-wedding.webp",
+        "image_alt": "Wedding Catering - elegant wedding banquet table in a Parisian reception hall"
+      },
+      {
+        "id": "corporate",
+        "title": "Corporate Catering",
+        "text": "Flavourful, well-organised meals for meetings, seminars and company events.",
+        "image": "/assets/images/events/placeholder-corporate.webp",
+        "image_alt": "Corporate Catering - professional buffet in a bright modern Paris office event space"
+      },
+      {
+        "id": "engagement",
+        "title": "Engagement Catering",
+        "text": "Celebrate your promise with a menu as special as the moment.",
+        "image": "/assets/images/events/placeholder-engagement.webp",
+        "image_alt": "Engagement Catering - intimate engagement party table with floral decoration"
+      },
+      {
+        "id": "baby_shower",
+        "title": "Baby Shower Catering",
+        "text": "Comforting dishes and sweet treats for a joyful family gathering.",
+        "image": "/assets/images/events/placeholder-baby-shower.webp",
+        "image_alt": "Baby Shower Catering - soft pastel dessert and snack table with Indian sweets"
+      },
+      {
+        "id": "reception",
+        "title": "Reception Catering",
+        "text": "A refined spread that leaves a lasting impression on your guests.",
+        "image": "/assets/images/events/placeholder-reception.webp",
+        "image_alt": "Reception Catering - elegant evening reception with a long Indian buffet"
+      },
+      {
+        "id": "birthday",
+        "title": "Birthday Party Catering",
+        "text": "Colourful, crowd-pleasing food for guests of every age.",
+        "image": "/assets/images/events/placeholder-birthday.webp",
+        "image_alt": "Birthday Party Catering - cheerful family birthday party at home in Paris"
+      },
+      {
+        "id": "family",
+        "title": "Family and Private Gatherings",
+        "text": "Home-style Indian flavours, with none of the kitchen work.",
+        "image": "/assets/images/events/placeholder-family-gathering.webp",
+        "image_alt": "Family Gatherings - multigenerational family sharing Indian dishes at a long table"
+      },
+      {
+        "id": "cultural",
+        "title": "Cultural and Festive Celebrations",
+        "text": "Traditional menus for festivals and community events.",
+        "image": "/assets/images/events/placeholder-cultural-celebration.webp",
+        "image_alt": "Cultural Celebrations - festive celebration with traditional South Indian food on banana leaves"
+      }
+    ],
+    "bottom_text": "Don't see your event? Tell us about it.",
+    "bottom_button": "Contact us"
+  },
+  "reviews": {
+    "eyebrow": "REVIEWS",
+    "h2": "What Our Clients Say",
+    "placeholder_quote": "[Real client review goes here]",
+    "placeholder_author": "[Client name] · [Event type]",
+    "prev_slide": "Previous review",
+    "next_slide": "Next review"
+  },
+  "menu": {
+    "eyebrow": "SAMPLE MENU",
+    "h2": "A Taste of What We Can Serve",
+    "text": "These dishes give you an idea of our range. Your final menu is tailored to your event, your guests and your budget.",
+    "tag_veg": "Veg",
+    "tag_vegan": "Vegan",
+    "cta_text": "Want a menu built for your event?",
+    "cta_button": "Request my custom menu",
+    "tabs": [
+      {
+        "id": "starters",
+        "title": "Starters",
+        "image": "/assets/images/boi/menu-starters.webp",
+        "image_alt": "Indian appetizers assortment",
+        "dishes": [
+          { "name": "Samosas", "tag": "veg" },
+          { "name": "Pakoras", "tag": "veg" },
+          { "name": "Chicken Pakora" },
+          { "name": "Chicken 65" },
+          { "name": "Gobi Manchurian", "tag": "veg" },
+          { "name": "Cauliflower Wings", "tag": "vegan" }
+        ]
+      },
+      {
+        "id": "chettinad_meat",
+        "title": "Chettinad and Meat Specialities",
+        "image": "/assets/images/boi/menu-meat.webp",
+        "image_alt": "South Indian Chettinad meat specialties",
+        "dishes": [
+          { "name": "Chettinad Chicken" },
+          { "name": "Butter Chicken" },
+          { "name": "Chicken Tikka Masala" },
+          { "name": "Mutton Sukka" },
+          { "name": "Lamb Curry" },
+          { "name": "Vindaloo" },
+          { "name": "Tandoori Selection" }
+        ]
+      },
+      {
+        "id": "seafood",
+        "title": "Seafood",
+        "image": "/assets/images/boi/menu-seafood.webp",
+        "image_alt": "Coastal Indian seafood dishes",
+        "dishes": [
+          { "name": "Coastal Fish Curry" },
+          { "name": "Seasonal Seafood Curry" }
+        ]
+      },
+      {
+        "id": "veg_vegan",
+        "title": "Vegetarian and Vegan",
+        "image": "/assets/images/boi/menu-veg.webp",
+        "image_alt": "Vegetarian and vegan South Indian specialties",
+        "dishes": [
+          { "name": "Paneer Butter Masala Dosa", "tag": "veg" },
+          { "name": "Onion Masala Dosa", "tag": "vegan" },
+          { "name": "Chef's Special Dosa" },
+          { "name": "South Indian Thali" },
+          { "name": "Malai Kofta", "tag": "veg" },
+          { "name": "Palak Masala", "tag": "veg" },
+          { "name": "Dhal", "tag": "veg" }
+        ]
+      },
+      {
+        "id": "biryani_breads",
+        "title": "Biryani, Rice and Breads",
+        "image": "/assets/images/boi/hero-3.webp",
+        "image_alt": "Fragrant biryanis and fresh Indian breads",
+        "dishes": [
+          { "name": "Mutton Biryani" },
+          { "name": "Vegetable Biryani", "tag": "veg" },
+          { "name": "Fried Rice" },
+          { "name": "Homemade Indian Breads" },
+          { "name": "Raita" }
+        ]
+      },
+      {
+        "id": "desserts_drinks",
+        "title": "Desserts and Drinks",
+        "image": "/assets/images/boi/menu-desserts.webp",
+        "image_alt": "Traditional Indian desserts and sweet platter",
+        "dishes": [
+          { "name": "Gulab Jamun" },
+          { "name": "Pistachio Kulfi" },
+          { "name": "Traditional Indian Drinks" }
+        ]
+      }
+    ],
+    "photo_strip_alts": [
+      "Indian catering dish spread in Paris",
+      "Chettinad spiced specialties",
+      "Freshly prepared Indian buffet elements",
+      "Signature South Indian dishes",
+      "Authentic Indian breads and curries",
+      "Assorted Indian sweets and celebration platter"
+    ]
+  },
+  "why": {
+    "eyebrow": "WHY CHOOSE US",
+    "h2": "Why Hosts Choose Best of India",
+    "items": [
+      {
+        "num": "1",
+        "title": "50+ Years of Experience",
+        "text": "Decades of expertise behind every dish we serve."
+      },
+      {
+        "num": "2",
+        "title": "True Chettinad Authenticity",
+        "text": "Traditional recipes and freshly ground spices, with flavours rarely found elsewhere."
+      },
+      {
+        "num": "3",
+        "title": "Quality Ingredients",
+        "text": "Carefully selected ingredients, chosen for freshness and quality."
+      },
+      {
+        "num": "4",
+        "title": "Options for Every Guest",
+        "text": "Vegetarian, vegan and halal choices, so everyone can enjoy the meal."
+      },
+      {
+        "num": "5",
+        "title": "Menus Made for You",
+        "text": "A menu shaped around your occasion, your guest list and your budget."
+      },
+      {
+        "num": "6",
+        "title": "Fast, Reliable Service",
+        "text": "Prompt service, with no compromise on the quality of the food."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "GET IN TOUCH",
+    "h2": "Tell Us About Your Event",
+    "text": "Share a few details and our team will get back to you {REPLY_TIME_EN} with menu ideas and a personalised quote.",
+    "form": {
+      "name_label": "Full name*",
+      "name_placeholder": "e.g. Marie Dupont",
+      "phone_label": "Phone*",
+      "phone_placeholder": "e.g. 06 12 34 56 78",
+      "email_label": "Email*",
+      "email_placeholder": "name@example.com",
+      "event_type_label": "Event type*",
+      "event_type_placeholder": "Select an event type",
+      "event_type_other": "Other",
+      "event_date_label": "Event date",
+      "guests_label": "Number of guests*",
+      "guests_placeholder": "Select guest count",
+      "guests_options": [
+        { "id": "under_25", "label": "under 25" },
+        { "id": "25_50", "label": "25 to 50" },
+        { "id": "51_100", "label": "51 to 100" },
+        { "id": "101_250", "label": "101 to 250" },
+        { "id": "251_500", "label": "251 to 500" },
+        { "id": "over_500", "label": "over 500" }
+      ],
+      "location_label": "Event location",
+      "location_placeholder": "e.g. Paris 8e or reception venue",
+      "dietary_label": "Dietary preferences",
+      "dietary_options": [
+        { "id": "vegetarian", "label": "Vegetarian" },
+        { "id": "vegan", "label": "Vegan" },
+        { "id": "halal", "label": "Halal" },
+        { "id": "non_vegetarian", "label": "Non-vegetarian" }
+      ],
+      "message_label": "Message",
+      "message_placeholder": "Tell us about your event and any allergies.",
+      "consent_label": "I agree that Best of India may use my details to respond to my request. See the privacy policy.",
+      "privacy_policy_link_text": "privacy policy",
+      "submit_button": "Send my request",
+      "submitting_text": "Sending...",
+      "under_button": "No commitment. Your details are never sold.",
+      "validation": {
+        "required_field": "This field is required.",
+        "invalid_email": "Please enter a valid email address.",
+        "invalid_phone": "Please enter a valid phone number.",
+        "consent_required": "Please agree to the privacy policy to submit."
+      },
+      "success_message": "Thank you! We have received your request and will reply {REPLY_TIME_EN}. Need an answer sooner? Chat with us on WhatsApp.",
+      "failure_message": "Something went wrong. Please call us at {PHONE_DISPLAY} or message us on WhatsApp."
+    },
+    "details": {
+      "restaurant_hours_label": "Restaurant hours",
+      "get_directions_button": "Get directions",
+      "map_title": "Best of India restaurant location in Paris 10th"
+    }
+  },
+  "footer": {
+    "brand_line": "Authentic Indian catering in Paris, by Best of India.",
+    "quick_links_title": "Quick Links",
+    "contact_title": "Contact",
+    "follow_title": "Follow us",
+    "copyright": "© 2026 Best of India Paris",
+    "legal_notice": "Legal notice",
+    "privacy_policy": "Privacy policy",
+    "cookie_policy": "Cookie policy"
+  },
+  "floating": {
+    "back_to_top": "Back to top",
+    "whatsapp_label": "Chat on WhatsApp",
+    "contact_cta": "Get a quote",
+    "mobile_call": "Call",
+    "mobile_whatsapp": "WhatsApp",
+    "mobile_quote": "Quote",
+    "whatsapp_message": "Hello Best of India, I would like a quote for catering for my event."
+  },
+  "legal_pages": {
+    "legal_title": "Legal Notice",
+    "privacy_title": "Privacy Policy",
+    "back_home": "← Back to Home"
+  }
+}
