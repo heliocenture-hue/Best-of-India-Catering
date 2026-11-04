@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "astro build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/fr/merci-demande-traiteur",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/en/catering-thank-you",
+      "destination": "/en/",
+      "permanent": false
+    }
+  ]
+}
