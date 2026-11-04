@@ -18,3 +18,4 @@ export function getTranslations(lang: Language) {
 
   return JSON.parse(replaced) as typeof en;
 }
+

@@ -1,80 +1,110 @@
-/* Self-Hosted Fonts */
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/assets/fonts/cormorant-garamond-normal-600.woff2') format('woff2');
-}
+/* ==================================================
+   SELF-HOSTED FONTS
+   ================================================== */
 
+/* Italiana (Heading) */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/assets/fonts/cormorant-garamond-italic-600.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Mulish';
+  font-family: 'Italiana';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/mulish-normal-400.woff2') format('woff2');
+  src: url(/assets/fonts/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Mrs Saint Delafield (Script Eyebrows & Accents) */
 @font-face {
-  font-family: 'Mulish';
+  font-family: 'Mrs Saint Delafield';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/mulish-normal-600.woff2') format('woff2');
+  src: url(/assets/fonts/v6-IGZDIOVXH9xtmTZfRagunqBw5WC62QKcnL-mYF221gA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Mrs Saint Delafield';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/v6-IGZDIOVXH9xtmTZfRagunqBw5WC62QKknL-mYF20.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Montserrat (Body) */
 @font-face {
-  font-family: 'Mulish';
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/assets/fonts/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw3aXp-p7K4KLjztg.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/assets/fonts/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw5aXp-p7K4KLg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Ubuntu (Labels, Buttons, UI, Review Text) */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/assets/fonts/4iCv6KVjbNBYlgoCjC3jvmyNPYZvg7UI.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/assets/fonts/4iCv6KVjbNBYlgoCjC3jsGyNPYZvgw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/mulish-normal-700.woff2') format('woff2');
+  src: url(/assets/fonts/4iCv6KVjbNBYlgoCxCvjvmyNPYZvg7UI.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
-  font-family: 'Mulish';
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
   font-display: swap;
-  src: url('/assets/fonts/mulish-italic-400.woff2') format('woff2');
+  src: url(/assets/fonts/4iCv6KVjbNBYlgoCxCvjsGyNPYZvgw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* CSS Variables */
+/* ==================================================
+   DESIGN TOKENS (Ruby's Catering Spec)
+   ================================================== */
 :root {
-  --color-deep-brown: #4A2412;
-  --color-saffron-orange: #F28C1E;
-  --color-dark-orange: #B85C00;
-  --color-grey: #6D6E71;
-  --color-warm-cream: #FBF6EE;
-  --color-white: #FFFFFF;
-  --color-border: rgba(74, 36, 18, 0.12);
-  --color-shadow: rgba(74, 36, 18, 0.08);
+  --page-grey: #F4F4F4;
+  --white: #FFFFFF;
+  --panel: #EFE3D0; /* warm sand */
+  --accent: #984421; /* rust */
+  --text: #19191A;
+  --heading: #000000;
+  --footer: #19191A;
+  --footer-bar: #000000;
+  --quote-mark: #C4B5A0;
 
-  --font-heading: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-  --max-width: 1200px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-full: 9999px;
-
-  --shadow-soft: 0 4px 20px -2px var(--color-shadow);
-  --shadow-hover: 0 10px 30px -4px rgba(74, 36, 18, 0.14);
-
-  --header-height-full: 84px;
-  --header-height-scrolled: 64px;
+  --font-heading: 'Italiana', serif;
+  --font-script: 'Mrs Saint Delafield', cursive;
+  --font-body: 'Montserrat', sans-serif;
+  --font-ui: 'Ubuntu', sans-serif;
 }
 
-/* Base Reset */
+/* ==================================================
+   BASE RESET
+   ================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -83,11 +113,14 @@
 
 html {
   font-family: var(--font-body);
-  color: var(--color-deep-brown);
-  background-color: var(--color-white);
-  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--white);
+  line-height: 1.8;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  hyphens: auto;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -95,30 +128,20 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  max-width: 100%;
   padding-bottom: 72px; /* space for mobile fixed bottom bar */
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   body {
     padding-bottom: 0;
   }
 }
 
-img, picture, svg, video {
-  display: block;
+img {
   max-width: 100%;
   height: auto;
-}
-
-input, button, textarea, select {
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-  background: none;
-  border: none;
+  display: block;
 }
 
 a {
@@ -126,151 +149,140 @@ a {
   text-decoration: none;
 }
 
-/* Anchor offset for sticky header */
-section[id] {
-  scroll-margin-top: 90px;
+button, input, select, textarea {
+  font: inherit;
 }
 
-/* Container */
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+/* ==================================================
+   REUSABLE COMPONENTS
+   ================================================== */
 
-@media (min-width: 768px) {
-  .container {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-}
-
-/* Typography Helpers */
-.eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-dark-orange);
-  margin-bottom: 12px;
-}
-
-.section-h2 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 1.2;
-  color: var(--color-deep-brown);
-  margin-bottom: 16px;
-}
-
-@media (min-width: 768px) {
-  .section-h2 {
-    font-size: 44px;
-  }
-}
-
-.section-subtitle {
-  font-size: 16px;
-  color: var(--color-grey);
-  max-width: 640px;
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-@media (min-width: 768px) {
-  .section-subtitle {
-    font-size: 18px;
-  }
-}
-
-/* Subtle Dome Section Divider */
-.dome-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  width: 32px;
-  height: 16px;
-  color: var(--color-saffron-orange);
-  opacity: 0.8;
-}
-
-/* Primary Button (Orange with Deep Brown Text for WCAG AA) */
-.btn-primary {
+/* Outline button: 314 x 42px, transparent background, 1px rust border, square corners, rust label text, centred. Hover: rust background with white text. */
+.btn-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background-color: var(--color-saffron-orange);
-  color: var(--color-deep-brown);
-  font-weight: 700;
-  font-size: 15px;
-  padding: 14px 28px;
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 14px rgba(242, 140, 30, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-  text-align: center;
-  min-height: 48px;
-}
-
-.btn-primary:hover {
-  background-color: #e57d10;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(242, 140, 30, 0.45);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  width: 314px;
+  height: 42px;
+  max-width: 100%;
   background-color: transparent;
-  color: var(--color-deep-brown);
-  border: 1.5px solid var(--color-deep-brown);
-  font-weight: 700;
-  font-size: 15px;
-  padding: 13px 26px;
-  border-radius: var(--radius-md);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
   text-align: center;
-  min-height: 48px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
 }
 
-.btn-secondary:hover {
-  background-color: rgba(74, 36, 18, 0.05);
-  transform: translateY(-2px);
+.btn-outline:hover {
+  background-color: var(--accent);
+  color: var(--white);
 }
 
-/* Accessible focus ring */
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--color-dark-orange);
-  outline-offset: 3px;
+/* Short rule: 184px wide, 1px high, rust. */
+.short-rule {
+  width: 184px;
+  height: 1px;
+  background-color: var(--accent);
+  border: none;
+  margin: 0 auto;
 }
 
-/* Animations & Transitions */
-@media (prefers-reduced-motion: no-preference) {
-  .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+/* Section header: script eyebrow, then heading.
+   The eyebrow starts 75 to 78px from the section top,
+   and the heading starts about 129px from the section top,
+   overlapping the top of the heading. */
+.section-header {
+  text-align: center;
+  position: relative;
+  padding-top: 76px;
+  margin-bottom: 36px;
+}
 
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.eyebrow-script {
+  font-family: var(--font-script);
+  font-size: 70px;
+  line-height: 1;
+  color: var(--accent);
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+  margin-bottom: -22px;
+  display: block;
+  pointer-events: none;
+}
 
-  .hover-zoom-img {
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 35px;
+  line-height: 42px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--heading);
+  font-weight: 400;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 
-  .hover-zoom-wrapper:hover .hover-zoom-img {
-    transform: scale(1.04);
+/* Body Text default */
+.body-prose {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 25.2px;
+  text-align: justify;
+  hyphens: auto;
+  color: var(--text);
+}
+
+@media (max-width: 767px) {
+  .section-header {
+    padding-top: 54px;
+  }
+  .eyebrow-script {
+    font-size: 60px;
+    margin-bottom: -18px;
+  }
+  .section-heading {
+    font-size: 26px;
+    line-height: 32px;
+    letter-spacing: 2px;
+  }
+  .body-prose {
+    font-size: 16px;
+    line-height: 30px;
+  }
+  .btn-outline {
+    width: 100%;
+  }
+}
+
+/* Visually Hidden */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

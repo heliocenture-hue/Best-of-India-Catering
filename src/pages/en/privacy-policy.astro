@@ -5,29 +5,33 @@ import { CONFIG } from '../../config';
 
 <Layout lang="en">
   <section class="legal-page-section">
-    <div class="container legal-container">
+    <div class="legal-container">
       <a href="/en/" class="back-link">← Back to Home</a>
       <h1 class="legal-title">Privacy Policy</h1>
 
       <div class="legal-content">
-        <h2>1. Collection of Personal Data</h2>
+        <h2>1. Data Collection and Processing</h2>
         <p>
-          When using our catering enquiry form, <strong>Best of India</strong> collects the following information: full name, phone number, email address, event date, event type, guest count, location, dietary preferences, and optional message details.
+          Best of India is committed to ensuring that the collection and processing of your personal data complies with the General Data Protection Regulation (GDPR) and applicable French data privacy laws.
+        </p>
+        <p>
+          Personal information collected via the contact form (name, phone, email, event type, date, number of guests, message) is used exclusively for preparing custom catering quotes and communicating regarding your enquiry.
         </p>
 
-        <h2>2. Purpose of Processing</h2>
+        <h2>2. Data Controller</h2>
         <p>
-          This information is gathered solely to process your catering request, build a tailored quotation, and coordinate your celebration. Your contact details are never sold, rented, or distributed to third parties for marketing purposes.
+          The data controller is {CONFIG.LEGAL_DETAILS.entityName}, located at {CONFIG.ADDRESS}.<br />
+          Email: {CONFIG.EMAIL} | Phone: {CONFIG.PHONE_DISPLAY}
         </p>
 
-        <h2>3. Data Retention</h2>
+        <h2>3. Third-Party Services and Google Maps Integration</h2>
         <p>
-          Enquiry records are retained only for the duration necessary to manage the commercial relationship and event delivery.
+          This website includes an interactive map via <strong>Google Maps</strong> (operated by Google LLC) to help visitors locate our restaurant in Paris. The use of Google Maps may result in cookies being set by Google and your IP address being transmitted to Google's servers. For further information, please consult Google's Privacy Policy.
         </p>
 
-        <h2>4. Your Rights (GDPR)</h2>
+        <h2>4. Your Rights</h2>
         <p>
-          Under the General Data Protection Regulation (GDPR), you hold the right to access, rectify, or request deletion of your personal data. To exercise this right, please contact: <a href={`mailto:${CONFIG.EMAIL}`}>{CONFIG.EMAIL}</a>.
+          In accordance with data privacy regulations, you have the right to access, rectify, delete, or request portability of your personal data. You may exercise this right at any time by contacting {CONFIG.EMAIL}.
         </p>
       </div>
     </div>
@@ -36,34 +40,48 @@ import { CONFIG } from '../../config';
 
 <style>
   .legal-page-section {
-    padding: 80px 0 100px;
-    background-color: var(--color-white);
+    padding: 120px 24px 100px;
+    background-color: var(--white);
+    min-height: 80vh;
   }
   .legal-container {
-    max-width: 800px;
+    max-width: 840px;
+    margin: 0 auto;
   }
   .back-link {
     display: inline-block;
-    color: var(--color-dark-orange);
-    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 24px;
+    text-decoration: underline;
   }
   .legal-title {
     font-family: var(--font-heading);
-    font-size: 42px;
-    color: var(--color-deep-brown);
+    font-size: 35px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--heading);
     margin-bottom: 32px;
   }
   .legal-content h2 {
     font-family: var(--font-heading);
-    font-size: 24px;
-    color: var(--color-deep-brown);
-    margin: 28px 0 12px;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 32px;
+    margin-bottom: 12px;
   }
   .legal-content p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--color-grey);
-    margin-bottom: 16px;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 26px;
+    color: var(--text);
+    margin-bottom: 14px;
   }
 </style>

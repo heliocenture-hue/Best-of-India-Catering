@@ -1,7 +1,5 @@
 ---
-import { CONFIG } from '../config';
-import type { Language } from '../i18n/utils';
-import { getTranslations } from '../i18n/utils';
+import { getTranslations, type Language } from '../i18n/utils';
 
 interface Props {
   lang: Language;
@@ -10,244 +8,117 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-const baseNav = lang === 'en' ? '/en/' : '/';
-const waMessage = encodeURIComponent(t.floating.whatsapp_message);
-const waLink = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${waMessage}`;
+// 5 real BOI food photos
+const slides = [
+  { src: '/assets/images/boi/hero-1.webp', alt: `${t.hero.altPrefix} 1` },
+  { src: '/assets/images/boi/hero-2.webp', alt: `${t.hero.altPrefix} 2` },
+  { src: '/assets/images/boi/hero-3.webp', alt: `${t.hero.altPrefix} 3` },
+  { src: '/assets/images/boi/hero-4.webp', alt: `${t.hero.altPrefix} 4` },
+  { src: '/assets/images/boi/about-1.webp', alt: `${t.hero.altPrefix} 5` }
+];
 ---
 
-<section class="hero-section" id="hero">
-  <div class="container hero-container">
-    <!-- Left Column: Copy & CTAs (55%) -->
-    <div class="hero-content">
-      <span class="eyebrow">{t.hero.eyebrow}</span>
-      <h1 class="hero-h1">{t.hero.h1}</h1>
-      <p class="hero-subheading">{t.hero.subheading}</p>
-
-      <div class="hero-actions">
-        <a href={`${baseNav}#contact`} class="btn-primary hero-btn-quote" data-track="hero_quote">
-          {t.hero.cta_primary}
-        </a>
-        <a
-          href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-secondary hero-btn-whatsapp"
-          data-track="hero_whatsapp"
-        >
-          <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm.01 1.67c4.55 0 8.25 3.7 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.19 8.19 0 0 1-5.83 2.41c-1.45 0-2.88-.39-4.13-1.12l-.3-.18-3.07.81.82-2.99-.19-.31a8.18 8.18 0 0 1-1.25-4.45c0-4.54 3.7-8.24 8.25-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/>
-          </svg>
-          <span>{t.hero.cta_secondary}</span>
-        </a>
+<section id="hero-slider" class="hero-section" aria-label="Best of India Catering Showcase">
+  <div class="hero-slides-wrapper">
+    {slides.map((slide, idx) => (
+      <div 
+        class={`hero-slide ${idx === 0 ? 'is-active' : ''}`}
+        data-slide-index={idx}
+      >
+        <img 
+          src={slide.src} 
+          alt={slide.alt}
+          class="hero-img"
+          loading={idx === 0 ? 'eager' : 'lazy'}
+          fetchpriority={idx === 0 ? 'high' : 'auto'}
+          width="1440"
+          height="680"
+        />
       </div>
-
-      <p class="hero-small-text">
-        <svg class="small-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.707-9.293a1 1 0 0 0-1.414-1.414L9 10.586 7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4z" clip-rule="evenodd"/>
-        </svg>
-        <span>{t.hero.small_text}</span>
-      </p>
-    </div>
-
-    <!-- Right Column: Staggered 2x2 Food Photography Collage (45%) -->
-    <div class="hero-collage" aria-hidden="true">
-      <div class="collage-col collage-col-1">
-        <div class="collage-item item-1 hover-zoom-wrapper">
-          <img
-            src="/assets/images/boi/hero-1.webp"
-            alt={t.hero.image_alts.img1}
-            width="565"
-            height="710"
-            class="collage-img hover-zoom-img"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-        <div class="collage-item item-2 hover-zoom-wrapper">
-          <img
-            src="/assets/images/boi/hero-2.webp"
-            alt={t.hero.image_alts.img2}
-            width="565"
-            height="710"
-            class="collage-img hover-zoom-img"
-            loading="eager"
-          />
-        </div>
-      </div>
-      <div class="collage-col collage-col-2">
-        <div class="collage-item item-3 hover-zoom-wrapper">
-          <img
-            src="/assets/images/boi/hero-3.webp"
-            alt={t.hero.image_alts.img3}
-            width="565"
-            height="710"
-            class="collage-img hover-zoom-img"
-            loading="eager"
-          />
-        </div>
-        <div class="collage-item item-4 hover-zoom-wrapper">
-          <img
-            src="/assets/images/boi/hero-4.webp"
-            alt={t.hero.image_alts.img4}
-            width="565"
-            height="710"
-            class="collage-img hover-zoom-img"
-            loading="eager"
-          />
-        </div>
-      </div>
-    </div>
+    ))}
   </div>
 </section>
 
 <style>
+  /* Hero: Full-width image slider, 680px high, starting at the very top of the page.
+     Show 5 real BOI food photos, using object-fit: cover. Crossfade every 5 seconds.
+     No text, overlay, arrows or dots. Pause it for prefers-reduced-motion. */
   .hero-section {
-    background-color: var(--color-white);
-    padding-top: 40px;
-    padding-bottom: 70px;
     position: relative;
-    overflow: hidden;
-  }
-
-  @media (min-width: 992px) {
-    .hero-section {
-      padding-top: 60px;
-      padding-bottom: 110px;
-    }
-  }
-
-  .hero-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    align-items: center;
-  }
-
-  @media (min-width: 992px) {
-    .hero-container {
-      grid-template-columns: 55% 45%;
-      gap: 50px;
-    }
-  }
-
-  .hero-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero-h1 {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 38px;
-    line-height: 1.15;
-    color: var(--color-deep-brown);
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .hero-h1 {
-      font-size: 54px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .hero-h1 {
-      font-size: 64px;
-    }
-  }
-
-  .hero-subheading {
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--color-grey);
-    margin-bottom: 32px;
-    max-width: 580px;
-  }
-
-  @media (min-width: 768px) {
-    .hero-subheading {
-      font-size: 19px;
-    }
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 540px) {
-    .hero-actions {
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
-    }
-  }
-
-  .hero-btn-quote {
-    padding: 16px 32px;
-    font-size: 16px;
-  }
-
-  .hero-btn-whatsapp {
-    padding: 15px 28px;
-    font-size: 16px;
-  }
-
-  .wa-icon {
-    color: #25D366;
-    flex-shrink: 0;
-  }
-
-  .hero-small-text {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--color-grey);
-    margin-top: 8px;
-  }
-
-  .small-icon {
-    color: var(--color-saffron-orange);
-    flex-shrink: 0;
-  }
-
-  /* Staggered 2x2 Image Collage */
-  .hero-collage {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
     width: 100%;
-  }
-
-  .collage-col {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .collage-col-1 {
-    padding-top: 30px;
-  }
-
-  .collage-col-2 {
-    padding-bottom: 30px;
-  }
-
-  .collage-item {
-    border-radius: var(--radius-md);
+    height: 680px;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
-    box-shadow: var(--shadow-soft);
-    background-color: var(--color-warm-cream);
-    aspect-ratio: 4 / 5;
+    background-color: #19191A;
   }
 
-  .collage-img {
+  .hero-slides-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+  }
+
+  .hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+  }
+
+  /* Mobile: full width, 287px high */
+  @media (max-width: 767px) {
+    .hero-section {
+      height: 287px;
+    }
   }
 </style>
+
+<script>
+  function setupHeroSlider() {
+    const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
+    if (slides.length <= 1) return;
+
+    // Check prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let currentIndex = 0;
+    let intervalId: number | null = null;
+
+    function nextSlide() {
+      slides[currentIndex].classList.remove('is-active');
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add('is-active');
+    }
+
+    intervalId = window.setInterval(nextSlide, 5000);
+
+    // Pause on page hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && intervalId !== null) {
+        clearInterval(intervalId);
+      } else if (!document.hidden && !prefersReducedMotion) {
+        intervalId = window.setInterval(nextSlide, 5000);
+      }
+    });
+  }
+
+  setupHeroSlider();
+  document.addEventListener('astro:page-load', setupHeroSlider);
+</script>

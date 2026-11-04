@@ -1,338 +1,260 @@
 {
-  "meta": {
+  "seo": {
     "title": "Traiteur indien à Paris | Best of India Traiteur",
     "description": "Traiteur indien authentique à Paris pour mariages, événements d'entreprise, anniversaires et réceptions. Options végétariennes, véganes et halal. Demandez votre devis gratuit."
   },
   "nav": {
-    "about": "À propos",
-    "occasions": "Événements",
+    "title": "Naviguer",
+    "home": "Accueil",
+    "whoWeAre": "Qui sommes-nous",
+    "ourEvents": "Nos événements",
     "reviews": "Avis",
-    "menu": "Menu",
-    "why": "Pourquoi nous",
-    "contact": "Contact",
-    "cta": "Demander un devis",
-    "open_menu": "Ouvrir le menu",
-    "close_menu": "Fermer le menu"
+    "ourMenu": "Notre menu",
+    "whyChooseUs": "Pourquoi nous choisir",
+    "contact": "Contact"
   },
   "hero": {
-    "eyebrow": "BEST OF INDIA · TRAITEUR À PARIS",
-    "h1": "Traiteur indien authentique à Paris",
-    "subheading": "Des fêtes de famille aux grands mariages et aux événements d'entreprise, nous apportons à votre réception une cuisine d'Inde du Sud et du Chettinad préparée avec soin, à {SERVICE_AREA_FR}.",
-    "cta_primary": "Demander un devis gratuit",
-    "cta_secondary": "Discuter sur WhatsApp",
-    "small_text": "Options végétariennes, véganes et halal · Réponse {REPLY_TIME_FR}",
-    "image_alts": {
-      "img1": "Festin traditionnel du sud de l'Inde aux épices authentiques",
-      "img2": "Amuse-bouches et entrées indiennes croustillantes",
-      "img3": "Biryani indien parfumé garni d'herbes fraîches",
-      "img4": "Curry du Chettinad aux épices fraîchement torréfiées"
-    }
+    "altPrefix": "Présentation du service traiteur indien authentique Best of India"
   },
-  "stats": {
-    "stat1_number": "50+",
-    "stat1_label": "ans d'expérience",
-    "stat2_number": "100+",
-    "stat2_label": "clients satisfaits",
-    "stat3_number": "5 M+",
-    "stat3_label": "personnes servies"
+  "titleCard": {
+    "h1": "Traiteur indien authentique à Paris",
+    "paragraph1": "Best of India apporte les riches saveurs de la cuisine d'Inde du Sud et du Chettinad à vos célébrations, avec un service traiteur à Paris et toute l'Île-de-France.",
+    "paragraph2": "Que vous organisiez un mariage, un événement d'entreprise, des fiançailles, une baby shower, une réception ou un anniversaire, notre équipe vous aide à composer le menu idéal pour votre événement et votre budget. Si votre occasion ne figure pas ci-dessous, contactez-nous simplement.",
+    "numbers": {
+      "expNum": "50+",
+      "expLabel": "ans d'expérience",
+      "clientsNum": "100+",
+      "clientsLabel": "clients satisfaits",
+      "servedNum": "5 M+",
+      "servedLabel": "personnes servies"
+    }
   },
   "about": {
-    "eyebrow": "QUI SOMMES-NOUS",
-    "h2": "Le goût de l'Inde du Sud, servi à votre événement",
-    "p1": "Best of India est votre adresse pour une cuisine authentique d'Inde du Sud à Paris. Nous sommes spécialisés dans la cuisine du Chettinad, l'une des traditions culinaires les plus riches et les plus raffinées du sud de l'Inde. Originaire du Tamil Nadu, elle est réputée pour son caractère, l'intensité de ses épices et son équilibre entre audace et subtilité.",
-    "p2": "Chaque plat est préparé selon des recettes traditionnelles, avec un mélange unique d'épices fraîchement moulues comme le poivre noir, le fenouil, la cannelle et les feuilles de curry. Nous sélectionnons soigneusement nos ingrédients pour garantir la fraîcheur, la qualité et le respect des traditions culinaires indiennes.",
-    "p3": "Notre service traiteur apporte ce même soin à votre célébration. Parlez-nous de votre événement, de vos invités et de votre budget : nous vous aiderons à composer le menu idéal.",
-    "button": "Composer mon menu",
-    "image_alts": {
-      "img1": "Préparation culinaire authentique du Chettinad chez Best of India",
-      "img2": "Plats traditionnels d'Inde du Sud préparés avec des épices moulues"
-    }
+    "eyebrow": "Notre histoire",
+    "heading": "Le goût de l'Inde du Sud à votre événement",
+    "paragraph1": "Best of India est votre adresse pour une cuisine authentique d'Inde du Sud à Paris. Nous sommes spécialisés dans la cuisine du Chettinad, l'une des traditions culinaires les plus riches et les plus raffinées du sud de l'Inde. Originaire du Tamil Nadu, elle est réputée pour son caractère, l'intensité de ses épices et son équilibre entre audace et subtilité.",
+    "paragraph2": "Chaque plat est préparé selon des recettes traditionnelles, avec un mélange unique d'épices fraîchement moulues comme le poivre noir, le fenouil, la cannelle et les feuilles de curry. Nous sélectionnons soigneusement nos ingrédients pour garantir la fraîcheur, la qualité et le respect des traditions culinaires indiennes.",
+    "paragraph3": "Notre service traiteur apporte ce même soin à votre célébration, avec un menu pensé selon votre occasion, vos invités et votre budget.",
+    "buttonEvents": "Nos événements",
+    "buttonMenu": "Notre menu"
   },
   "occasions": {
-    "eyebrow": "NOS PRESTATIONS",
-    "h2": "Un traiteur pour chaque occasion",
-    "text": "Quelle que soit votre célébration, nous créons un menu adapté à votre événement, à vos invités et à votre budget.",
-    "cta_card": "Demander un devis",
-    "cards": [
+    "eyebrow": "Nos événements",
+    "heading": "Un traiteur pour chaque occasion",
+    "button": "Parlez-nous de votre événement",
+    "tileAction": "Demander un devis",
+    "items": [
       {
         "id": "wedding",
         "title": "Traiteur de mariage",
-        "text": "Un festin indien généreux pour le plus beau jour de votre vie.",
-        "image": "/assets/images/events/placeholder-wedding.webp",
-        "image_alt": "Traiteur de mariage - table de banquet dans une salle de réception parisienne"
+        "alt": "Banquet de mariage indien à Paris avec plats en laiton et décor floral",
+        "image": "/assets/images/events/placeholder-wedding.webp"
       },
       {
         "id": "corporate",
         "title": "Traiteur d'entreprise",
-        "text": "Des repas savoureux et bien organisés pour vos réunions, séminaires et événements professionnels.",
-        "image": "/assets/images/events/placeholder-corporate.webp",
-        "image_alt": "Traiteur d'entreprise - buffet professionnel dans un espace événementiel à Paris"
+        "alt": "Buffet traiteur indien d'entreprise dans un bureau moderne à Paris",
+        "image": "/assets/images/events/placeholder-corporate.webp"
       },
       {
         "id": "engagement",
         "title": "Traiteur de fiançailles",
-        "text": "Célébrez votre engagement avec un menu aussi spécial que ce moment.",
-        "image": "/assets/images/events/placeholder-engagement.webp",
-        "image_alt": "Traiteur de fiançailles - table de fiançailles intime avec décoration florale"
+        "alt": "Table de fiançailles intime avec fleurs et assortiments d'entrées indiennes",
+        "image": "/assets/images/events/placeholder-engagement.webp"
       },
       {
         "id": "baby_shower",
         "title": "Traiteur de baby shower",
-        "text": "Des plats réconfortants et des douceurs pour une joyeuse réunion de famille.",
-        "image": "/assets/images/events/placeholder-baby-shower.webp",
-        "image_alt": "Traiteur de baby shower - table de douceurs et desserts indiens"
+        "alt": "Table de baby shower aux tons pastel avec douceurs et snacks indiens",
+        "image": "/assets/images/events/placeholder-baby-shower.webp"
       },
       {
         "id": "reception",
         "title": "Traiteur de réception",
-        "text": "Un buffet raffiné qui laissera un souvenir durable à vos invités.",
-        "image": "/assets/images/events/placeholder-reception.webp",
-        "image_alt": "Traiteur de réception - élégante réception en soirée avec buffet indien"
+        "alt": "Réception élégante en soirée avec grand buffet traiteur indien",
+        "image": "/assets/images/events/placeholder-reception.webp"
       },
       {
         "id": "birthday",
         "title": "Traiteur d'anniversaire",
-        "text": "Une cuisine colorée et conviviale pour les invités de tous les âges.",
-        "image": "/assets/images/events/placeholder-birthday.webp",
-        "image_alt": "Traiteur d'anniversaire - fête d'anniversaire familiale conviviale"
+        "alt": "Fête d'anniversaire en famille avec bouchées et spécialités indiennes",
+        "image": "/assets/images/events/placeholder-birthday.webp"
       },
       {
         "id": "family",
-        "title": "Fêtes de famille et réceptions privées",
-        "text": "Les saveurs de la cuisine indienne, sans passer du temps en cuisine.",
-        "image": "/assets/images/events/placeholder-family-gathering.webp",
-        "image_alt": "Fêtes de famille - famille réunie autour d'un grand repas indien"
+        "title": "Fêtes de famille",
+        "alt": "Repas de famille convivial partageant des plats indiens traditionnels",
+        "image": "/assets/images/events/placeholder-family-gathering.webp"
       },
       {
         "id": "cultural",
-        "title": "Fêtes culturelles et traditionnelles",
-        "text": "Des menus traditionnels pour vos fêtes et événements communautaires.",
-        "image": "/assets/images/events/placeholder-cultural-celebration.webp",
-        "image_alt": "Fêtes traditionnelles - célébration festive avec repas sur feuilles de bananier"
+        "title": "Fêtes culturelles",
+        "alt": "Célébration culturelle festive servie sur feuilles de bananier",
+        "image": "/assets/images/events/placeholder-cultural-celebration.webp"
+      },
+      {
+        "id": "anniversary",
+        "title": "Traiteur d'anniversaire de mariage",
+        "alt": "Dîner raffiné d'anniversaire de mariage avec cuisine indienne et bougies",
+        "image": "/assets/images/events/placeholder-anniversary.webp"
       }
-    ],
-    "bottom_text": "Votre événement n'apparaît pas ? Parlez-nous-en.",
-    "bottom_button": "Nous contacter"
+    ]
   },
   "reviews": {
-    "eyebrow": "AVIS",
-    "h2": "Ce que disent nos clients",
-    "placeholder_quote": "[Real client review goes here]",
-    "placeholder_author": "[Client name] · [Event type]",
-    "prev_slide": "Avis précédent",
-    "next_slide": "Avis suivant"
+    "heading": "Avis",
+    "intro": "Avec plus de 50 ans d'expérience et plus de 5 millions de personnes servies, voici ce que disent nos clients.",
+    "placeholderQuote": "[Real client review goes here]",
+    "placeholderName": "[Client name]",
+    "prevAria": "Avis précédent",
+    "nextAria": "Avis suivant"
+  },
+  "gallery": {
+    "prevAria": "Photo précédente",
+    "nextAria": "Photo suivante",
+    "alts": [
+      "Thali végétarien traditionnel d'Inde du Sud avec dosas et currys",
+      "Biryani au poulet parfumé dans un plat de présentation en laiton",
+      "Assortiment de grillades tandoori avec garnitures fraîches",
+      "Curry de poulet Chettinad authentique aux épices fraîches",
+      "Dosa masala croustillant et doré servi avec sambar et chutneys",
+      "Desserts traditionnels indiens Gulab Jamun et kulfi à la pistache",
+      "Chicken 65 épicé garni de feuilles de curry et piments verts",
+      "Curry de fruits de mer côtier au lait de coco et graines de moutarde"
+    ]
   },
   "menu": {
-    "eyebrow": "EXEMPLE DE MENU",
-    "h2": "Un aperçu de ce que nous pouvons servir",
-    "text": "Ces plats vous donnent une idée de notre carte. Votre menu final est adapté à votre événement, à vos invités et à votre budget.",
-    "tag_veg": "Végé",
-    "tag_vegan": "Végan",
-    "cta_text": "Envie d'un menu conçu pour votre événement ?",
-    "cta_button": "Demander mon menu sur mesure",
-    "tabs": [
+    "eyebrow": "Notre menu",
+    "heading": "Un aperçu de ce que nous servons",
+    "line": "Un aperçu de nos plats. Votre menu final est adapté à votre événement.",
+    "button": "Demander mon menu sur mesure",
+    "cards": [
       {
-        "id": "starters",
         "title": "Entrées",
+        "dishes": "Samoussas · Pakoras · Chicken 65 · Gobi Manchurian · Ailes de chou-fleur",
         "image": "/assets/images/boi/menu-starters.webp",
-        "image_alt": "Assortiment d'entrées indiennes",
-        "dishes": [
-          { "name": "Samoussas", "tag": "veg" },
-          { "name": "Pakoras", "tag": "veg" },
-          { "name": "Pakora de poulet" },
-          { "name": "Chicken 65" },
-          { "name": "Gobi Manchurian", "tag": "veg" },
-          { "name": "Ailes de chou-fleur", "tag": "vegan" }
-        ]
+        "alt": "Entrées indiennes : samoussas, pakoras et Chicken 65"
       },
       {
-        "id": "chettinad_meat",
         "title": "Chettinad et viandes",
+        "dishes": "Poulet Chettinad · Poulet au beurre · Tikka masala · Mutton Sukka · Curry d'agneau · Vindaloo",
         "image": "/assets/images/boi/menu-meat.webp",
-        "image_alt": "Spécialités de viandes du Chettinad",
-        "dishes": [
-          { "name": "Poulet Chettinad" },
-          { "name": "Poulet au beurre" },
-          { "name": "Poulet tikka masala" },
-          { "name": "Mutton Sukka" },
-          { "name": "Curry d'agneau" },
-          { "name": "Vindaloo" },
-          { "name": "Sélection tandoori" }
-        ]
+        "alt": "Chettinad et viandes : poulet au beurre, curry d'agneau et mutton sukka"
       },
       {
-        "id": "seafood",
         "title": "Fruits de mer",
+        "dishes": "Curry de poisson côtier · Curry de fruits de mer de saison",
         "image": "/assets/images/boi/menu-seafood.webp",
-        "image_alt": "Plats de fruits de mer et poissons indiens",
-        "dishes": [
-          { "name": "Curry de poisson côtier" },
-          { "name": "Curry de fruits de mer de saison" }
-        ]
+        "alt": "Fruits de mer et curry de poisson côtier"
       },
       {
-        "id": "veg_vegan",
         "title": "Végétarien et végan",
+        "dishes": "Thali d'Inde du Sud · Dosa spécial du chef · Dosa masala à l'oignon · Dosa paneer butter masala · Malai Kofta · Dhal",
         "image": "/assets/images/boi/menu-veg.webp",
-        "image_alt": "Spécialités végétariennes et véganes du Sud de l'Inde",
-        "dishes": [
-          { "name": "Paneer Butter Masala Dosa", "tag": "veg" },
-          { "name": "Dosa masala à l'oignon", "tag": "vegan" },
-          { "name": "Dosa spécial du chef" },
-          { "name": "Thali d'Inde du Sud" },
-          { "name": "Malai Kofta", "tag": "veg" },
-          { "name": "Palak Masala", "tag": "veg" },
-          { "name": "Dhal", "tag": "veg" }
-        ]
+        "alt": "Thali végétarien d'Inde du Sud et dosas croustillants"
       },
       {
-        "id": "biryani_breads",
         "title": "Biryanis, riz et pains",
-        "image": "/assets/images/boi/hero-3.webp",
-        "image_alt": "Biryanis parfumés et pains indiens frais",
-        "dishes": [
-          { "name": "Biryani d'agneau" },
-          { "name": "Biryani de légumes", "tag": "veg" },
-          { "name": "Riz sauté" },
-          { "name": "Pains indiens maison" },
-          { "name": "Raita" }
-        ]
+        "dishes": "Biryani d'agneau · Biryani de légumes · Riz sauté · Pains indiens maison · Raïta",
+        "image": "/assets/images/boi/hero-2.webp",
+        "alt": "Biryanis parfumés, riz sauté et pains indiens maison"
       },
       {
-        "id": "desserts_drinks",
         "title": "Desserts et boissons",
+        "dishes": "Gulab Jamun · Kulfi à la pistache · Boissons indiennes traditionnelles",
         "image": "/assets/images/boi/menu-desserts.webp",
-        "image_alt": "Desserts indiens traditionnels et douceurs",
-        "dishes": [
-          { "name": "Gulab Jamun" },
-          { "name": "Kulfi à la pistache" },
-          { "name": "Boissons indiennes traditionnelles" }
-        ]
+        "alt": "Desserts traditionnels indiens : Gulab Jamun et Kulfi à la pistache"
       }
-    ],
-    "photo_strip_alts": [
-      "Sélection traiteur indien à Paris",
-      "Spécialités épicées du Chettinad",
-      "Éléments de buffet indien préparés avec soin",
-      "Plats emblématiques du Sud de l'Inde",
-      "Pains indiens et currys authentiques",
-      "Douceurs indiennes et assortiment de fête"
     ]
   },
   "why": {
-    "eyebrow": "POURQUOI NOUS CHOISIR",
-    "h2": "Pourquoi choisir Best of India",
+    "eyebrow": "Pourquoi nous",
+    "heading": "Pourquoi choisir Best of India",
     "items": [
       {
-        "num": "1",
         "title": "Plus de 50 ans d'expérience",
-        "text": "Des décennies de savoir-faire derrière chaque plat."
+        "desc": "Des décennies de savoir-faire derrière chaque plat."
       },
       {
-        "num": "2",
         "title": "L'authenticité du Chettinad",
-        "text": "Des recettes traditionnelles et des épices fraîchement moulues, pour des saveurs rares."
+        "desc": "Des recettes traditionnelles et des épices fraîchement moulues, pour des saveurs rares."
       },
       {
-        "num": "3",
         "title": "Des ingrédients de qualité",
-        "text": "Des ingrédients soigneusement sélectionnés pour leur fraîcheur et leur qualité."
+        "desc": "Des ingrédients soigneusement sélectionnés pour leur fraîcheur et leur qualité."
       },
       {
-        "num": "4",
         "title": "Des options pour chaque invité",
-        "text": "Des choix végétariens, végans et halal pour que chacun se régale."
+        "desc": "Des choix végétariens, végans et halal pour que chacun se régale."
       },
       {
-        "num": "5",
         "title": "Des menus sur mesure",
-        "text": "Un menu pensé selon votre occasion, vos invités et votre budget."
+        "desc": "Un menu pensé selon votre occasion, vos invités et votre budget."
       },
       {
-        "num": "6",
         "title": "Un service rapide et fiable",
-        "text": "Un service efficace, sans compromis sur la qualité."
+        "desc": "Un service efficace, sans compromis sur la qualité."
       }
     ]
   },
   "contact": {
-    "eyebrow": "CONTACT",
-    "h2": "Parlez-nous de votre événement",
-    "text": "Donnez-nous quelques détails : notre équipe vous répondra {REPLY_TIME_FR} avec des idées de menu et un devis personnalisé.",
-    "form": {
-      "name_label": "Nom complet*",
-      "name_placeholder": "ex. Marie Dupont",
-      "phone_label": "Téléphone*",
-      "phone_placeholder": "ex. 06 12 34 56 78",
-      "email_label": "E-mail*",
-      "email_placeholder": "nom@exemple.fr",
-      "event_type_label": "Type d'événement*",
-      "event_type_placeholder": "Sélectionnez un type d'événement",
-      "event_type_other": "Autre",
-      "event_date_label": "Date de l'événement",
-      "guests_label": "Nombre d'invités*",
-      "guests_placeholder": "Sélectionnez le nombre d'invités",
-      "guests_options": [
-        { "id": "under_25", "label": "moins de 25" },
-        { "id": "25_50", "label": "25 à 50" },
-        { "id": "51_100", "label": "51 à 100" },
-        { "id": "101_250", "label": "101 à 250" },
-        { "id": "251_500", "label": "251 à 500" },
-        { "id": "over_500", "label": "plus de 500" }
-      ],
-      "location_label": "Lieu de l'événement",
-      "location_placeholder": "ex. Paris 8e ou salle de réception",
-      "dietary_label": "Préférences alimentaires",
-      "dietary_options": [
-        { "id": "vegetarian", "label": "Végétarien" },
-        { "id": "vegan", "label": "Végan" },
-        { "id": "halal", "label": "Halal" },
-        { "id": "non_vegetarian", "label": "Non végétarien" }
-      ],
-      "message_label": "Message",
-      "message_placeholder": "Parlez-nous de votre événement et de toute allergie.",
-      "consent_label": "J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la politique de confidentialité.",
-      "privacy_policy_link_text": "politique de confidentialité",
-      "submit_button": "Envoyer ma demande",
-      "submitting_text": "Envoi en cours...",
-      "under_button": "Sans engagement. Vos données ne sont jamais vendues.",
-      "validation": {
-        "required_field": "Ce champ est obligatoire.",
-        "invalid_email": "Veuillez saisir une adresse e-mail valide.",
-        "invalid_phone": "Veuillez saisir un numéro de téléphone valide.",
-        "consent_required": "Veuillez accepter la politique de confidentialité."
-      },
-      "success_message": "Merci ! Nous avons bien reçu votre demande et vous répondrons {REPLY_TIME_FR}. Besoin d'une réponse plus rapide ? Écrivez-nous sur WhatsApp.",
-      "failure_message": "Une erreur est survenue. Appelez-nous au {PHONE_DISPLAY} ou écrivez-nous sur WhatsApp."
+    "heading": "Contactez Best of India",
+    "text": "Parlez-nous de votre événement : notre équipe vous répondra sous 24 heures avec des idées de menu et un devis personnalisé.",
+    "hoursLabel": "Horaires du restaurant",
+    "phoneLabel": "Téléphone",
+    "emailLabel": "E-mail",
+    "addressLabel": "Adresse",
+    "fields": {
+      "name": "Nom*",
+      "phone": "Téléphone*",
+      "email": "E-mail*",
+      "eventType": "Type d'événement*",
+      "eventDate": "Date de l'événement",
+      "guests": "Nombre d'invités*",
+      "message": "Message"
     },
-    "details": {
-      "restaurant_hours_label": "Horaires du restaurant",
-      "get_directions_button": "Itinéraire",
-      "map_title": "Emplacement du restaurant Best of India à Paris 10e"
+    "guestOptions": [
+      "Moins de 25",
+      "25-50",
+      "51-100",
+      "101-250",
+      "251-500",
+      "Plus de 500"
+    ],
+    "otherEvent": "Autre",
+    "consent": "J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la politique de confidentialité.",
+    "button": "Envoyer le message",
+    "success": "Merci ! Nous avons bien reçu votre demande et vous répondrons sous 24 heures.",
+    "error": "Une erreur est survenue. Appelez-nous au +33 1 40 05 06 06 ou écrivez-nous sur WhatsApp.",
+    "validation": {
+      "nameRequired": "Veuillez renseigner votre nom",
+      "phoneRequired": "Veuillez renseigner votre numéro de téléphone",
+      "emailRequired": "Veuillez renseigner une adresse email valide",
+      "eventTypeRequired": "Veuillez sélectionner un type d'événement",
+      "guestsRequired": "Veuillez indiquer le nombre d'invités",
+      "consentRequired": "Veuillez accepter la politique de confidentialité pour continuer"
     }
   },
   "footer": {
-    "brand_line": "Traiteur indien authentique à Paris, par Best of India.",
-    "quick_links_title": "Accès rapide",
-    "contact_title": "Contact",
-    "follow_title": "Suivez-nous",
-    "copyright": "© 2026 Best of India Paris",
-    "legal_notice": "Mentions légales",
-    "privacy_policy": "Politique de confidentialité",
-    "cookie_policy": "Politique de cookies"
+    "quickLinks": "Liens rapides",
+    "home": "Accueil",
+    "whoWeAre": "Qui sommes-nous",
+    "ourEvents": "Nos événements",
+    "ourMenu": "Notre menu",
+    "reviews": "Avis",
+    "whyChooseUs": "Pourquoi nous choisir",
+    "contact": "Contact",
+    "fullWebsite": "Site du restaurant",
+    "rights": "All Rights Reserved 2026 © Best of India Paris",
+    "privacy": "Confidentialité et cookies",
+    "legal": "Mentions légales",
+    "backToTop": "Haut de page"
   },
   "floating": {
-    "back_to_top": "Haut de page",
-    "whatsapp_label": "Discuter sur WhatsApp",
-    "contact_cta": "Devis gratuit",
-    "mobile_call": "Appeler",
-    "mobile_whatsapp": "WhatsApp",
-    "mobile_quote": "Devis",
-    "whatsapp_message": "Bonjour Best of India, je souhaite un devis traiteur pour mon événement."
-  },
-  "legal_pages": {
-    "legal_title": "Mentions Légales",
-    "privacy_title": "Politique de Confidentialité",
-    "back_home": "← Retour à l'accueil"
+    "call": "Appeler",
+    "whatsapp": "WhatsApp",
+    "quote": "Devis",
+    "getAQuote": "Demander un devis",
+    "backToTop": "Haut de page",
+    "whatsappMessage": "Bonjour Best of India, je souhaite un devis traiteur pour mon événement."
   }
 }

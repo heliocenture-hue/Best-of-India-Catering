@@ -21,12 +21,12 @@ const canonicalUrl = lang === 'en'
 const frUrl = 'https://traiteur.bestofindiaparis.com/';
 const enUrl = 'https://traiteur.bestofindiaparis.com/en/';
 
-// Schema JSON-LD FoodEstablishment without fake reviews or ratings
+// Schema JSON-LD FoodEstablishment with NO reviews or ratings
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["FoodEstablishment", "Restaurant"],
   "name": CONFIG.BRAND,
-  "description": t.meta.description,
+  "description": t.seo.description,
   "url": canonicalUrl,
   "telephone": CONFIG.PHONE_LINK,
   "email": CONFIG.EMAIL,
@@ -54,8 +54,8 @@ const jsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{t.seo.title}</title>
+    <meta name="description" content={t.seo.description} />
 
     <!-- Canonical & Hreflang Tags -->
     <link rel="canonical" href={canonicalUrl} />
@@ -67,83 +67,68 @@ const jsonLd = {
     <link rel="icon" type="image/png" href="/assets/boi-logo.png" />
     <link rel="apple-touch-icon" href="/assets/boi-logo.png" />
 
-    <!-- Preload Self-Hosted Fonts -->
+    <!-- Preload Critical Self-Hosted Fonts -->
     <link
       rel="preload"
-      href="/assets/fonts/cormorant-garamond-normal-600.woff2"
+      href="/assets/fonts/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/assets/fonts/mulish-normal-400.woff2"
+      href="/assets/fonts/v6-IGZDIOVXH9xtmTZfRagunqBw5WC62QKknL-mYF20.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/assets/fonts/mulish-normal-600.woff2"
+      href="/assets/fonts/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw5aXp-p7K4KLg.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/assets/fonts/mulish-normal-700.woff2"
+      href="/assets/fonts/4iCv6KVjbNBYlgoCjC3jsGyNPYZvgw.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
 
-    <!-- Preload Hero Image -->
+    <!-- Preload First Hero Image -->
     <link
       rel="preload"
-      as="image"
       href="/assets/images/boi/hero-1.webp"
+      as="image"
       type="image/webp"
     />
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.seo.title} />
+    <meta property="og:description" content={t.seo.description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={t.meta.title} />
-    <meta property="og:description" content={t.meta.description} />
     <meta property="og:image" content="https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp" />
     <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta property="og:site_name" content={CONFIG.BRAND} />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={t.meta.title} />
-    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:title" content={t.seo.title} />
+    <meta name="twitter:description" content={t.seo.description} />
     <meta name="twitter:image" content="https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp" />
 
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+    <!-- JSON-LD Structured Data (No ratings or fake reviews) -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- First visit redirect: On first visit to /, redirect to /en/ only if browser language is not French and no choice is saved. Never redirect after manual choice. -->
+    <!-- dataLayer Initialization -->
     <script is:inline>
-      (function() {
-        if (typeof window === 'undefined') return;
-        try {
-          var saved = localStorage.getItem('boi_preferred_lang');
-          if (saved) return; // user already made manual choice
-          var path = window.location.pathname;
-          if (path === '/' || path === '') {
-            var userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-            if (userLang && !userLang.startsWith('fr')) {
-              window.location.replace('/en/' + window.location.hash);
-            }
-          }
-        } catch (e) {}
-      })();
+      window.dataLayer = window.dataLayer || [];
     </script>
 
-    <!-- Google Tag Manager Slot (Commented out until user consent) -->
-    <!--
-    <script>
-      // Load Google Tag Manager only after user consent
+    <!-- Google Tag Manager (Loads only after user consent - commented slot)
+    <script is:inline>
       function loadGTM(gtmId) {
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -151,41 +136,23 @@ const jsonLd = {
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer',gtmId);
       }
+      // Example call after consent:
+      // if (userConsented) { loadGTM('GTM-XXXXXXX'); }
     </script>
     -->
-
-    <!-- Global dataLayer initialization -->
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-    </script>
   </head>
   <body>
-    <!-- 1. Sticky Header -->
+    <!-- 1. Header and menu panel -->
     <Header lang={lang} />
 
-    <!-- Main Content Slot -->
     <main id="main-content">
       <slot />
     </main>
 
-    <!-- 10. Footer -->
+    <!-- 12. Footer -->
     <Footer lang={lang} />
 
-    <!-- Always Visible Floating Actions (Desktop Stack & Mobile Bar) -->
+    <!-- Always Visible Floating Actions (Back to Top, WhatsApp, Quote) -->
     <FloatingActions lang={lang} />
-
-    <!-- Click tracking for analytics dataLayer -->
-    <script is:inline>
-      document.addEventListener('click', function(e) {
-        var target = e.target.closest('[data-track]');
-        if (target && window.dataLayer) {
-          var eventName = target.getAttribute('data-track');
-          window.dataLayer.push({
-            event: eventName,
-            url: target.getAttribute('href') || ''
-          });
-        }
-      });
-    </script>
   </body>
 </html>

@@ -1,6 +1,5 @@
 ---
-import type { Language } from '../i18n/utils';
-import { getTranslations } from '../i18n/utils';
+import { getTranslations, type Language } from '../i18n/utils';
 
 interface Props {
   lang: Language;
@@ -8,38 +7,26 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
-
-// Icons for each of the 6 reasons (Lucide style, thin-line orange)
-const icons = [
-  // 1. 50+ Years of Experience - Award/Clock
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
-  // 2. True Chettinad Authenticity - Flame
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>`,
-  // 3. Quality Ingredients - Sparkles / Check
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`,
-  // 4. Options for Every Guest - Utensils
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M2 12h12M12 2v20M2 2l20 20"></path></svg>`,
-  // 5. Menus Made for You - Sliders
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>`,
-  // 6. Fast, Reliable Service - Shield Check
-  `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`
-];
 ---
 
-<section class="why-section" id="why">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="eyebrow">{t.why.eyebrow}</span>
-      <h2 class="section-h2">{t.why.h2}</h2>
+<section id="why" class="why-us-section" aria-label="Why Choose Best of India">
+  <div class="why-us-container">
+    <!-- Section Header -->
+    <div class="section-header">
+      <span class="eyebrow-script">{t.why.eyebrow}</span>
+      <h2 class="section-heading">{t.why.heading}</h2>
     </div>
 
-    <!-- 3 x 2 Grid on Desktop, 1 Column on Mobile -->
-    <div class="why-grid">
-      {t.why.items.map((item, idx) => (
-        <div class="why-card">
-          <div class="why-icon" aria-hidden="true" set:html={icons[idx] || icons[0]}></div>
-          <h3 class="why-title">{item.title}</h3>
-          <p class="why-text">{item.text}</p>
+    <!-- 3 columns x 2 rows, each column 330px wide with 60px gaps, same grid as tiles -->
+    <div class="why-us-grid">
+      {t.why.items.map((item) => (
+        <div class="why-us-item">
+          <!-- Title in heading font in rust at 25px, centred -->
+          <h3 class="why-item-title">{item.title}</h3>
+          <!-- Short rule -->
+          <hr class="why-item-rule short-rule" />
+          <!-- Body text centred -->
+          <p class="why-item-desc">{item.desc}</p>
         </div>
       ))}
     </div>
@@ -47,85 +34,93 @@ const icons = [
 </section>
 
 <style>
-  .why-section {
-    background-color: var(--color-white);
-    padding-top: 80px;
-    padding-bottom: 90px;
+  /* WHY CHOOSE US: Background --page-grey. No icons and no boxes. Add 72px of space beneath. */
+  .why-us-section {
+    background-color: var(--page-grey);
+    width: 100%;
+    padding-bottom: 72px;
+    box-sizing: border-box;
   }
 
-  @media (min-width: 992px) {
-    .why-section {
-      padding-top: 100px;
-      padding-bottom: 110px;
-    }
+  .why-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
   }
 
-  .text-center {
+  /* 3 columns x 2 rows, each column 330px wide with 60px gaps */
+  .why-us-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 330px);
+    gap: 60px;
+    justify-content: center;
+    margin-top: 36px;
+    width: 100%;
+  }
+
+  .why-us-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
 
-  .why-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-top: 48px;
-  }
-
-  @media (min-width: 768px) {
-    .why-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .why-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-  }
-
-  .why-card {
-    background-color: var(--color-warm-cream);
-    border-radius: var(--radius-md);
-    padding: 36px 28px;
-    border: 1px solid rgba(74, 36, 18, 0.08);
-    box-shadow: var(--shadow-soft);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  }
-
-  .why-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-    border-color: rgba(242, 140, 30, 0.3);
-  }
-
-  .why-icon {
-    color: var(--color-saffron-orange);
-    margin-bottom: 20px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(242, 140, 30, 0.12);
-    border-radius: var(--radius-sm);
-  }
-
-  .why-title {
+  /* Title in heading font in rust at 25px */
+  .why-item-title {
     font-family: var(--font-heading);
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--color-deep-brown);
-    margin-bottom: 12px;
-    line-height: 1.25;
+    font-size: 25px;
+    line-height: 32px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 400;
+    margin: 0;
   }
 
-  .why-text {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-grey);
+  .why-item-rule {
+    width: 184px;
+    height: 1px;
+    background-color: var(--accent);
+    border: none;
+    margin: 16px auto 14px auto;
+  }
+
+  /* Body text centred */
+  .why-item-desc {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 25.2px;
+    color: var(--text);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* Tablet: 2 columns */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .why-us-grid {
+      grid-template-columns: repeat(2, 330px);
+      gap: 40px;
+    }
+  }
+
+  /* Mobile Layout (< 768px): One column */
+  @media (max-width: 767px) {
+    .why-us-container {
+      padding: 0 24px;
+    }
+    .why-us-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-top: 24px;
+    }
+    .why-item-desc {
+      font-size: 15px;
+      line-height: 24px;
+    }
   }
 </style>

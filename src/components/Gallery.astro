@@ -1,0 +1,295 @@
+---
+import { getTranslations, type Language } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+// 8 real BOI food photos
+const galleryImages = [
+  { src: '/assets/images/boi/hero-1.webp', alt: t.gallery.alts[0] },
+  { src: '/assets/images/boi/hero-2.webp', alt: t.gallery.alts[1] },
+  { src: '/assets/images/boi/hero-3.webp', alt: t.gallery.alts[2] },
+  { src: '/assets/images/boi/hero-4.webp', alt: t.gallery.alts[3] },
+  { src: '/assets/images/boi/about-1.webp', alt: t.gallery.alts[4] },
+  { src: '/assets/images/boi/about-2.webp', alt: t.gallery.alts[5] },
+  { src: '/assets/images/boi/menu-chicken65.webp', alt: t.gallery.alts[6] },
+  { src: '/assets/images/boi/strip-1.webp', alt: t.gallery.alts[7] },
+];
+---
+
+<section id="gallery" class="gallery-section" aria-label="Photo Gallery">
+  <div class="gallery-viewport" id="gallery-viewport">
+    <div class="gallery-track" id="gallery-track">
+      {galleryImages.map((img, idx) => (
+        <div class="gallery-item" data-index={idx}>
+          <img 
+            src={img.src} 
+            alt={img.alt} 
+            class="gallery-img"
+            loading="lazy"
+            width="750"
+            height="500"
+          />
+        </div>
+      ))}
+      <!-- Cloned items for seamless looping -->
+      {galleryImages.map((img, idx) => (
+        <div class="gallery-item gallery-clone" data-index={`clone-${idx}`} aria-hidden="true">
+          <img 
+            src={img.src} 
+            alt={img.alt} 
+            class="gallery-img"
+            loading="lazy"
+            width="750"
+            height="500"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Thin white chevrons 49 x 49px, 38px from each edge, vertically centred -->
+    <button class="gallery-nav-btn prev-btn" id="gallery-prev-btn" aria-label={t.gallery.prevAria}>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="gallery-nav-btn next-btn" id="gallery-next-btn" aria-label={t.gallery.nextAria}>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<style>
+  /* GALLERY:
+     White background, full-width infinite carousel, 500px high.
+     Each image is about 750 x 500px with a 4px gap, so partial images show on both sides. */
+  .gallery-section {
+    background-color: var(--white);
+    width: 100%;
+    height: 500px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gallery-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  .gallery-viewport:active {
+    cursor: grabbing;
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    width: max-content;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gallery-item {
+    flex: 0 0 750px;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Thin white chevrons 49 x 49px, 38px from each edge, vertically centred */
+  .gallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 49px;
+    height: 49px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    padding: 0;
+  }
+
+  .gallery-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: #FFFFFF;
+  }
+
+  .prev-btn {
+    left: 38px;
+  }
+
+  .next-btn {
+    right: 38px;
+  }
+
+  /* Mobile Layout (< 768px):
+     Full width, 293px high, one image at a time */
+  @media (max-width: 767px) {
+    .gallery-section {
+      height: 293px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .gallery-item {
+      flex: 0 0 100%;
+      width: 100%;
+      max-width: 100%;
+      height: 293px;
+    }
+    .gallery-nav-btn {
+      width: 38px;
+      height: 38px;
+    }
+    .prev-btn {
+      left: 12px;
+    }
+    .next-btn {
+      right: 12px;
+    }
+  }
+</style>
+
+<script>
+  function setupGallery() {
+    const track = document.getElementById('gallery-track');
+    const viewport = document.getElementById('gallery-viewport');
+    const prevBtn = document.getElementById('gallery-prev-btn');
+    const nextBtn = document.getElementById('gallery-next-btn');
+    if (!track || !viewport) return;
+
+    let currentIndex = 0;
+    const totalOriginal = 8;
+    let autoPlayTimer: number | null = null;
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    function getItemWidth() {
+      const firstItem = track?.querySelector<HTMLElement>('.gallery-item');
+      if (!firstItem) return 754;
+      return firstItem.offsetWidth + 4; // width + gap
+    }
+
+    function updatePosition(smooth = true) {
+      if (!track) return;
+      const itemWidth = getItemWidth();
+      track.style.transition = smooth ? 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
+      const offset = -(currentIndex * itemWidth);
+      currentTranslate = offset;
+      prevTranslate = offset;
+      track.style.transform = `translateX(${offset}px)`;
+    }
+
+    function next() {
+      currentIndex++;
+      updatePosition(true);
+      if (currentIndex >= totalOriginal) {
+        setTimeout(() => {
+          currentIndex = 0;
+          updatePosition(false);
+        }, 600);
+      }
+    }
+
+    function prev() {
+      if (currentIndex === 0) {
+        currentIndex = totalOriginal;
+        updatePosition(false);
+        setTimeout(() => {
+          currentIndex--;
+          updatePosition(true);
+        }, 20);
+      } else {
+        currentIndex--;
+        updatePosition(true);
+      }
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = window.setInterval(next, 4500);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    nextBtn?.addEventListener('click', () => {
+      stopAutoPlay();
+      next();
+      startAutoPlay();
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      stopAutoPlay();
+      prev();
+      startAutoPlay();
+    });
+
+    viewport.addEventListener('mouseenter', stopAutoPlay);
+    viewport.addEventListener('mouseleave', startAutoPlay);
+
+    // Touch & Swipe handlers
+    viewport.addEventListener('touchstart', (e) => {
+      stopAutoPlay();
+      isDragging = true;
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${prevTranslate + diff}px)`;
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const movedBy = e.changedTouches[0].clientX - startX;
+      if (movedBy < -50) {
+        next();
+      } else if (movedBy > 50) {
+        prev();
+      } else {
+        updatePosition(true);
+      }
+      startAutoPlay();
+    });
+
+    startAutoPlay();
+  }
+
+  setupGallery();
+  document.addEventListener('astro:page-load', setupGallery);
+</script>

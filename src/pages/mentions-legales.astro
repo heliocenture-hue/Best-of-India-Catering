@@ -5,7 +5,7 @@ import { CONFIG } from '../config';
 
 <Layout lang="fr">
   <section class="legal-page-section">
-    <div class="container legal-container">
+    <div class="legal-container">
       <a href="/" class="back-link">← Retour à l'accueil</a>
       <h1 class="legal-title">Mentions Légales</h1>
 
@@ -40,37 +40,51 @@ import { CONFIG } from '../config';
 
 <style>
   .legal-page-section {
-    padding: 80px 0 100px;
-    background-color: var(--color-white);
+    padding: 120px 24px 100px;
+    background-color: var(--white);
+    min-height: 80vh;
   }
   .legal-container {
-    max-width: 800px;
+    max-width: 840px;
+    margin: 0 auto;
   }
   .back-link {
     display: inline-block;
-    color: var(--color-dark-orange);
-    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 24px;
+    text-decoration: underline;
   }
   .legal-title {
     font-family: var(--font-heading);
-    font-size: 42px;
-    color: var(--color-deep-brown);
+    font-size: 35px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--heading);
     margin-bottom: 32px;
   }
   .legal-content h2 {
     font-family: var(--font-heading);
-    font-size: 24px;
-    color: var(--color-deep-brown);
-    margin: 28px 0 12px;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 32px;
+    margin-bottom: 12px;
   }
-  .legal-content p, .legal-content ul {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--color-grey);
-    margin-bottom: 16px;
+  .legal-content p, .legal-content li {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 26px;
+    color: var(--text);
   }
   .legal-content ul {
-    padding-left: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
   }
 </style>

@@ -1,0 +1,231 @@
+---
+import { getTranslations, type Language } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section id="top" class="title-card-intro-section">
+  <!-- Title Card: 936 x 160px, centred, overlapping the bottom of hero by 79px -->
+  <div class="title-card-container">
+    <div class="title-card">
+      <h1 class="title-h1">{t.titleCard.h1}</h1>
+    </div>
+  </div>
+
+  <!-- Body: 840px wide, centred, starting 80px below hero bottom edge -->
+  <div class="intro-body-container">
+    <div class="intro-body-prose body-prose">
+      <p>{t.titleCard.paragraph1}</p>
+      <p>{t.titleCard.paragraph2}</p>
+    </div>
+
+    <!-- Numbers: Three equal columns inside the 840px width, 48px below body, 64px beneath -->
+    <div class="numbers-grid" id="authority-numbers">
+      <div class="number-col">
+        <span class="number-val" data-target="50" data-suffix="+">{t.titleCard.numbers.expNum}</span>
+        <hr class="number-rule short-rule" />
+        <span class="number-label">{t.titleCard.numbers.expLabel}</span>
+      </div>
+
+      <div class="number-col">
+        <span class="number-val" data-target="100" data-suffix="+">{t.titleCard.numbers.clientsNum}</span>
+        <hr class="number-rule short-rule" />
+        <span class="number-label">{t.titleCard.numbers.clientsLabel}</span>
+      </div>
+
+      <div class="number-col">
+        <span class="number-val" data-target="5" data-suffix="M+">{t.titleCard.numbers.servedNum}</span>
+        <hr class="number-rule short-rule" />
+        <span class="number-label">{t.titleCard.numbers.servedLabel}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .title-card-intro-section {
+    position: relative;
+    background-color: var(--page-grey);
+    width: 100%;
+    margin-top: 0;
+    padding-bottom: 64px;
+    z-index: 10;
+  }
+
+  /* Title Card Container handles overlap: -79px negative margin to pull card over hero */
+  .title-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: -79px;
+    z-index: 20;
+  }
+
+  /* Title Card: 936 x 160px, centred, background --page-grey */
+  .title-card {
+    width: 936px;
+    min-height: 160px;
+    background-color: var(--page-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 32px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .title-h1 {
+    font-family: var(--font-heading);
+    font-size: 35px;
+    line-height: 42px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--heading);
+    font-weight: 400;
+    margin: 0;
+  }
+
+  /* Body: 840px wide, centred, starting 80px below hero bottom edge */
+  .intro-body-container {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .intro-body-prose {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 25.2px;
+    text-align: justify;
+    hyphens: auto;
+    color: var(--text);
+  }
+
+  /* Numbers Grid: 3 columns inside 840px, 48px below body, 64px space beneath */
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+
+  .number-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .number-val {
+    font-family: var(--font-heading);
+    font-size: 48px;
+    line-height: 1.1;
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  .number-rule {
+    width: 120px;
+    margin-bottom: 12px;
+  }
+
+  .number-label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  /* Mobile Layout (< 768px):
+     - Title card: full width minus a 20px margin on each side, overlapping the hero by about 55px,
+       with heading at 28px and line-height about 32px.
+     - Body text: 16px, line-height about 30px, justified, 24px side margins. */
+  @media (max-width: 767px) {
+    .title-card-container {
+      margin-top: -55px;
+      padding: 0 14px;
+    }
+    .title-card {
+      width: 100%;
+      min-height: auto;
+      padding: 16px 12px;
+    }
+    .title-h1 {
+      font-size: 21px;
+      line-height: 27px;
+      letter-spacing: 1.2px;
+      word-break: normal;
+    }
+    .intro-body-container {
+      padding: 0 20px;
+    }
+    .intro-body-prose {
+      font-size: 15px;
+      line-height: 28px;
+    }
+    .numbers-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 32px;
+    }
+  }
+</style>
+
+<script>
+  function setupCounterAnimation() {
+    const numbersSection = document.getElementById('authority-numbers');
+    if (!numbersSection) return;
+
+    let animated = false;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !animated) {
+        animated = true;
+        const numberElements = numbersSection.querySelectorAll<HTMLElement>('.number-val');
+        numberElements.forEach((el) => {
+          const target = parseInt(el.dataset.target || '0', 10);
+          const suffix = el.dataset.suffix || '';
+          if (isNaN(target) || target === 0) return;
+
+          let start = 0;
+          const duration = 1500;
+          const startTime = performance.now();
+
+          function updateCount(currentTime: number) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease-out
+            const currentVal = Math.floor(progress * target);
+            el.textContent = `${currentVal}${suffix}`;
+            if (progress < 1) {
+              requestAnimationFrame(updateCount);
+            } else {
+              el.textContent = `${target}${suffix}`;
+            }
+          }
+          requestAnimationFrame(updateCount);
+        });
+        observer.disconnect();
+      }
+    }, { threshold: 0.2 });
+
+    observer.observe(numbersSection);
+  }
+
+  setupCounterAnimation();
+  document.addEventListener('astro:page-load', setupCounterAnimation);
+</script>

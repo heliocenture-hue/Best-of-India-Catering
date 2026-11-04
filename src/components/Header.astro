@@ -1,7 +1,5 @@
 ---
-import { CONFIG } from '../config';
-import type { Language } from '../i18n/utils';
-import { getTranslations } from '../i18n/utils';
+import { getTranslations, type Language } from '../i18n/utils';
 
 interface Props {
   lang: Language;
@@ -9,429 +7,454 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
-
-const baseNav = lang === 'en' ? '/en/' : '/';
-const targetLang = lang === 'en' ? 'fr' : 'en';
-const otherLangHref = lang === 'en' ? '/' : '/en/';
-
-const navLinks = [
-  { href: `${baseNav}#about`, label: t.nav.about, id: 'about' },
-  { href: `${baseNav}#occasions`, label: t.nav.occasions, id: 'occasions' },
-  { href: `${baseNav}#reviews`, label: t.nav.reviews, id: 'reviews' },
-  { href: `${baseNav}#menu`, label: t.nav.menu, id: 'menu' },
-  { href: `${baseNav}#why`, label: t.nav.why, id: 'why' },
-  { href: `${baseNav}#contact`, label: t.nav.contact, id: 'contact' },
-];
+const otherLang: Language = lang === 'fr' ? 'en' : 'fr';
+const otherLangPath = lang === 'fr' ? '/en/' : '/';
 ---
 
-<header class="site-header" id="main-header">
-  <div class="container header-container">
-    <!-- Logo -->
-    <a href={baseNav} class="header-logo" aria-label={`${CONFIG.BRAND} - ${t.hero.h1}`}>
-      <img
-        src="/assets/boi-logo.png"
-        alt="Best of India Restaurant Indien & Traiteur Paris"
-        width="180"
-        height="54"
-        class="logo-img"
-        loading="eager"
-      />
+<header id="site-header" class="site-header">
+  <div class="header-inner">
+    <!-- Logo container: flush top-left, white rectangle about 240px wide -->
+    <a href={lang === 'fr' ? '/' : '/en/'} class="header-logo-box" aria-label="Best of India Home">
+      <img src="/assets/boi-logo.png" alt="Best of India Restaurant Indien Paris" class="logo-img" width="220" height="65" />
     </a>
 
-    <!-- Desktop Navigation -->
-    <nav class="desktop-nav" aria-label="Main Navigation">
-      <ul class="nav-list">
-        {navLinks.map((link) => (
-          <li>
-            <a href={link.href} class="nav-link" data-section={link.id}>
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-
-    <!-- Header Actions (Language Switch & CTA) -->
-    <div class="header-actions">
-      <!-- Language Switcher: Visible on desktop and mobile beside hamburger -->
-      <div class="lang-switch" role="group" aria-label="Language selection">
-        <a
-          href={lang === 'fr' ? '#' : '/'}
-          class={`lang-btn ${lang === 'fr' ? 'active' : ''}`}
-          data-lang="fr"
-          aria-current={lang === 'fr' ? 'page' : undefined}
-          title="Version Française"
+    <!-- Right Controls: Language switch + Hamburger -->
+    <div class="header-right">
+      <div class="lang-switch-box">
+        <a 
+          href={otherLangPath} 
+          id="lang-switch" 
+          class="lang-switch-link"
+          data-target-lang={otherLang}
+          aria-label={`Switch to ${otherLang.toUpperCase()}`}
         >
-          FR
-        </a>
-        <span class="lang-divider" aria-hidden="true">|</span>
-        <a
-          href={lang === 'en' ? '#' : '/en/'}
-          class={`lang-btn ${lang === 'en' ? 'active' : ''}`}
-          data-lang="en"
-          aria-current={lang === 'en' ? 'page' : undefined}
-          title="English version"
-        >
-          EN
+          <span class={lang === 'fr' ? 'active-lang' : ''}>FR</span>
+          <span class="lang-divider">|</span>
+          <span class={lang === 'en' ? 'active-lang' : ''}>EN</span>
         </a>
       </div>
 
-      <!-- Header CTA Button -->
-      <a href={`${baseNav}#contact`} class="btn-primary header-cta">
-        {t.nav.cta}
-      </a>
-
-      <!-- Mobile Hamburger Button -->
-      <button
-        type="button"
-        class="mobile-menu-toggle"
-        id="menu-toggle"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-        aria-label={t.nav.open_menu}
-      >
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
+      <button id="hamburger-btn" class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="menu-panel">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Full-Screen Navigation Drawer -->
-  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-    <div class="mobile-menu-content">
-      <ul class="mobile-nav-list">
-        {navLinks.map((link) => (
-          <li>
-            <a href={link.href} class="mobile-nav-link" data-mobile-link>
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <div class="mobile-menu-footer">
-        <a href={`${baseNav}#contact`} class="btn-primary mobile-cta" data-mobile-link>
-          {t.nav.cta}
-        </a>
-      </div>
+  <!-- Right Drawer Menu Panel (330px wide, 30px from top and right, --panel bg, square corners) -->
+  <div id="menu-backdrop" class="menu-backdrop" aria-hidden="true"></div>
+  <aside id="menu-panel" class="menu-panel" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <div class="menu-top-row">
+      <span class="menu-script-title">{t.nav.title}</span>
+      <button id="menu-close-btn" class="menu-close-btn" aria-label="Close navigation menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="2" y1="2" x2="18" y2="18"></line>
+          <line x1="18" y1="2" x2="2" y2="18"></line>
+        </svg>
+      </button>
     </div>
-  </div>
+
+    <nav class="menu-nav">
+      <ul class="menu-list">
+        <li><a href="#top" class="menu-link">{t.nav.home}</a></li>
+        <li><a href="#about" class="menu-link">{t.nav.whoWeAre}</a></li>
+        <li class="menu-item-has-sub">
+          <a href="#occasions" class="menu-link">{t.nav.ourEvents}</a>
+          <ul class="sub-menu">
+            {t.occasions.items.map((event) => (
+              <li>
+                <a href="#contact" data-event-select={event.id} class="sub-menu-link">
+                  {event.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+        <li><a href="#reviews" class="menu-link">{t.nav.reviews}</a></li>
+        <li><a href="#menu" class="menu-link">{t.nav.ourMenu}</a></li>
+        <li><a href="#why" class="menu-link">{t.nav.whyChooseUs}</a></li>
+        <li><a href="#contact" class="menu-link">{t.nav.contact}</a></li>
+      </ul>
+    </nav>
+  </aside>
 </header>
 
 <style>
   .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--header-height-full);
-    background-color: var(--color-white);
-    z-index: 100;
-    transition: height 0.25s ease, box-shadow 0.25s ease;
-    border-bottom: 1px solid rgba(74, 36, 18, 0.06);
+    height: 90px;
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.3s ease, height 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .site-header.scrolled {
-    height: var(--header-height-scrolled);
-    box-shadow: 0 4px 16px rgba(74, 36, 18, 0.08);
+  /* Scrolled State: 72px high, solid white */
+  .site-header.is-scrolled {
+    background-color: var(--white);
+    height: 72px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   }
 
-  .header-container {
-    height: 100%;
+  .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 0;
   }
 
-  .header-logo {
+  /* Logo top-left inside a small white rectangle, about 240px wide, flush with top and left edges */
+  .header-logo-box {
     display: flex;
     align-items: center;
-    flex-shrink: 0;
+    justify-content: center;
+    background-color: var(--white);
+    width: 240px;
+    height: 100%;
+    padding: 8px 16px;
+    text-decoration: none;
+    box-sizing: border-box;
   }
 
   .logo-img {
-    height: 48px;
-    width: auto;
+    max-width: 100%;
+    max-height: 54px;
     object-fit: contain;
-    transition: transform 0.2s ease;
   }
 
-  .site-header.scrolled .logo-img {
-    height: 40px;
-  }
-
-  /* Desktop Nav */
-  .desktop-nav {
-    display: none;
-  }
-
-  @media (min-width: 992px) {
-    .desktop-nav {
-      display: block;
-    }
-  }
-
-  .nav-list {
+  /* Right Controls */
+  .header-right {
     display: flex;
     align-items: center;
     gap: 28px;
-    list-style: none;
-  }
-
-  .nav-link {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-deep-brown);
-    position: relative;
-    padding: 6px 0;
-    transition: color 0.2s ease;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-saffron-orange);
-    transition: width 0.2s ease;
-  }
-
-  .nav-link:hover,
-  .nav-link.active {
-    color: var(--color-dark-orange);
-  }
-
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    width: 100%;
-  }
-
-  /* Header Actions */
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    padding-right: 36px;
   }
 
   /* Language Switch */
-  .lang-switch {
+  .lang-switch-box {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
-    background-color: var(--color-warm-cream);
-    border: 1px solid rgba(74, 36, 18, 0.1);
   }
 
-  .lang-btn {
-    color: var(--color-grey);
-    transition: color 0.2s ease;
-    padding: 2px 4px;
-    border-radius: 4px;
+  .lang-switch-link {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    text-decoration: none;
   }
 
-  .lang-btn:hover {
-    color: var(--color-dark-orange);
-  }
-
-  .lang-btn.active {
-    color: var(--color-deep-brown);
-    background-color: rgba(242, 140, 30, 0.2);
+  .is-scrolled .lang-switch-link {
+    color: var(--accent);
+    text-shadow: none;
   }
 
   .lang-divider {
-    color: rgba(74, 36, 18, 0.2);
-    font-weight: 400;
+    margin: 0 6px;
+    opacity: 0.6;
   }
 
-  .header-cta {
-    display: none;
-    padding: 10px 20px;
-    font-size: 14px;
-    min-height: 42px;
+  .active-lang {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
-  @media (min-width: 768px) {
-    .header-cta {
-      display: inline-flex;
-    }
-  }
-
-  /* Mobile Toggle */
-  .mobile-menu-toggle {
+  /* Hamburger Icon (64x64px, 3-line) */
+  .hamburger-btn {
+    width: 64px;
+    height: 64px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    width: 44px;
-    height: 44px;
-    padding: 8px;
-    border-radius: var(--radius-sm);
+    gap: 7px;
+    padding: 0;
   }
 
-  @media (min-width: 992px) {
-    .mobile-menu-toggle {
-      display: none;
-    }
-  }
-
-  .hamburger-bar {
-    width: 22px;
+  .hamburger-line {
+    width: 32px;
     height: 2px;
-    background-color: var(--color-deep-brown);
-    border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    background-color: var(--white);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .mobile-menu-toggle.open .hamburger-bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+  .is-scrolled .hamburger-line {
+    background-color: var(--accent);
+    box-shadow: none;
   }
 
-  .mobile-menu-toggle.open .hamburger-bar:nth-child(2) {
-    opacity: 0;
-  }
-
-  .mobile-menu-toggle.open .hamburger-bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  /* Mobile Drawer */
-  .mobile-menu {
+  /* Backdrop */
+  .menu-backdrop {
     position: fixed;
-    top: var(--header-height-full);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--header-height-full));
-    background-color: var(--color-white);
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1010;
+  }
+
+  .menu-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Menu Panel (330px wide, starting about 30px from top and 30px from right, --panel background and square corners) */
+  .menu-panel {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 330px;
+    max-height: calc(100vh - 60px);
+    background-color: var(--panel);
+    border-radius: 0;
+    box-sizing: border-box;
+    padding: 30px 32px;
     overflow-y: auto;
-    z-index: 99;
+    z-index: 1020;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transform: translateX(calc(100% + 40px));
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
   }
 
-  .site-header.scrolled .mobile-menu {
-    top: var(--header-height-scrolled);
-    height: calc(100vh - var(--header-height-scrolled));
-  }
-
-  .mobile-menu.active {
+  .menu-panel.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  .mobile-menu-content {
-    padding: 32px 24px;
+  .menu-top-row {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    min-height: 100%;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(152, 68, 33, 0.2);
+    padding-bottom: 14px;
   }
 
-  .mobile-nav-list {
+  .menu-script-title {
+    font-family: var(--font-script);
+    font-size: 42px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .menu-close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--accent);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-list {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
-  .mobile-nav-link {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--color-deep-brown);
+  .menu-link {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
     display: block;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(74, 36, 18, 0.06);
+    transition: opacity 0.2s ease;
   }
 
-  .mobile-nav-link:hover,
-  .mobile-nav-link.active {
-    color: var(--color-dark-orange);
+  .menu-link:hover {
+    opacity: 0.75;
   }
 
-  .mobile-menu-footer {
-    padding-top: 32px;
+  .sub-menu {
+    list-style: none;
+    margin: 10px 0 0 16px;
+    padding: 0 0 0 8px;
+    border-left: 1px solid rgba(152, 68, 33, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .mobile-cta {
-    width: 100%;
+  .sub-menu-link {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.85;
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .sub-menu-link:hover {
+    opacity: 1;
+  }
+
+  /* Mobile Layout (< 768px):
+     Logo left, switch and hamburger right. The menu panel becomes nearly full width. */
+  @media (max-width: 767px) {
+    .site-header {
+      height: 64px;
+    }
+    .header-logo-box {
+      width: 160px;
+      padding: 6px 10px;
+      flex-shrink: 0;
+    }
+    .logo-img {
+      max-height: 40px;
+    }
+    .header-right {
+      padding-right: 14px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .lang-switch-link {
+      font-size: 13px;
+    }
+    .hamburger-btn {
+      width: 44px;
+      height: 44px;
+    }
+    .hamburger-line {
+      width: 24px;
+    }
+    .menu-panel {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      width: auto;
+      max-height: calc(100vh - 20px);
+      padding: 24px 20px;
+    }
   }
 </style>
 
 <script>
-  // Shrink header on scroll
-  const header = document.getElementById('main-header');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
+  // Header scroll detection & Menu panel control
+  function setupHeader() {
+    const header = document.getElementById('site-header');
+    const hamburger = document.getElementById('hamburger-btn');
+    const closeBtn = document.getElementById('menu-close-btn');
+    const backdrop = document.getElementById('menu-backdrop');
+    const panel = document.getElementById('menu-panel');
+    const menuLinks = document.querySelectorAll('.menu-link, .sub-menu-link');
+
+    // Scroll handler: after 40px, toggle .is-scrolled
+    function handleScroll() {
+      if (window.scrollY > 40) {
+        header?.classList.add('is-scrolled');
+      } else {
+        header?.classList.remove('is-scrolled');
+      }
     }
-  }, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
-  // Mobile menu toggle
-  const toggleBtn = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileLinks = document.querySelectorAll('[data-mobile-link]');
+    // Menu open/close
+    function openMenu() {
+      panel?.classList.add('is-open');
+      backdrop?.classList.add('is-open');
+      hamburger?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
 
-  function toggleMenu() {
-    const isOpen = mobileMenu?.classList.toggle('active');
-    toggleBtn?.classList.toggle('open');
-    toggleBtn?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    mobileMenu?.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    function closeMenu() {
+      panel?.classList.remove('is-open');
+      backdrop?.classList.remove('is-open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger?.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    backdrop?.addEventListener('click', closeMenu);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+        closeMenu();
+      }
+    });
+
+    // Close on link click & handle sub-menu event selection
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        closeMenu();
+        const targetEvent = (link as HTMLElement).dataset.eventSelect;
+        if (targetEvent) {
+          const selectEl = document.getElementById('event-type-select') as HTMLSelectElement | null;
+          if (selectEl) {
+            selectEl.value = targetEvent;
+          }
+        }
+      });
+    });
+
+    // Language switch hash preservation & localStorage
+    const langSwitch = document.getElementById('lang-switch') as HTMLAnchorElement | null;
+    if (langSwitch) {
+      langSwitch.addEventListener('click', (e) => {
+        const targetLang = langSwitch.dataset.targetLang;
+        try {
+          if (targetLang) {
+            localStorage.setItem('boi_lang_choice', targetLang);
+          }
+        } catch (_) {}
+
+        // Preserve hash when navigating
+        const currentHash = window.location.hash;
+        if (currentHash) {
+          e.preventDefault();
+          const targetUrl = new URL(langSwitch.href, window.location.origin);
+          targetUrl.hash = currentHash;
+          window.location.href = targetUrl.toString();
+        }
+      });
+    }
+
+    // Auto-redirect on first visit to / if user preference is EN
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      try {
+        const savedChoice = localStorage.getItem('boi_lang_choice');
+        if (!savedChoice) {
+          const userNavLang = navigator.language || '';
+          if (!userNavLang.toLowerCase().startsWith('fr')) {
+            window.location.href = '/en/';
+          }
+        }
+      } catch (_) {}
+    }
   }
 
-  toggleBtn?.addEventListener('click', toggleMenu);
-  mobileLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      if (mobileMenu?.classList.contains('active')) {
-        toggleMenu();
-      }
-    });
-  });
-
-  // Highlight active section on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        navLinks.forEach((link) => {
-          if (link.getAttribute('data-section') === id) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
-        });
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-
-  sections.forEach((sec) => observer.observe(sec));
-
-  // Language switch: preserve anchor & save preference
-  const langButtons = document.querySelectorAll('.lang-btn');
-  langButtons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const target = btn.getAttribute('data-lang');
-      try {
-        localStorage.setItem('boi_preferred_lang', target || 'fr');
-      } catch (err) {
-        // storage disabled
-      }
-      const hash = window.location.hash;
-      const targetBase = target === 'en' ? '/en/' : '/';
-      window.location.href = targetBase + hash;
-      e.preventDefault();
-    });
-  });
+  setupHeader();
+  document.addEventListener('astro:page-load', setupHeader);
 </script>

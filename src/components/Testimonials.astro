@@ -1,7 +1,6 @@
 ---
+import { getTranslations, type Language } from '../i18n/utils';
 import rawReviews from '../data/testimonials.json';
-import type { Language } from '../i18n/utils';
-import { getTranslations } from '../i18n/utils';
 
 interface Props {
   lang: Language;
@@ -10,328 +9,327 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-// Build warning for unfilled reviews as required in Section 9
-const unfilledReviews = rawReviews.filter((r) => !r.verified || !r.name);
-if (unfilledReviews.length > 0) {
-  console.warn(
-    `\x1b[33m[Best of India Build Notice]\x1b[0m ${unfilledReviews.length} client review entry/entries in src/data/testimonials.json are unverified or awaiting client submission. Visible placeholders will be displayed according to brief specifications.`
-  );
+// Check for unfilled entries and issue a build warning
+const unfilledCount = rawReviews.filter(r => !r.verified || !r.quote_en || !r.name).length;
+if (unfilledCount > 0) {
+  console.warn(`[BOI CATERING BUILD WARNING]: ${unfilledCount} of ${rawReviews.length} client reviews in src/data/testimonials.json are unverified/placeholder entries.`);
 }
 
-const displayReviews = rawReviews.map((r) => {
-  const isVerified = r.verified === true && !!r.name;
+// Map reviews to current language with placeholder fallback
+const reviews = rawReviews.map((r) => {
+  const isVerified = r.verified === true;
   const quote = isVerified
-    ? (lang === 'fr' ? r.quote_fr : r.quote_en) || t.reviews.placeholder_quote
-    : t.reviews.placeholder_quote;
-  const author = isVerified
-    ? `${r.name} · ${lang === 'fr' ? r.event_fr : r.event_en}`
-    : t.reviews.placeholder_author;
+    ? (lang === 'fr' ? (r.quote_fr || r.quote_en) : r.quote_en)
+    : t.reviews.placeholderQuote;
+  const author = isVerified && r.name ? r.name : t.reviews.placeholderName;
 
-  return { quote, author, isVerified };
+  return { quote, author };
 });
 ---
 
-<section class="reviews-section" id="reviews">
-  <div class="container">
-    <div class="section-header text-center">
-      <span class="eyebrow">{t.reviews.eyebrow}</span>
-      <h2 class="section-h2">{t.reviews.h2}</h2>
-    </div>
+<section id="reviews" class="reviews-section" aria-label="Customer Reviews">
+  <div class="reviews-container">
+    <!-- Centred Section Header -->
+    <h2 class="reviews-heading">{t.reviews.heading}</h2>
+
+    <!-- Intro Text: 681px wide -->
+    <p class="reviews-intro">{t.reviews.intro}</p>
 
     <!-- Carousel Container -->
-    <div class="carousel-wrapper" id="reviews-carousel">
-      <div class="carousel-track-container">
-        <div class="carousel-track" id="carousel-track">
-          {displayReviews.map((item, index) => (
-            <div class="carousel-slide" data-index={index}>
-              <div class="review-card">
-                <div class="quote-mark" aria-hidden="true">“</div>
-                <blockquote class={`review-quote ${!item.isVerified ? 'placeholder-text' : ''}`}>
-                  {item.quote}
-                </blockquote>
-                <div class={`review-author ${!item.isVerified ? 'placeholder-author' : ''}`}>
-                  {item.author}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div class="reviews-carousel-wrapper" id="reviews-carousel">
+      <!-- Large Tan Quotation Mark behind text (100 x 100px, color --quote-mark) -->
+      <div class="quote-mark" aria-hidden="true">“</div>
+
+      <!-- Left chevron arrow: 50 x 50px -->
+      <button class="review-nav-btn prev-btn" id="review-prev-btn" aria-label={t.reviews.prevAria}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- Review Slides -->
+      <div class="review-slides">
+        {reviews.map((item, idx) => (
+          <div 
+            class={`review-slide ${idx === 0 ? 'is-active' : ''}`}
+            data-index={idx}
+          >
+            <!-- Review text 790px wide in Ubuntu uppercase -->
+            <blockquote class="review-quote-text">
+              {item.quote}
+            </blockquote>
+            <!-- Client name in script about 40px below the review -->
+            <cite class="review-client-name">
+              {item.author}
+            </cite>
+          </div>
+        ))}
       </div>
 
-      <!-- Controls: Arrows and Dots (No Autoplay) -->
-      <div class="carousel-controls">
-        <button
-          type="button"
-          class="carousel-btn prev-btn"
-          id="prev-btn"
-          aria-label={t.reviews.prev_slide}
-        >
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Review slides">
-          {displayReviews.map((_, i) => (
-            <button
-              type="button"
-              class={`carousel-dot ${i === 0 ? 'active' : ''}`}
-              role="tab"
-              aria-selected={i === 0 ? 'true' : 'false'}
-              aria-label={`Slide ${i + 1}`}
-              data-dot-index={i}
-            ></button>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          class="carousel-btn next-btn"
-          id="next-btn"
-          aria-label={t.reviews.next_slide}
-        >
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </div>
+      <!-- Right chevron arrow: 50 x 50px -->
+      <button class="review-nav-btn next-btn" id="review-next-btn" aria-label={t.reviews.nextAria}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
 
 <style>
+  /* REVIEWS: Background --panel, minimum height 480px. Everything is centred. */
   .reviews-section {
-    background-color: var(--color-white);
-    padding-top: 80px;
-    padding-bottom: 90px;
+    background-color: var(--panel);
+    min-height: 480px;
+    width: 100%;
+    padding: 66px 20px 60px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    position: relative;
     overflow: hidden;
   }
 
-  @media (min-width: 992px) {
-    .reviews-section {
-      padding-top: 100px;
-      padding-bottom: 110px;
-    }
+  .reviews-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
   }
 
-  .text-center {
+  /* Heading: Italiana, uppercase, centred */
+  .reviews-heading {
+    font-family: var(--font-heading);
+    font-size: 35px;
+    line-height: 42px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--heading);
+    font-weight: 400;
+    margin: 0 0 16px 0;
+  }
+
+  /* Intro text: 681px wide */
+  .reviews-intro {
+    max-width: 681px;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 25.2px;
+    color: var(--text);
+    margin: 0 auto 36px auto;
+  }
+
+  /* Carousel Wrapper */
+  .reviews-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1080px;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Large tan quotation mark: 100 x 100px behind text */
+  .quote-mark {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-heading);
+    font-size: 140px;
+    line-height: 1;
+    color: var(--quote-mark);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+  }
+
+  /* Chevron Buttons: 50 x 50px */
+  .review-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    padding: 0;
+  }
+
+  .review-nav-btn:hover {
+    opacity: 0.7;
+  }
+
+  .prev-btn {
+    left: 20px;
+  }
+
+  .next-btn {
+    right: 20px;
+  }
+
+  /* Review Slides: Crossfade 6s */
+  .review-slides {
+    position: relative;
+    width: 100%;
+    max-width: 790px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .review-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
 
-  .carousel-wrapper {
-    position: relative;
-    max-width: 1140px;
-    margin: 40px auto 0;
-  }
-
-  .carousel-track-container {
-    overflow: hidden;
-    padding: 10px 4px;
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    gap: 24px;
-    will-change: transform;
-  }
-
-  .carousel-slide {
-    flex: 0 0 100%;
-    min-width: 0;
-  }
-
-  @media (min-width: 768px) {
-    .carousel-slide {
-      flex: 0 0 calc((100% - 24px) / 2);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .carousel-slide {
-      flex: 0 0 calc((100% - 48px) / 3);
-    }
-  }
-
-  .review-card {
-    background-color: var(--color-warm-cream);
-    border-radius: var(--radius-md);
-    padding: 36px 28px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(74, 36, 18, 0.08);
-    box-shadow: var(--shadow-soft);
+  .review-slide.is-active {
+    opacity: 1;
+    visibility: visible;
     position: relative;
   }
 
-  .quote-mark {
-    font-family: var(--font-heading);
-    font-size: 60px;
-    line-height: 1;
-    color: var(--color-saffron-orange);
-    opacity: 0.6;
-    margin-bottom: 8px;
-  }
-
-  .review-quote {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-deep-brown);
-    font-style: italic;
-    margin-bottom: 24px;
-    flex-grow: 1;
-  }
-
-  .placeholder-text {
-    color: var(--color-grey);
-    font-style: italic;
-    opacity: 0.85;
-  }
-
-  .review-author {
+  /* Review text: 790px wide in Ubuntu uppercase */
+  .review-quote-text {
+    font-family: var(--font-ui);
+    font-weight: 500;
     font-size: 14px;
-    font-weight: 700;
-    color: var(--color-dark-orange);
-    letter-spacing: 0.02em;
-    padding-top: 14px;
-    border-top: 1px solid rgba(74, 36, 18, 0.08);
+    line-height: 25.2px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0;
+    font-style: normal;
   }
 
-  .placeholder-author {
-    color: var(--color-grey);
-    font-weight: 600;
-    opacity: 0.75;
-  }
-
-  /* Controls */
-  .carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
+  /* Client name in script about 40px below review */
+  .review-client-name {
+    font-family: var(--font-script);
+    font-size: 44px;
+    line-height: 1;
+    color: var(--accent);
     margin-top: 36px;
+    display: block;
+    font-style: normal;
   }
 
-  .carousel-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-full);
-    border: 1.5px solid var(--color-deep-brown);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-deep-brown);
-    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
-  }
-
-  .carousel-btn:hover {
-    background-color: var(--color-deep-brown);
-    color: var(--color-white);
-    transform: scale(1.05);
-  }
-
-  .carousel-dots {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .carousel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: var(--radius-full);
-    background-color: rgba(74, 36, 18, 0.2);
-    transition: background-color 0.25s ease, transform 0.25s ease, width 0.25s ease;
-  }
-
-  .carousel-dot.active {
-    background-color: var(--color-saffron-orange);
-    width: 24px;
+  /* Mobile Layout (< 768px):
+     - Heading, intro, large centred quotation mark, review text, script name,
+       with arrows at the left and right edges. */
+  @media (max-width: 767px) {
+    .reviews-section {
+      padding: 48px 16px 40px 16px;
+      min-height: auto;
+    }
+    .reviews-heading {
+      font-size: 26px;
+      line-height: 32px;
+      letter-spacing: 2px;
+    }
+    .reviews-intro {
+      font-size: 15px;
+      line-height: 24px;
+      margin-bottom: 24px;
+    }
+    .reviews-carousel-wrapper {
+      padding: 0 44px;
+      box-sizing: border-box;
+    }
+    .prev-btn {
+      left: -6px;
+    }
+    .next-btn {
+      right: -6px;
+    }
+    .review-quote-text {
+      font-size: 13px;
+      line-height: 22px;
+    }
+    .review-client-name {
+      font-size: 36px;
+      margin-top: 24px;
+    }
   }
 </style>
 
 <script>
-  // Accessible, touch-enabled Carousel with NO autoplay
-  const track = document.getElementById('carousel-track');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const slides = document.querySelectorAll('.carousel-slide');
+  function setupReviewsCarousel() {
+    const wrapper = document.getElementById('reviews-carousel');
+    if (!wrapper) return;
 
-  let currentIndex = 0;
+    const slides = wrapper.querySelectorAll<HTMLElement>('.review-slide');
+    const prevBtn = document.getElementById('review-prev-btn');
+    const nextBtn = document.getElementById('review-next-btn');
+    if (slides.length <= 1) return;
 
-  function getVisibleCount() {
-    if (window.innerWidth >= 1024) return 3;
-    if (window.innerWidth >= 768) return 2;
-    return 1;
-  }
+    let currentIndex = 0;
+    let timer: number | null = null;
+    const intervalDuration = 6000;
 
-  function getMaxIndex() {
-    return Math.max(0, slides.length - getVisibleCount());
-  }
-
-  function updateCarousel() {
-    const maxIdx = getMaxIndex();
-    if (currentIndex > maxIdx) currentIndex = maxIdx;
-    if (currentIndex < 0) currentIndex = 0;
-
-    const visibleCount = getVisibleCount();
-    const gap = 24;
-    // Calculate slide percentage
-    const slidePercent = 100 / visibleCount;
-    // Offset
-    const offset = currentIndex * (slidePercent);
-    // Use calc for gap
-    if (track) {
-      track.style.transform = `translateX(-${currentIndex * (100 / visibleCount + (gap / track.clientWidth) * 100)}%)`;
+    function goToSlide(index: number) {
+      slides[currentIndex].classList.remove('is-active');
+      currentIndex = (index + slides.length) % slides.length;
+      slides[currentIndex].classList.add('is-active');
     }
 
-    dots.forEach((dot, idx) => {
-      const isActive = idx === currentIndex;
-      dot.classList.toggle('active', isActive);
-      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-  }
+    function startTimer() {
+      if (timer) clearInterval(timer);
+      timer = window.setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, intervalDuration);
+    }
 
-  prevBtn?.addEventListener('click', () => {
-    currentIndex = Math.max(0, currentIndex - 1);
-    updateCarousel();
-  });
-
-  nextBtn?.addEventListener('click', () => {
-    currentIndex = Math.min(getMaxIndex(), currentIndex + 1);
-    updateCarousel();
-  });
-
-  dots.forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      currentIndex = Math.min(getMaxIndex(), idx);
-      updateCarousel();
-    });
-  });
-
-  // Touch swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  track?.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  track?.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) {
-        currentIndex = Math.min(getMaxIndex(), currentIndex + 1);
-      } else {
-        currentIndex = Math.max(0, currentIndex - 1);
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
       }
-      updateCarousel();
     }
-  }, { passive: true });
 
-  window.addEventListener('resize', updateCarousel, { passive: true });
+    prevBtn?.addEventListener('click', () => {
+      stopTimer();
+      goToSlide(currentIndex - 1);
+      startTimer();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      stopTimer();
+      goToSlide(currentIndex + 1);
+      startTimer();
+    });
+
+    // Pause on hover
+    wrapper.addEventListener('mouseenter', stopTimer);
+    wrapper.addEventListener('mouseleave', startTimer);
+
+    // Initial start
+    startTimer();
+  }
+
+  setupReviewsCarousel();
+  document.addEventListener('astro:page-load', setupReviewsCarousel);
 </script>

@@ -5,29 +5,33 @@ import { CONFIG } from '../config';
 
 <Layout lang="fr">
   <section class="legal-page-section">
-    <div class="container legal-container">
+    <div class="legal-container">
       <a href="/" class="back-link">← Retour à l'accueil</a>
       <h1 class="legal-title">Politique de Confidentialité</h1>
 
       <div class="legal-content">
-        <h2>1. Collecte des données personnelles</h2>
+        <h2>1. Collecte et traitement des données</h2>
         <p>
-          Dans le cadre de l'utilisation du formulaire de contact et de demande de devis traiteur, <strong>Best of India</strong> collecte les données suivantes : nom complet, numéro de téléphone, adresse e-mail, date de l'événement, type d'événement, nombre d'invités, lieu et préférences alimentaires.
+          Best of India s'engage à ce que la collecte et le traitement de vos données soient conformes au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.
+        </p>
+        <p>
+          Les données collectées via le formulaire de contact (nom, téléphone, e-mail, type d'événement, date, nombre d'invités, message) sont destinées exclusivement à l'établissement d'un devis personnalisé et à l'échange commercial relatif à votre demande traiteur.
         </p>
 
-        <h2>2. Finalité du traitement</h2>
+        <h2>2. Responsable du traitement</h2>
         <p>
-          Ces informations sont exclusivement recueillies afin d'étudier votre demande, de vous transmettre un devis personnalisé et d'organiser votre prestation traiteur. Vos coordonnées ne sont jamais vendues, cédées ou transmises à des tiers à des fins commerciales.
+          Le responsable du traitement des données est {CONFIG.LEGAL_DETAILS.entityName}, situé au {CONFIG.ADDRESS}.<br />
+          E-mail : {CONFIG.EMAIL} | Téléphone : {CONFIG.PHONE_DISPLAY}
         </p>
 
-        <h2>3. Durée de conservation</h2>
+        <h2>3. Services tiers et intégration de Google Maps</h2>
         <p>
-          Les données relatives aux demandes de devis sont conservées pendant la durée nécessaire au traitement de la relation commerciale et au suivi des événements.
+          Ce site intègre une carte interactive via le service <strong>Google Maps</strong> (fourni par Google LLC) afin de localiser notre restaurant à Paris. L'utilisation de cette carte peut entraîner le dépôt de cookies tiers par Google ainsi que la transmission de votre adresse IP à leurs serveurs pour permettre l'affichage du plan. Pour en savoir plus sur la gestion des données par Google, veuillez consulter les règles de confidentialité de Google.
         </p>
 
-        <h2>4. Vos droits (RGPD)</h2>
+        <h2>4. Vos droits</h2>
         <p>
-          Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de portabilité et de suppression de vos données personnelles. Pour exercer ce droit, contactez-nous à : <a href={`mailto:${CONFIG.EMAIL}`}>{CONFIG.EMAIL}</a>.
+          Conformément à la réglementation en vigueur, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données personnelles. Vous pouvez exercer ce droit à tout moment en nous écrivant à {CONFIG.EMAIL}.
         </p>
       </div>
     </div>
@@ -36,34 +40,48 @@ import { CONFIG } from '../config';
 
 <style>
   .legal-page-section {
-    padding: 80px 0 100px;
-    background-color: var(--color-white);
+    padding: 120px 24px 100px;
+    background-color: var(--white);
+    min-height: 80vh;
   }
   .legal-container {
-    max-width: 800px;
+    max-width: 840px;
+    margin: 0 auto;
   }
   .back-link {
     display: inline-block;
-    color: var(--color-dark-orange);
-    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 24px;
+    text-decoration: underline;
   }
   .legal-title {
     font-family: var(--font-heading);
-    font-size: 42px;
-    color: var(--color-deep-brown);
+    font-size: 35px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--heading);
     margin-bottom: 32px;
   }
   .legal-content h2 {
     font-family: var(--font-heading);
-    font-size: 24px;
-    color: var(--color-deep-brown);
-    margin: 28px 0 12px;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 32px;
+    margin-bottom: 12px;
   }
   .legal-content p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--color-grey);
-    margin-bottom: 16px;
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 26px;
+    color: var(--text);
+    margin-bottom: 14px;
   }
 </style>
