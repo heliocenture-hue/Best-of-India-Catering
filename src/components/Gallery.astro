@@ -8,16 +8,16 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-// 8 real BOI food photos
+// 8 real BOI food photos (studio-lit landscape 3:2 matching exact alts)
 const galleryImages = [
-  { src: '/assets/images/boi/hero-1.webp', alt: t.gallery.alts[0] },
-  { src: '/assets/images/boi/hero-2.webp', alt: t.gallery.alts[1] },
-  { src: '/assets/images/boi/hero-3.webp', alt: t.gallery.alts[2] },
-  { src: '/assets/images/boi/hero-4.webp', alt: t.gallery.alts[3] },
-  { src: '/assets/images/boi/about-1.webp', alt: t.gallery.alts[4] },
-  { src: '/assets/images/boi/about-2.webp', alt: t.gallery.alts[5] },
-  { src: '/assets/images/events/placeholder-wedding.webp', alt: t.gallery.alts[6] },
-  { src: '/assets/images/boi/strip-1.webp', alt: t.gallery.alts[7] },
+  { src: '/assets/gallery/gallery-1.webp', alt: t.gallery.alts[0] },
+  { src: '/assets/gallery/gallery-2.webp', alt: t.gallery.alts[1] },
+  { src: '/assets/gallery/gallery-3.webp', alt: t.gallery.alts[2] },
+  { src: '/assets/gallery/gallery-4.webp', alt: t.gallery.alts[3] },
+  { src: '/assets/gallery/gallery-5.webp', alt: t.gallery.alts[4] },
+  { src: '/assets/gallery/gallery-6.webp', alt: t.gallery.alts[5] },
+  { src: '/assets/gallery/gallery-7.webp', alt: t.gallery.alts[6] },
+  { src: '/assets/gallery/gallery-8.webp', alt: t.gallery.alts[7] },
 ];
 ---
 
@@ -30,9 +30,10 @@ const galleryImages = [
             src={img.src} 
             alt={img.alt} 
             class="gallery-img"
-            loading="lazy"
-            width="750"
-            height="500"
+            loading={idx === 0 ? "eager" : "lazy"}
+            decoding="async"
+            width="1200"
+            height="800"
           />
         </div>
       ))}
@@ -41,11 +42,12 @@ const galleryImages = [
         <div class="gallery-item gallery-clone" data-index={`clone-${idx}`} aria-hidden="true">
           <img 
             src={img.src} 
-            alt={img.alt} 
+            alt="" 
             class="gallery-img"
             loading="lazy"
-            width="750"
-            height="500"
+            decoding="async"
+            width="1200"
+            height="800"
           />
         </div>
       ))}
@@ -257,6 +259,11 @@ const galleryImages = [
 
     viewport.addEventListener('mouseenter', stopAutoPlay);
     viewport.addEventListener('mouseleave', startAutoPlay);
+
+    // Responsive position on resize
+    window.addEventListener('resize', () => {
+      updatePosition(false);
+    }, { passive: true });
 
     // Touch & Swipe handlers
     viewport.addEventListener('touchstart', (e) => {
