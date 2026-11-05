@@ -97,12 +97,20 @@ const jsonLd = {
       crossorigin
     />
 
-    <!-- Preload First Hero Image -->
+    <!-- Preload Hero Poster as main page image -->
     <link
       rel="preload"
-      href="/assets/images/boi/hero-1.webp"
+      href="/assets/video/hero-poster-desktop.jpg"
       as="image"
-      type="image/webp"
+      type="image/jpeg"
+      media="(min-width: 768px)"
+    />
+    <link
+      rel="preload"
+      href="/assets/video/hero-poster-mobile.jpg"
+      as="image"
+      type="image/jpeg"
+      media="(max-width: 767px)"
     />
 
     <!-- Open Graph / Social Media -->

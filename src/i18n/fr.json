@@ -126,43 +126,44 @@
     "eyebrow": "Notre menu",
     "heading": "Un aperçu de ce que nous servons",
     "line": "Un aperçu de nos plats. Votre menu final est adapté à votre événement.",
+    "note": "Images à titre d'illustration. La présentation peut varier.",
     "button": "Demander mon menu sur mesure",
     "cards": [
       {
         "title": "Entrées",
         "dishes": "Samoussas · Pakoras · Chicken 65 · Gobi Manchurian · Ailes de chou-fleur",
-        "image": "/assets/images/boi/menu-starters.webp",
-        "alt": "Entrées indiennes : samoussas, pakoras et Chicken 65"
+        "image": "/assets/menu/placeholder-menu-starters.webp",
+        "alt": "Entrées indiennes : samoussas dorés, Chicken 65 et chou-fleur épicé avec chutneys menthe et tamarin"
       },
       {
         "title": "Chettinad et viandes",
         "dishes": "Poulet Chettinad · Poulet au beurre · Tikka masala · Mutton Sukka · Curry d'agneau · Vindaloo",
-        "image": "/assets/images/boi/menu-meat.webp",
-        "alt": "Chettinad et viandes : poulet au beurre, curry d'agneau et mutton sukka"
+        "image": "/assets/menu/placeholder-menu-chettinad.webp",
+        "alt": "Curry de poulet Chettinad dans un kadai en laiton avec mutton sukka, poivre noir et anis étoilé"
       },
       {
         "title": "Fruits de mer",
         "dishes": "Curry de poisson côtier · Curry de fruits de mer de saison",
-        "image": "/assets/images/boi/menu-seafood.webp",
-        "alt": "Fruits de mer et curry de poisson côtier"
+        "image": "/assets/menu/placeholder-menu-seafood.webp",
+        "alt": "Curry de poisson côtier du Sud de l'Inde dans un pot en terre cuite avec noix de coco fraîche et citron"
       },
       {
         "title": "Végétarien et végan",
         "dishes": "Thali d'Inde du Sud · Dosa spécial du chef · Dosa masala à l'oignon · Dosa paneer butter masala · Malai Kofta · Dhal",
-        "image": "/assets/images/boi/menu-veg.webp",
-        "alt": "Thali végétarien d'Inde du Sud et dosas croustillants"
+        "image": "/assets/menu/placeholder-menu-vegetarian.webp",
+        "alt": "Thali végétarien royal avec masala dosa croustillant, sambar, dhal, currys de légumes et riz basmati"
       },
       {
         "title": "Biryanis, riz et pains",
         "dishes": "Biryani d'agneau · Biryani de légumes · Riz sauté · Pains indiens maison · Raïta",
-        "image": "/assets/images/boi/hero-2.webp",
-        "alt": "Biryanis parfumés, riz sauté et pains indiens maison"
+        "image": "/assets/menu/placeholder-menu-biryani.webp",
+        "alt": "Biryani de mouton au safran dans un handi en laiton servi avec naans et raita"
       },
       {
         "title": "Desserts et boissons",
         "dishes": "Gulab Jamun · Kulfi à la pistache · Boissons indiennes traditionnelles",
-        "image": "/assets/images/boi/menu-desserts.webp",
-        "alt": "Desserts traditionnels indiens : Gulab Jamun et Kulfi à la pistache"
+        "image": "/assets/menu/placeholder-menu-desserts.webp",
+        "alt": "Desserts indiens : gulab jamun dorés en coupelle de laiton, kulfi à la pistache et café filtre indien"
       }
     ]
   },
@@ -203,6 +204,21 @@
     "phoneLabel": "Téléphone",
     "emailLabel": "E-mail",
     "addressLabel": "Adresse",
+    "whatsappLabel": "WhatsApp",
+    "chatOnWhatsapp": "Discuter sur WhatsApp",
+    "cardHeaderTitle": "Demandez votre devis gratuit",
+    "cardHeaderSubtitle": "Remplissez le formulaire : nous vous répondrons sous 24 heures.",
+    "requiredLabel": "* Obligatoire",
+    "group1Title": "1. Vos coordonnées",
+    "group2Title": "2. Votre événement",
+    "group3Title": "3. Autres précisions",
+    "selectEventPlaceholder": "Choisir un événement",
+    "selectGuestsPlaceholder": "Choisir une fourchette",
+    "phoneHint": "+33 6 12 34 56 78",
+    "emailHint": "nom@exemple.fr",
+    "messagePlaceholder": "Parlez-nous de votre événement et de toute allergie.",
+    "submitButton": "Recevoir mon devis gratuit",
+    "noCommitment": "Sans engagement. Vos coordonnées servent uniquement à répondre à votre demande.",
     "fields": {
       "name": "Nom*",
       "phone": "Téléphone*",

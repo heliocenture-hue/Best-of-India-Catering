@@ -1,6 +1,11 @@
 ---
 import { getTranslations, type Language } from '../i18n/utils';
 import { CONFIG } from '../config';
+import Phone from 'lucide-astro/Phone';
+import Mail from 'lucide-astro/Mail';
+import MessageCircle from 'lucide-astro/MessageCircle';
+import MapPin from 'lucide-astro/MapPin';
+import Clock from 'lucide-astro/Clock';
 
 interface Props {
   lang: Language;
@@ -14,193 +19,267 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 
 <section id="contact" class="contact-section" aria-label="Contact Best of India">
   <div class="contact-container">
-    <!-- Left Column: Heading left-aligned, body text, contact details text links -->
-    <div class="contact-info-col">
-      <h2 class="contact-heading">{t.contact.heading}</h2>
-      <p class="contact-subtext">{t.contact.text}</p>
+    <!-- Header Block: Heading & paragraph -->
+    <div class="contact-header-block">
+      <h2 class="contact-title">{t.contact.heading}</h2>
+      <p class="contact-desc">{t.contact.text}</p>
+    </div>
 
-      <div class="contact-details-list">
-        <div class="contact-detail-row">
-          <span class="detail-label">{t.contact.phoneLabel}:</span>
-          <a href={`tel:${CONFIG.PHONE_LINK}`} class="detail-link">{CONFIG.PHONE_DISPLAY}</a>
+    <!-- Contact details as a stacked list with 20px saffron #F2A65A icon, uppercase label #E8D9C5, white value, 1px divider -->
+    <div class="contact-details-stacked">
+      <!-- Phone -->
+      <div class="contact-row">
+        <div class="contact-row-icon">
+          <Phone size={20} class="saffron-icon" />
         </div>
-
-        <div class="contact-detail-row">
-          <span class="detail-label">{t.contact.emailLabel}:</span>
-          <a href={`mailto:${CONFIG.EMAIL}`} class="detail-link">{CONFIG.EMAIL}</a>
+        <div class="contact-row-content">
+          <span class="row-label">{t.contact.phoneLabel}</span>
+          <a href={`tel:${CONFIG.PHONE_LINK}`} class="row-value row-link">{CONFIG.PHONE_DISPLAY}</a>
         </div>
+      </div>
 
-        <div class="contact-detail-row">
-          <span class="detail-label">WhatsApp:</span>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="detail-link">{CONFIG.PHONE_DISPLAY}</a>
+      <!-- Email -->
+      <div class="contact-row">
+        <div class="contact-row-icon">
+          <Mail size={20} class="saffron-icon" />
         </div>
-
-        <div class="contact-detail-row">
-          <span class="detail-label">{t.contact.addressLabel}:</span>
-          <span class="detail-text">{CONFIG.ADDRESS}</span>
+        <div class="contact-row-content">
+          <span class="row-label">{t.contact.emailLabel}</span>
+          <a href={`mailto:${CONFIG.EMAIL}`} class="row-value row-link">{CONFIG.EMAIL}</a>
         </div>
+      </div>
 
-        <div class="contact-detail-row">
-          <span class="detail-label">{t.contact.hoursLabel}:</span>
-          <span class="detail-text">{lang === 'fr' ? CONFIG.HOURS_FR : CONFIG.HOURS_EN}</span>
+      <!-- WhatsApp: "Chat on WhatsApp" / "Discuter sur WhatsApp" linked to wa.me (No phone number) -->
+      <div class="contact-row">
+        <div class="contact-row-icon">
+          <MessageCircle size={20} class="saffron-icon" />
+        </div>
+        <div class="contact-row-content">
+          <span class="row-label">{t.contact.whatsappLabel || 'WhatsApp'}</span>
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="row-value row-link whatsapp-text-link">
+            {t.contact.chatOnWhatsapp}
+          </a>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="contact-row">
+        <div class="contact-row-icon">
+          <MapPin size={20} class="saffron-icon" />
+        </div>
+        <div class="contact-row-content">
+          <span class="row-label">{t.contact.addressLabel}</span>
+          <span class="row-value">{CONFIG.ADDRESS}</span>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div class="contact-row">
+        <div class="contact-row-icon">
+          <Clock size={20} class="saffron-icon" />
+        </div>
+        <div class="contact-row-content">
+          <span class="row-label">{t.contact.hoursLabel}</span>
+          <span class="row-value">{lang === 'fr' ? CONFIG.HOURS_FR : CONFIG.HOURS_EN}</span>
         </div>
       </div>
     </div>
 
-    <!-- Right Column: Form fields with transparent backgrounds, no boxes, 1px rust bottom border -->
-    <div class="contact-form-col">
-      <form 
-        id="catering-contact-form" 
-        class="catering-form" 
-        action={CONFIG.FORM_ENDPOINT} 
-        method="POST" 
-        novalidate
-      >
-        <!-- Hidden Tracking Fields -->
-        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-        <input type="hidden" name="language" value={lang} />
-        <input type="hidden" name="chosen_tile" id="hidden-chosen-tile" value="" />
-        <input type="hidden" name="utm_source" id="utm_source" value="" />
-        <input type="hidden" name="utm_medium" id="utm_medium" value="" />
-        <input type="hidden" name="utm_campaign" id="utm_campaign" value="" />
-        <input type="hidden" name="gclid" id="gclid" value="" />
-
-        <!-- Honeypot anti-spam field -->
-        <div class="hp-field" style="display:none !important;" aria-hidden="true">
-          <label for="company_extra">Do not fill this</label>
-          <input type="text" name="company_extra" id="company_extra" tabindex="-1" autocomplete="off" />
+    <!-- Form Card Column -->
+    <div class="contact-right-col">
+      <div class="quote-card">
+        <!-- Rust #984421 header band -->
+        <div class="card-header-band">
+          <h3 class="band-title">{t.contact.cardHeaderTitle}</h3>
+          <p class="band-subtitle">{t.contact.cardHeaderSubtitle}</p>
         </div>
 
-        <!-- Name Field -->
-        <div class="form-group">
-          <label for="field-name" class="sr-only">{t.contact.fields.name}</label>
-          <input 
-            type="text" 
-            id="field-name" 
-            name="name" 
-            class="form-input" 
-            placeholder={t.contact.fields.name} 
-            required 
-          />
-          <span class="error-msg" id="err-name">{t.contact.validation.nameRequired}</span>
+        <!-- Success Container (replaces card body on success) -->
+        <div id="form-success-card" class="card-body success-body" style="display: none;">
+          <div class="success-message-wrap">
+            <div class="success-checkmark">✓</div>
+            <h4 class="success-title">{lang === 'fr' ? 'Demande envoyée avec succès !' : 'Quote Request Sent!'}</h4>
+            <p class="success-desc">{t.contact.success}</p>
+          </div>
         </div>
 
-        <!-- Phone Field -->
-        <div class="form-group">
-          <label for="field-phone" class="sr-only">{t.contact.fields.phone}</label>
-          <input 
-            type="tel" 
-            id="field-phone" 
-            name="phone" 
-            class="form-input" 
-            placeholder={t.contact.fields.phone} 
-            required 
-          />
-          <span class="error-msg" id="err-phone">{t.contact.validation.phoneRequired}</span>
-        </div>
+        <!-- Form Card Body -->
+        <div id="form-body-wrapper" class="card-body">
+          <div class="required-note">{t.contact.requiredLabel}</div>
 
-        <!-- Email Field -->
-        <div class="form-group">
-          <label for="field-email" class="sr-only">{t.contact.fields.email}</label>
-          <input 
-            type="email" 
-            id="field-email" 
-            name="email" 
-            class="form-input" 
-            placeholder={t.contact.fields.email} 
-            required 
-          />
-          <span class="error-msg" id="err-email">{t.contact.validation.emailRequired}</span>
-        </div>
+          <form 
+            id="catering-contact-form" 
+            class="catering-form" 
+            action={CONFIG.FORM_ENDPOINT} 
+            method="POST" 
+            novalidate
+          >
+            <!-- Hidden Tracking & Anti-Spam Fields -->
+            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+            <input type="hidden" name="language" value={lang} />
+            <input type="hidden" name="chosen_tile" id="hidden-chosen-tile" value="" />
+            <input type="hidden" name="utm_source" id="utm_source" value="" />
+            <input type="hidden" name="utm_medium" id="utm_medium" value="" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" value="" />
+            <input type="hidden" name="gclid" id="gclid" value="" />
 
-        <!-- Event Type Field -->
-        <div class="form-group">
-          <label for="event-type-select" class="sr-only">{t.contact.fields.eventType}</label>
-          <select id="event-type-select" name="event_type" class="form-input form-select" required>
-            <option value="" disabled selected>{t.contact.fields.eventType}</option>
-            {t.occasions.items.map((occ) => (
-              <option value={occ.id}>{occ.title}</option>
-            ))}
-            <option value="other">{t.contact.otherEvent}</option>
-          </select>
-          <span class="error-msg" id="err-event-type">{t.contact.validation.eventTypeRequired}</span>
-        </div>
+            <!-- Honeypot -->
+            <div class="hp-field" style="display:none !important;" aria-hidden="true">
+              <label for="company_extra">Do not fill this</label>
+              <input type="text" name="company_extra" id="company_extra" tabindex="-1" autocomplete="off" />
+            </div>
 
-        <!-- Event Date Field -->
-        <div class="form-group">
-          <label for="field-date" class="sr-only">{t.contact.fields.eventDate}</label>
-          <input 
-            type="date" 
-            id="field-date" 
-            name="event_date" 
-            class="form-input form-date" 
-            placeholder={t.contact.fields.eventDate} 
-          />
-        </div>
+            <!-- Group 1: Your Details -->
+            <fieldset class="form-group-section">
+              <legend class="group-title">{t.contact.group1Title}</legend>
+              <hr class="group-divider" />
 
-        <!-- Number of Guests Field -->
-        <div class="form-group">
-          <label for="field-guests" class="sr-only">{t.contact.fields.guests}</label>
-          <select id="field-guests" name="guests_count" class="form-input form-select" required>
-            <option value="" disabled selected>{t.contact.fields.guests}</option>
-            {t.contact.guestOptions.map((opt) => (
-              <option value={opt}>{opt}</option>
-            ))}
-          </select>
-          <span class="error-msg" id="err-guests">{t.contact.validation.guestsRequired}</span>
-        </div>
+              <!-- Row 1: Name (full width) -->
+              <div class="field-item full-width">
+                <label for="field-name" class="field-label">{t.contact.fields.name}</label>
+                <input 
+                  type="text" 
+                  id="field-name" 
+                  name="name" 
+                  class="field-input" 
+                  placeholder={lang === 'fr' ? 'Jean Dupont' : 'John Doe'} 
+                  required 
+                />
+                <span class="field-error" id="err-name">{t.contact.validation.nameRequired}</span>
+              </div>
 
-        <!-- Message Field (73px high) -->
-        <div class="form-group message-group">
-          <label for="field-message" class="sr-only">{t.contact.fields.message}</label>
-          <textarea 
-            id="field-message" 
-            name="message" 
-            class="form-input form-textarea" 
-            placeholder={t.contact.fields.message} 
-            rows="3"
-          ></textarea>
-        </div>
+              <!-- Row 2: Phone & Email (2 columns) -->
+              <div class="fields-two-col">
+                <div class="field-item">
+                  <label for="field-phone" class="field-label">{t.contact.fields.phone}</label>
+                  <input 
+                    type="tel" 
+                    id="field-phone" 
+                    name="phone" 
+                    class="field-input" 
+                    placeholder={t.contact.phoneHint} 
+                    required 
+                  />
+                  <span class="field-error" id="err-phone">{t.contact.validation.phoneRequired}</span>
+                </div>
 
-        <!-- Consent Box (not pre-ticked) -->
-        <div class="consent-group">
-          <input type="checkbox" id="field-consent" name="consent" class="consent-checkbox" required />
-          <label for="field-consent" class="consent-label">
-            {lang === 'fr' ? (
-              <>J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la <a href={privacyLink} class="consent-link">politique de confidentialité</a>.</>
-            ) : (
-              <>I agree that Best of India may use my details to respond to my request. See the <a href={privacyLink} class="consent-link">privacy policy</a>.</>
-            )}
-          </label>
-          <span class="error-msg" id="err-consent">{t.contact.validation.consentRequired}</span>
-        </div>
+                <div class="field-item">
+                  <label for="field-email" class="field-label">{t.contact.fields.email}</label>
+                  <input 
+                    type="email" 
+                    id="field-email" 
+                    name="email" 
+                    class="field-input" 
+                    placeholder={t.contact.emailHint} 
+                    required 
+                  />
+                  <span class="field-error" id="err-email">{t.contact.validation.emailRequired}</span>
+                </div>
+              </div>
+            </fieldset>
 
-        <!-- Form Status Message Banners -->
-        <div id="form-success" class="form-status success-status" role="alert" style="display: none;">
-          {t.contact.success}
-        </div>
-        <div id="form-error" class="form-status error-status" role="alert" style="display: none;">
-          {t.contact.error}
-        </div>
+            <!-- Group 2: Your Event -->
+            <fieldset class="form-group-section">
+              <legend class="group-title">{t.contact.group2Title}</legend>
+              <hr class="group-divider" />
 
-        <!-- Submit Button: 314 x 42px outline submit button, centred -->
-        <div class="submit-wrapper">
-          <button type="submit" id="submit-btn" class="btn-outline submit-btn">
-            {t.contact.button}
-          </button>
+              <!-- Row 1: Event Type (full width dropdown) -->
+              <div class="field-item full-width">
+                <label for="event-type-select" class="field-label">{t.contact.fields.eventType}</label>
+                <div class="select-wrapper">
+                  <select id="event-type-select" name="event_type" class="field-input field-select" required>
+                    <option value="" disabled selected>{t.contact.selectEventPlaceholder}</option>
+                    {t.occasions.items.map((occ) => (
+                      <option value={occ.id}>{occ.title}</option>
+                    ))}
+                    <option value="other">{t.contact.otherEvent}</option>
+                  </select>
+                </div>
+                <span class="field-error" id="err-event-type">{t.contact.validation.eventTypeRequired}</span>
+              </div>
+
+              <!-- Row 2: Event Date & Number of Guests (2 columns) -->
+              <div class="fields-two-col">
+                <div class="field-item">
+                  <label for="field-date" class="field-label">{t.contact.fields.eventDate}</label>
+                  <input 
+                    type="date" 
+                    id="field-date" 
+                    name="event_date" 
+                    class="field-input field-date" 
+                  />
+                </div>
+
+                <div class="field-item">
+                  <label for="field-guests" class="field-label">{t.contact.fields.guests}</label>
+                  <div class="select-wrapper">
+                    <select id="field-guests" name="guests_count" class="field-input field-select" required>
+                      <option value="" disabled selected>{t.contact.selectGuestsPlaceholder}</option>
+                      {t.contact.guestOptions.map((opt) => (
+                        <option value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <span class="field-error" id="err-guests">{t.contact.validation.guestsRequired}</span>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Group 3: Anything Else? -->
+            <fieldset class="form-group-section">
+              <legend class="group-title">{t.contact.group3Title}</legend>
+              <hr class="group-divider" />
+
+              <div class="field-item full-width">
+                <label for="field-message" class="field-label">{t.contact.fields.message}</label>
+                <textarea 
+                  id="field-message" 
+                  name="message" 
+                  class="field-input field-textarea" 
+                  placeholder={t.contact.messagePlaceholder} 
+                  rows="4"
+                ></textarea>
+              </div>
+            </fieldset>
+
+            <!-- Below Groups: Consent Checkbox -->
+            <div class="consent-block">
+              <input type="checkbox" id="field-consent" name="consent" class="consent-box" required />
+              <label for="field-consent" class="consent-text">
+                {lang === 'fr' ? (
+                  <>J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la <a href={privacyLink} class="consent-anchor">politique de confidentialité</a>.</>
+                ) : (
+                  <>I agree that Best of India may use my details to respond to my request. See the <a href={privacyLink} class="consent-anchor">privacy policy</a>.</>
+                )}
+              </label>
+            </div>
+            <span class="field-error consent-error" id="err-consent">{t.contact.validation.consentRequired}</span>
+
+            <!-- Error Banner -->
+            <div id="form-error" class="form-error-banner" role="alert" style="display: none;">
+              {t.contact.error}
+            </div>
+
+            <!-- Submit Button: Solid rust, full width, 58px high, white Ubuntu 500 15px uppercase, darkening to #7A3518 on hover -->
+            <div class="submit-block">
+              <button type="submit" id="submit-btn" class="submit-btn">
+                {t.contact.submitButton}
+              </button>
+              <p class="no-commitment-note">{t.contact.noCommitment}</p>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* CONTACT: Background --panel, minimum height 409px, 77px space above and below. Two columns. */
+  /* SECTION: Background deep brown #2B1409. Padding 96px top/bottom desktop, 56px mobile. Container max-width 1200px. Left 40%, right 60%, 64px gap. */
   .contact-section {
-    background-color: var(--panel);
-    min-height: 409px;
+    background-color: #2B1409;
     width: 100%;
-    padding: 77px 45px;
+    padding: 96px 0;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -209,261 +288,496 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   .contact-container {
     max-width: 1200px;
     width: 100%;
+    padding: 0 32px;
     display: grid;
-    grid-template-columns: 463px 353px;
-    justify-content: space-between;
+    grid-template-columns: 38% calc(62% - 64px);
+    grid-template-areas:
+      "header form"
+      "details form";
+    gap: 24px 64px;
     align-items: flex-start;
+    box-sizing: border-box;
   }
 
-  /* Left Column: Heading left-aligned, body text 371px wide, 34px below */
-  .contact-info-col {
+  .contact-header-block {
+    grid-area: header;
     display: flex;
     flex-direction: column;
-    max-width: 463px;
   }
 
-  .contact-heading {
+  .contact-title {
     font-family: var(--font-heading);
-    font-size: 35px;
-    line-height: 42px;
-    letter-spacing: 3.5px;
-    text-transform: uppercase;
-    color: var(--heading);
+    font-size: 38px;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    color: #FFFFFF;
     font-weight: 400;
+    text-transform: uppercase;
     margin: 0;
     text-align: left;
   }
 
-  .contact-subtext {
+  .contact-desc {
     font-family: var(--font-body);
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 25.2px;
-    color: var(--text);
-    max-width: 371px;
-    margin-top: 34px;
-    margin-bottom: 30px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #F7EFE3;
+    margin: 20px 0 12px 0;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
   }
 
-  .contact-details-list {
+  .contact-details-stacked {
+    grid-area: details;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  .contact-detail-row {
-    font-family: var(--font-ui);
-    font-size: 13px;
-    line-height: 20px;
-    color: var(--text);
-  }
-
-  .detail-label {
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-right: 6px;
-    color: var(--heading);
-  }
-
-  .detail-link {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: opacity 0.2s ease;
-  }
-
-  .detail-link:hover {
-    opacity: 0.8;
-  }
-
-  .detail-text {
-    color: var(--text);
-  }
-
-  /* Right Column: 353px wide. Form fields with transparent background,
-     no boxes and only a 1px rust bottom border.
-     Placeholder text in rust Ubuntu uppercase, centred.
-     Fields are 23px high with 40px between rules. Message field is 73px high. */
-  .contact-form-col {
-    width: 353px;
-    max-width: 100%;
-  }
-
-  .catering-form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-group {
-    position: relative;
-    margin-bottom: 40px; /* 40px between rules */
-  }
-
-  .form-input {
+  .contact-right-col {
+    grid-area: form;
     width: 100%;
-    height: 23px; /* 23px high */
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--accent);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .contact-row-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .saffron-icon {
+    color: #F2A65A;
+  }
+
+  .contact-row-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .row-label {
+    font-family: var(--font-label);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #E8D9C5;
+  }
+
+  .row-value {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #FFFFFF;
+    text-decoration: none;
+    overflow-wrap: break-word;
+  }
+
+  .row-link:hover {
+    text-decoration: underline;
+  }
+
+  .whatsapp-text-link {
+    font-weight: 500;
+    color: #F2A65A;
+  }
+
+  /* RIGHT COLUMN: FORM CARD */
+  .contact-right-col {
+    width: 100%;
+  }
+
+  .quote-card {
+    background-color: #FFFFFF;
     border-radius: 0;
-    color: var(--accent);
-    font-family: var(--font-ui);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+  }
+
+  /* Rust #984421 header band */
+  .card-header-band {
+    background-color: #984421;
+    padding: 24px 40px;
+    color: #FFFFFF;
+  }
+
+  .band-title {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    font-weight: 400;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .band-subtitle {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #FFFFFF;
+    margin: 6px 0 0 0;
+    opacity: 0.95;
+  }
+
+  /* Card body padding 32px 40px 40px */
+  .card-body {
+    padding: 32px 40px 40px;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .required-note {
+    font-family: var(--font-label);
+    font-size: 12px;
+    color: #6D6E71;
+    text-align: right;
+    margin-bottom: 8px;
+  }
+
+  /* Fieldset group styling */
+  .form-group-section {
+    border: none;
+    padding: 0;
+    margin: 0 0 28px 0;
+  }
+
+  .group-title {
+    font-family: var(--font-label);
     font-weight: 500;
     font-size: 13px;
     letter-spacing: 1.2px;
     text-transform: uppercase;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 0 4px;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  .form-input::placeholder {
-    color: var(--accent);
-    opacity: 0.85;
-    text-transform: uppercase;
-    text-align: center;
-    font-family: var(--font-ui);
-    letter-spacing: 1.2px;
-    font-size: 13px;
-  }
-
-  .form-input:focus {
-    border-bottom: 2px solid var(--accent);
-  }
-
-  .form-select {
-    cursor: pointer;
-    text-align-last: center;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  .form-select option {
-    background-color: var(--panel);
-    color: var(--heading);
-    text-transform: none;
-    font-family: var(--font-body);
-  }
-
-  .form-textarea {
-    height: 73px; /* 73px high */
-    resize: vertical;
-    text-align: center;
-    padding: 4px;
-  }
-
-  .message-group {
-    margin-bottom: 28px;
-  }
-
-  /* Consent group */
-  .consent-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 32px;
-    position: relative;
-  }
-
-  .consent-checkbox {
-    margin-top: 3px;
-    accent-color: var(--accent);
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .consent-label {
-    font-family: var(--font-body);
-    font-size: 12px;
-    line-height: 18px;
-    color: var(--text);
-    cursor: pointer;
-  }
-
-  .consent-link {
-    color: var(--accent);
-    text-decoration: underline;
-  }
-
-  .error-msg {
-    display: none;
-    font-family: var(--font-ui);
-    font-size: 11px;
-    color: #C00;
-    margin-top: 4px;
-    text-align: center;
-  }
-
-  .form-status {
-    padding: 12px;
-    margin-bottom: 20px;
-    font-family: var(--font-ui);
-    font-size: 13px;
-    line-height: 18px;
-    text-align: center;
-  }
-
-  .success-status {
-    background-color: #E2F0D9;
-    color: #2E5A1C;
-    border: 1px solid #C1E1B0;
-  }
-
-  .error-status {
-    background-color: #FCE8E6;
-    color: #A51D1D;
-    border: 1px solid #F5C6CB;
-  }
-
-  /* Centred Submit Button */
-  .submit-wrapper {
-    display: flex;
-    justify-content: center;
+    color: #984421;
+    padding: 0;
+    margin-bottom: 6px;
+    float: left;
     width: 100%;
   }
 
-  .submit-btn {
-    width: 314px;
+  .group-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #E4DACB;
+    border: none;
+    margin: 6px 0 20px 0;
+    clear: both;
   }
 
-  /* Mobile Layout (< 768px):
-     Heading centred, text, details, then the form with centred placeholders and a full-width outline button. */
+  .fields-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .field-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .field-item.full-width {
+    width: 100%;
+  }
+
+  /* Label: Ubuntu 500, 13px, #2B1409, not uppercase */
+  .field-label {
+    font-family: var(--font-label);
+    font-weight: 500;
+    font-size: 13px;
+    color: #2B1409;
+    margin-bottom: 6px;
+    text-transform: none;
+  }
+
+  /* Input: 50px high, #FBF8F3 bg, 1px solid #BFAF9C border, square corners, left-aligned Montserrat 400, 16px, #19191A text */
+  .field-input {
+    width: 100%;
+    height: 50px;
+    background-color: #FBF8F3;
+    border: 1px solid #BFAF9C;
+    border-radius: 0;
+    padding: 0 16px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    color: #19191A;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, outline 0.2s ease, background-color 0.2s ease;
+  }
+
+  .field-input::placeholder {
+    color: #6D6E71;
+    opacity: 0.85;
+  }
+
+  /* Focus: 2px solid #984421 outline and white bg */
+  .field-input:focus {
+    background-color: #FFFFFF;
+    border-color: #984421;
+    outline: 2px solid #984421;
+    outline-offset: -2px;
+  }
+
+  /* Error state */
+  .field-input.has-error {
+    border: 1px solid #B3261E !important;
+  }
+
+  .field-error {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #B3261E;
+    margin-top: 4px;
+    display: none;
+  }
+
+  /* Select styling with custom rust chevron */
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .field-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    padding-right: 40px;
+  }
+
+  .select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 6px;
+    background-color: #984421;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    pointer-events: none;
+  }
+
+  /* Date field */
+  .field-date {
+    cursor: pointer;
+  }
+
+  /* Textarea */
+  .field-textarea {
+    height: auto;
+    min-height: 108px;
+    padding: 14px 16px;
+    resize: vertical;
+  }
+
+  /* Consent Block */
+  .consent-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 12px 0 6px 0;
+  }
+
+  .consent-box {
+    width: 20px;
+    height: 20px;
+    accent-color: #984421;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .consent-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5A5A5A;
+  }
+
+  .consent-anchor {
+    color: #984421;
+    text-decoration: underline;
+  }
+
+  .consent-error {
+    margin-bottom: 12px;
+  }
+
+  .form-error-banner {
+    background-color: #FDF2F2;
+    border: 1px solid #B3261E;
+    color: #B3261E;
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    margin: 16px 0;
+  }
+
+  /* Submit Button: Solid rust, full width, 58px high, white Ubuntu 500, 15px, uppercase, hover #7A3518 */
+  .submit-block {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .submit-btn {
+    width: 100%;
+    height: 58px;
+    background-color: #984421;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0;
+    font-family: var(--font-label);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .submit-btn:hover {
+    background-color: #7A3518;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .no-commitment-note {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #5A5A5A;
+    margin-top: 12px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  /* Success Message Styling */
+  .success-body {
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .success-message-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .success-checkmark {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #F6ECE0;
+    color: #984421;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .success-title {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    color: #2B1409;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .success-desc {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: #3D3D3D;
+    max-width: 440px;
+    margin: 0;
+  }
+
+  /* MOBILE (below 768px):
+     Order: heading and paragraph, form card, then contact details list.
+     Card spans width minus 16px margins. Header band padding 20px 24px. Card body padding 24px 20px.
+     All two-column rows become one column. */
   @media (max-width: 767px) {
     .contact-section {
-      padding: 54px 20px;
+      padding: 56px 0;
     }
+
     .contact-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+      gap: 32px;
+    }
+
+    .contact-header-block {
+      order: 1; /* Heading & paragraph */
+      width: 100%;
+    }
+
+    .contact-title {
+      font-size: 28px;
+    }
+
+    .contact-desc {
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+
+    .contact-right-col {
+      order: 2; /* Form card comes second */
+      width: 100%;
+    }
+
+    .contact-details-stacked {
+      order: 3; /* Contact details list comes last */
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .card-header-band {
+      padding: 20px 24px;
+    }
+
+    .band-title {
+      font-size: 22px;
+    }
+
+    .card-body {
+      padding: 24px 20px;
+    }
+
+    .fields-two-col {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 0;
     }
-    .contact-info-col {
-      max-width: 100%;
-      text-align: center;
-      align-items: center;
-    }
-    .contact-heading {
-      text-align: center;
-      font-size: 26px;
-      line-height: 32px;
-      letter-spacing: 2px;
-    }
-    .contact-subtext {
-      max-width: 100%;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .contact-details-list {
-      align-items: center;
-      text-align: center;
-    }
-    .contact-form-col {
-      width: 100%;
-    }
-    .submit-btn {
-      width: 100%;
+
+    /* Inputs stay 16px to prevent iPhone zoom */
+    .field-input {
+      font-size: 16px;
     }
   }
 </style>
@@ -472,6 +786,13 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   function setupContactForm() {
     const form = document.getElementById('catering-contact-form') as HTMLFormElement | null;
     if (!form) return;
+
+    // Set minimum date to today (past dates disabled)
+    const dateInput = document.getElementById('field-date') as HTMLInputElement | null;
+    if (dateInput) {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+    }
 
     // Grab URL query params for UTM and GCLID tracking
     const urlParams = new URLSearchParams(window.location.search);
@@ -485,23 +806,43 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     (document.getElementById('utm_campaign') as HTMLInputElement).value = utmCampaign;
     (document.getElementById('gclid') as HTMLInputElement).value = gclid;
 
-    const successEl = document.getElementById('form-success');
+    const formBodyWrapper = document.getElementById('form-body-wrapper');
+    const successCard = document.getElementById('form-success-card');
     const errorEl = document.getElementById('form-error');
+
+    // Hide fixed mobile bottom bar while any form input/textarea has focus
+    const mobileBottomBar = document.querySelector('.mobile-bottom-bar') as HTMLElement | null;
+    const inputsAndSelects = form.querySelectorAll<HTMLElement>('input, select, textarea');
+    inputsAndSelects.forEach((el) => {
+      el.addEventListener('focus', () => {
+        if (mobileBottomBar) {
+          mobileBottomBar.style.display = 'none';
+        }
+      });
+      el.addEventListener('blur', () => {
+        if (mobileBottomBar) {
+          mobileBottomBar.style.display = '';
+        }
+      });
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Clear previous error messages
-      const errorSpans = form.querySelectorAll<HTMLElement>('.error-msg');
-      errorSpans.forEach(el => el.style.display = 'none');
-      if (successEl) successEl.style.display = 'none';
+      // Clear previous error messages & highlights
+      const errorSpans = form.querySelectorAll<HTMLElement>('.field-error');
+      errorSpans.forEach((el) => (el.style.display = 'none'));
+      const inputs = form.querySelectorAll<HTMLElement>('.field-input');
+      inputs.forEach((el) => el.classList.remove('has-error'));
       if (errorEl) errorEl.style.display = 'none';
 
       // Honeypot check
       const honeypot = (form.querySelector('input[name="company_extra"]') as HTMLInputElement)?.value;
       if (honeypot) {
-        // Silently drop spam bot
-        if (successEl) successEl.style.display = 'block';
+        if (formBodyWrapper && successCard) {
+          formBodyWrapper.style.display = 'none';
+          successCard.style.display = 'block';
+        }
         return;
       }
 
@@ -517,12 +858,14 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
       if (!nameInput.value.trim()) {
         const err = document.getElementById('err-name');
         if (err) err.style.display = 'block';
+        nameInput.classList.add('has-error');
         isValid = false;
       }
 
       if (!phoneInput.value.trim()) {
         const err = document.getElementById('err-phone');
         if (err) err.style.display = 'block';
+        phoneInput.classList.add('has-error');
         isValid = false;
       }
 
@@ -530,18 +873,21 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
       if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
         const err = document.getElementById('err-email');
         if (err) err.style.display = 'block';
+        emailInput.classList.add('has-error');
         isValid = false;
       }
 
       if (!eventTypeSelect.value) {
         const err = document.getElementById('err-event-type');
         if (err) err.style.display = 'block';
+        eventTypeSelect.classList.add('has-error');
         isValid = false;
       }
 
       if (!guestsSelect.value) {
         const err = document.getElementById('err-guests');
         if (err) err.style.display = 'block';
+        guestsSelect.classList.add('has-error');
         isValid = false;
       }
 
@@ -567,14 +913,19 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
           method: 'POST',
           body: formData,
           headers: {
-            'Accept': 'application/json'
+            Accept: 'application/json'
           }
         });
 
         if (res.ok) {
-          if (successEl) successEl.style.display = 'block';
+          // Success state replaces the card body but keeps the rust header band
+          if (formBodyWrapper && successCard) {
+            formBodyWrapper.style.display = 'none';
+            successCard.style.display = 'block';
+          }
           form.reset();
-          // dataLayer event
+
+          // Trigger analytics dataLayer event
           try {
             (window as any).dataLayer = (window as any).dataLayer || [];
             (window as any).dataLayer.push({
@@ -584,11 +935,9 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
             });
           } catch (_) {}
         } else {
-          // Keep entered data and show error
           if (errorEl) errorEl.style.display = 'block';
         }
       } catch (err) {
-        // Keep entered data on network failure
         if (errorEl) errorEl.style.display = 'block';
       } finally {
         submitBtn.disabled = false;

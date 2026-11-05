@@ -126,43 +126,44 @@
     "eyebrow": "Our Menu",
     "heading": "A Taste of What We Can Serve",
     "line": "A sample of our dishes. Your final menu is tailored to your event.",
+    "note": "Images are for illustration. Presentation may vary.",
     "button": "Request My Custom Menu",
     "cards": [
       {
         "title": "Starters",
         "dishes": "Samosas · Pakoras · Chicken 65 · Gobi Manchurian · Cauliflower Wings",
-        "image": "/assets/images/boi/menu-starters.webp",
-        "alt": "Indian starters: samosas, pakoras and Chicken 65"
+        "image": "/assets/menu/placeholder-menu-starters.webp",
+        "alt": "Indian starters: golden samosas, Chicken 65 and crisp spiced cauliflower with mint and tamarind chutneys"
       },
       {
         "title": "Chettinad and Meat Specialities",
         "dishes": "Chettinad Chicken · Butter Chicken · Tikka Masala · Mutton Sukka · Lamb Curry · Vindaloo",
-        "image": "/assets/images/boi/menu-meat.webp",
-        "alt": "Chettinad and meat specialities: butter chicken, lamb curry and mutton sukka"
+        "image": "/assets/menu/placeholder-menu-chettinad.webp",
+        "alt": "Chettinad chicken curry in a hammered brass kadai with dry mutton sukka, black peppercorns and star anise"
       },
       {
         "title": "Seafood",
         "dishes": "Coastal Fish Curry · Seasonal Seafood Curry",
-        "image": "/assets/images/boi/menu-seafood.webp",
-        "alt": "Coastal Indian seafood and fish curry"
+        "image": "/assets/menu/placeholder-menu-seafood.webp",
+        "alt": "South Indian coastal fish curry in a dark earthenware pot with fresh coconut and lime"
       },
       {
         "title": "Vegetarian and Vegan",
         "dishes": "South Indian Thali · Chef's Special Dosa · Onion Masala Dosa · Paneer Butter Masala Dosa · Malai Kofta · Dhal",
-        "image": "/assets/images/boi/menu-veg.webp",
-        "alt": "South Indian vegetarian thali and crispy dosas"
+        "image": "/assets/menu/placeholder-menu-vegetarian.webp",
+        "alt": "Vegetarian royal thali with rolled masala dosa, sambar, dhal, vegetable curries and basmati rice on a banana leaf"
       },
       {
         "title": "Biryani, Rice and Breads",
         "dishes": "Mutton Biryani · Vegetable Biryani · Fried Rice · Homemade Indian Breads · Raita",
-        "image": "/assets/images/boi/hero-2.webp",
-        "alt": "Aromatic biryani, fried rice and homemade Indian breads"
+        "image": "/assets/menu/placeholder-menu-biryani.webp",
+        "alt": "Aromatic saffron mutton biryani in a brass handi served with blistered flatbreads and cucumber raita"
       },
       {
         "title": "Desserts and Drinks",
         "dishes": "Gulab Jamun · Pistachio Kulfi · Traditional Indian Drinks",
-        "image": "/assets/images/boi/menu-desserts.webp",
-        "alt": "Traditional Indian desserts: Gulab Jamun and Pistachio Kulfi"
+        "image": "/assets/menu/placeholder-menu-desserts.webp",
+        "alt": "Traditional Indian desserts: golden gulab jamun in brass bowl, sliced pistachio kulfi and South Indian filter coffee"
       }
     ]
   },
@@ -203,6 +204,21 @@
     "phoneLabel": "Phone",
     "emailLabel": "Email",
     "addressLabel": "Address",
+    "whatsappLabel": "WhatsApp",
+    "chatOnWhatsapp": "Chat on WhatsApp",
+    "cardHeaderTitle": "Request Your Free Quote",
+    "cardHeaderSubtitle": "Fill in the details below and we will reply within 24 hours.",
+    "requiredLabel": "* Required",
+    "group1Title": "1. Your Details",
+    "group2Title": "2. Your Event",
+    "group3Title": "3. Anything Else?",
+    "selectEventPlaceholder": "Select an event",
+    "selectGuestsPlaceholder": "Select a range",
+    "phoneHint": "+33 6 12 34 56 78",
+    "emailHint": "name@example.com",
+    "messagePlaceholder": "Tell us about your event and any allergies.",
+    "submitButton": "Get My Free Quote",
+    "noCommitment": "No commitment. We only use your details to reply to your request.",
     "fields": {
       "name": "Name*",
       "phone": "Phone*",

@@ -7,7 +7,7 @@ import base64
 import os
 import sys
 
-async def send_cdp(ws_url, out_path, width=375, height=812, full_page=False):
+async def send_cdp(ws_url, out_path, width=375, height=812, full_page=False, scroll_to=None):
     from urllib.parse import urlparse
     parsed = urlparse(ws_url)
     host = parsed.hostname
@@ -77,6 +77,18 @@ async def send_cdp(ws_url, out_path, width=375, height=812, full_page=False):
     await read_msg()
     await asyncio.sleep(1)
 
+    # Scroll if selector provided
+    if scroll_to:
+        await send_msg({
+            "id": 99,
+            "method": "Runtime.evaluate",
+            "params": {
+                "expression": f"document.querySelector('{scroll_to}')?.scrollIntoView();"
+            }
+        })
+        await read_msg()
+        await asyncio.sleep(1)
+
     params = {"format": "png"}
     if full_page:
         params["captureBeyondViewport"] = True
@@ -95,7 +107,7 @@ async def send_cdp(ws_url, out_path, width=375, height=812, full_page=False):
     writer.close()
     await writer.wait_closed()
 
-def capture(url, out_path, width=375, height=812, full_page=False):
+def capture(url, out_path, width=375, height=812, full_page=False, scroll_to=None):
     chrome_proc = subprocess.Popen([
         '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
         '--headless=new',
@@ -109,7 +121,7 @@ def capture(url, out_path, width=375, height=812, full_page=False):
         targets = json.loads(req.read().decode())
         page_target = next((t for t in targets if t.get('type') == 'page'), targets[0])
         ws_url = page_target['webSocketDebuggerUrl']
-        asyncio.run(send_cdp(ws_url, out_path, width, height, full_page))
+        asyncio.run(send_cdp(ws_url, out_path, width, height, full_page, scroll_to))
     finally:
         chrome_proc.terminate()
 
@@ -118,4 +130,5 @@ if __name__ == '__main__':
     out = sys.argv[2] if len(sys.argv) > 2 else '/tmp/test.png'
     w = int(sys.argv[3]) if len(sys.argv) > 3 else 375
     h = int(sys.argv[4]) if len(sys.argv) > 4 else 812
-    capture(url, out, w, h)
+    scroll = sys.argv[5] if len(sys.argv) > 5 else None
+    capture(url, out, w, h, scroll_to=scroll)

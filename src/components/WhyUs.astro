@@ -1,5 +1,11 @@
 ---
 import { getTranslations, type Language } from '../i18n/utils';
+import Award from 'lucide-astro/Award';
+import ChefHat from 'lucide-astro/ChefHat';
+import Leaf from 'lucide-astro/Leaf';
+import Users from 'lucide-astro/Users';
+import ClipboardList from 'lucide-astro/ClipboardList';
+import Clock from 'lucide-astro/Clock';
 
 interface Props {
   lang: Language;
@@ -7,120 +13,189 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
+
+const icons = [Award, ChefHat, Leaf, Users, ClipboardList, Clock];
 ---
 
 <section id="why" class="why-us-section" aria-label="Why Choose Best of India">
   <div class="why-us-container">
-    <!-- Section Header -->
+    <!-- Section Header: script eyebrow + heading -->
     <div class="section-header">
       <span class="eyebrow-script">{t.why.eyebrow}</span>
       <h2 class="section-heading">{t.why.heading}</h2>
     </div>
 
-    <!-- 3 columns x 2 rows, each column 330px wide with 60px gaps, same grid as tiles -->
+    <!-- 3 columns x 2 rows (desktop), 2x3 (tablet), 1 col (mobile) -->
     <div class="why-us-grid">
-      {t.why.items.map((item) => (
-        <div class="why-us-item">
-          <!-- Title in heading font in rust at 25px, centred -->
-          <h3 class="why-item-title">{item.title}</h3>
-          <!-- Short rule -->
-          <hr class="why-item-rule short-rule" />
-          <!-- Body text centred -->
-          <p class="why-item-desc">{item.desc}</p>
-        </div>
-      ))}
+      {t.why.items.map((item, index) => {
+        const IconComponent = icons[index % icons.length];
+        return (
+          <div class="why-card">
+            <!-- 56px circle with #F6ECE0 bg and 28px thin-line rust icon -->
+            <div class="why-icon-circle">
+              <IconComponent size={28} stroke-width={1.5} class="why-icon" />
+            </div>
+
+            <!-- Title in heading font, 24px, rust, letter-spacing 2px, line-height 1.25, lining-nums, text-wrap: balance, min-height 2 lines on desktop -->
+            <h3 class="why-card-title">{item.title}</h3>
+
+            <!-- Rule: 64px wide, 1px high, rust, 16px above and below -->
+            <hr class="why-card-rule" />
+
+            <!-- Body: Montserrat 400, 15px, line-height 1.7, #3D3D3D, centred -->
+            <p class="why-card-desc">{item.desc}</p>
+          </div>
+        );
+      })}
     </div>
   </div>
 </section>
 
 <style>
-  /* WHY CHOOSE US: Background --page-grey. No icons and no boxes. Add 72px of space beneath. */
   .why-us-section {
-    background-color: var(--page-grey);
+    background-color: var(--page-grey, #F4F4F4);
     width: 100%;
-    padding-bottom: 72px;
+    padding: 80px 0 96px 0;
     box-sizing: border-box;
   }
 
   .why-us-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 45px;
+    padding: 0 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
   }
 
-  /* 3 columns x 2 rows, each column 330px wide with 60px gaps */
+  /* Desktop grid (1024px and up): 3 columns x 2 rows, centred, max width 1200px, 24px gaps, grid-auto-rows: 1fr */
   .why-us-grid {
     display: grid;
-    grid-template-columns: repeat(3, 330px);
-    gap: 60px;
-    justify-content: center;
-    margin-top: 36px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 24px;
     width: 100%;
+    max-width: 1200px;
+    margin-top: 48px;
+    box-sizing: border-box;
   }
 
-  .why-us-item {
+  /* Card design: White bg, 1px solid #E4DACB border, 3px solid #984421 top border, square corners, soft shadow */
+  .why-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E4DACB;
+    border-top: 3px solid #984421;
+    border-radius: 0;
+    box-shadow: 0 8px 24px rgba(58, 28, 14, 0.06);
+    padding: 40px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    box-sizing: border-box;
   }
 
-  /* Title in heading font in rust at 25px */
-  .why-item-title {
+  /* 56px circle with #F6ECE0 background and 28px thin-line rust icon */
+  .why-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #F6ECE0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+  }
+
+  .why-icon {
+    color: #984421;
+  }
+
+  /* Title: heading font, 24px, rust, letter-spacing 2px, line-height 1.25, lining-nums, text-wrap: balance, min-height 2 lines on desktop */
+  .why-card-title {
     font-family: var(--font-heading);
-    font-size: 25px;
-    line-height: 32px;
+    font-size: 24px;
+    line-height: 1.25;
     letter-spacing: 2px;
+    color: #984421;
     text-transform: uppercase;
-    color: var(--accent);
     font-weight: 400;
+    font-variant-numeric: lining-nums;
+    text-wrap: balance;
+    min-height: 2.5em; /* 2 lines minimum height on desktop */
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .why-item-rule {
-    width: 184px;
+  /* Rule: 64px wide, 1px high, rust, 16px above and below */
+  .why-card-rule {
+    width: 64px;
     height: 1px;
-    background-color: var(--accent);
+    background-color: #984421;
     border: none;
-    margin: 16px auto 14px auto;
+    margin: 16px auto;
+    flex-shrink: 0;
   }
 
-  /* Body text centred */
-  .why-item-desc {
+  /* Body: Montserrat 400, 15px, line-height 1.7, #3D3D3D, centred, overflow-wrap: break-word, text-wrap: pretty */
+  .why-card-desc {
     font-family: var(--font-body);
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 25.2px;
-    color: var(--text);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #3D3D3D;
     text-align: center;
     margin: 0;
+    overflow-wrap: break-word;
+    text-wrap: pretty;
   }
 
-  /* Tablet: 2 columns */
-  @media (min-width: 768px) and (max-width: 1199px) {
+  /* Tablet: 768px to 1023px: 2 columns x 3 rows, 20px gaps, equal row heights */
+  @media (min-width: 768px) and (max-width: 1023px) {
     .why-us-grid {
-      grid-template-columns: repeat(2, 330px);
-      gap: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .why-card {
+      padding: 36px 28px;
     }
   }
 
-  /* Mobile Layout (< 768px): One column */
+  /* Mobile: below 768px: 1 column, 16px page margins, 14px gaps, padding 28px 24px, no title min height, title 22px, body 16px */
   @media (max-width: 767px) {
-    .why-us-container {
-      padding: 0 24px;
+    .why-us-section {
+      padding: 56px 0 64px 0;
     }
+
+    .why-us-container {
+      padding: 0 16px;
+    }
+
     .why-us-grid {
       grid-template-columns: 1fr;
-      gap: 40px;
-      margin-top: 24px;
+      grid-auto-rows: auto;
+      gap: 14px;
+      margin-top: 32px;
     }
-    .why-item-desc {
-      font-size: 15px;
-      line-height: 24px;
+
+    .why-card {
+      padding: 28px 24px;
+    }
+
+    .why-card-title {
+      font-size: 22px;
+      min-height: auto; /* no title minimum height on mobile */
+    }
+
+    .why-card-desc {
+      font-size: 16px;
     }
   }
 </style>

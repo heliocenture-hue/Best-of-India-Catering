@@ -1,48 +1,31 @@
 ---
-import { getTranslations, type Language } from '../i18n/utils';
+import type { Language } from '../i18n/utils';
 
 interface Props {
   lang: Language;
 }
 
 const { lang } = Astro.props;
-const t = getTranslations(lang);
-
-// 5 real BOI food photos
-const slides = [
-  { src: '/assets/images/boi/hero-1.webp', alt: `${t.hero.altPrefix} 1` },
-  { src: '/assets/images/boi/hero-2.webp', alt: `${t.hero.altPrefix} 2` },
-  { src: '/assets/images/boi/hero-3.webp', alt: `${t.hero.altPrefix} 3` },
-  { src: '/assets/images/boi/hero-4.webp', alt: `${t.hero.altPrefix} 4` },
-  { src: '/assets/images/boi/about-1.webp', alt: `${t.hero.altPrefix} 5` }
-];
 ---
 
-<section id="hero-slider" class="hero-section" aria-label="Best of India Catering Showcase">
-  <div class="hero-slides-wrapper">
-    {slides.map((slide, idx) => (
-      <div 
-        class={`hero-slide ${idx === 0 ? 'is-active' : ''}`}
-        data-slide-index={idx}
-      >
-        <img 
-          src={slide.src} 
-          alt={slide.alt}
-          class="hero-img"
-          loading={idx === 0 ? 'eager' : 'lazy'}
-          fetchpriority={idx === 0 ? 'high' : 'auto'}
-          width="1440"
-          height="680"
-        />
-      </div>
-    ))}
-  </div>
+<section id="hero-media" class="hero-section" aria-label="Best of India Catering Video Showcase">
+  <video
+    id="hero-video"
+    class="hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+  >
+  </video>
 </section>
 
 <style>
-  /* Hero: Full-width image slider, 680px high, starting at the very top of the page.
-     Show 5 real BOI food photos, using object-fit: cover. Crossfade every 5 seconds.
-     No text, overlay, arrows or dots. Pause it for prefers-reduced-motion. */
+  /* Hero: Full-width background video, 680px desktop, 287px mobile.
+     object-fit: cover, object-position: center, filling hero edge to edge.
+     No black bars, overlay, controls or sound. */
   .hero-section {
     position: relative;
     width: 100%;
@@ -53,35 +36,18 @@ const slides = [
     background-color: #19191A;
   }
 
-  .hero-slides-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
-  }
-
-  .hero-slide.is-active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .hero-img {
+  .hero-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
+    border: none;
+    outline: none;
+    background-color: #19191A;
   }
 
-  /* Mobile: full width, 287px high */
+  /* Mobile: 287px high */
   @media (max-width: 767px) {
     .hero-section {
       height: 287px;
@@ -90,35 +56,71 @@ const slides = [
 </style>
 
 <script>
-  function setupHeroSlider() {
-    const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
-    if (slides.length <= 1) return;
+  function initHeroVideo() {
+    const video = document.getElementById('hero-video') as HTMLVideoElement | null;
+    const heroSection = document.getElementById('hero-media');
+    if (!video || !heroSection) return;
 
-    // Check prefers-reduced-motion
+    const isMobile = window.innerWidth < 768;
+    const desktopVideo = '/assets/video/hero-desktop.mp4';
+    const mobileVideo = '/assets/video/hero-mobile.mp4';
+    const desktopPoster = '/assets/video/hero-poster-desktop.jpg';
+    const mobilePoster = '/assets/video/hero-poster-mobile.jpg';
+
+    // Set poster immediately based on viewport
+    video.poster = isMobile ? mobilePoster : desktopPoster;
+
+    // Check prefers-reduced-motion and Save-Data
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    const navAny = navigator as any;
+    const saveData = Boolean(navAny.connection && navAny.connection.saveData === true);
 
-    let currentIndex = 0;
-    let intervalId: number | null = null;
-
-    function nextSlide() {
-      slides[currentIndex].classList.remove('is-active');
-      currentIndex = (currentIndex + 1) % slides.length;
-      slides[currentIndex].classList.add('is-active');
+    // If reduced motion or Save-Data is active, do not load or play video (show poster only)
+    if (prefersReducedMotion || saveData) {
+      return;
     }
 
-    intervalId = window.setInterval(nextSlide, 5000);
+    function loadAndPlay() {
+      // Pick source before loading so only ONE video file downloads
+      const chosenSource = isMobile ? mobileVideo : desktopVideo;
+      video.src = chosenSource;
 
-    // Pause on page hidden
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden && intervalId !== null) {
-        clearInterval(intervalId);
-      } else if (!document.hidden && !prefersReducedMotion) {
-        intervalId = window.setInterval(nextSlide, 5000);
+      // Autoplay attempt
+      video.play().catch(() => {
+        // If autoplay blocked, poster remains visible
+      });
+
+      // Pause when off screen, resume when returns
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                if (video.paused && video.src) {
+                  video.play().catch(() => {});
+                }
+              } else {
+                if (!video.paused) {
+                  video.pause();
+                }
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        observer.observe(heroSection);
       }
-    });
+    }
+
+    // Start loading video after window load event so it does not slow first paint
+    if (document.readyState === 'complete') {
+      loadAndPlay();
+    } else {
+      window.addEventListener('load', loadAndPlay, { once: true });
+    }
   }
 
-  setupHeroSlider();
-  document.addEventListener('astro:page-load', setupHeroSlider);
+  initHeroVideo();
+  document.addEventListener('astro:page-load', initHeroVideo);
 </script>

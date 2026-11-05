@@ -145,7 +145,8 @@ html {
   line-height: 1.8;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
-  hyphens: auto;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
   overflow-x: hidden;
   max-width: 100%;
 }
@@ -265,7 +266,8 @@ button, input, select, textarea {
   font-size: 14px;
   line-height: 25.2px;
   text-align: justify;
-  hyphens: auto;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
   color: var(--text);
 }
 
