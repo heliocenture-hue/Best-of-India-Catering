@@ -19,79 +19,81 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 
 <section id="contact" class="contact-section" aria-label="Contact Best of India">
   <div class="contact-container">
-    <!-- Header Block: Heading & paragraph -->
-    <div class="contact-header-block">
-      <h2 class="contact-title">{t.contact.heading}</h2>
-      <p class="contact-desc">{t.contact.text}</p>
+    <!-- Left Column: one continuous stack (heading, 12px gap, paragraph, 24px gap, contact details) -->
+    <div class="contact-left-col">
+      <div class="contact-header-block">
+        <h2 class="contact-title">{t.contact.heading}</h2>
+        <p class="contact-desc">{t.contact.text}</p>
+      </div>
+
+      <!-- Contact details list: Phone, Email, WhatsApp, Address, Restaurant hours -->
+      <div class="contact-details-list">
+        <!-- Phone -->
+        <div class="contact-row">
+          <div class="contact-row-icon">
+            <Phone size={18} class="saffron-icon" />
+          </div>
+          <div class="contact-row-content">
+            <span class="row-label">{t.contact.phoneLabel}</span>
+            <a href={`tel:${CONFIG.PHONE_LINK}`} class="row-value row-link">{CONFIG.PHONE_DISPLAY}</a>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="contact-row">
+          <div class="contact-row-icon">
+            <Mail size={18} class="saffron-icon" />
+          </div>
+          <div class="contact-row-content">
+            <span class="row-label">{t.contact.emailLabel}</span>
+            <a href={`mailto:${CONFIG.EMAIL}`} class="row-value row-link">{CONFIG.EMAIL}</a>
+          </div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="contact-row">
+          <div class="contact-row-icon">
+            <MessageCircle size={18} class="saffron-icon" />
+          </div>
+          <div class="contact-row-content">
+            <span class="row-label">{t.contact.whatsappLabel || 'WhatsApp'}</span>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="row-value row-link whatsapp-text-link">
+              {t.contact.chatOnWhatsapp}
+            </a>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="contact-row">
+          <div class="contact-row-icon">
+            <MapPin size={18} class="saffron-icon" />
+          </div>
+          <div class="contact-row-content">
+            <span class="row-label">{t.contact.addressLabel}</span>
+            <span class="row-value">{CONFIG.ADDRESS}</span>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div class="contact-row">
+          <div class="contact-row-icon">
+            <Clock size={18} class="saffron-icon" />
+          </div>
+          <div class="contact-row-content">
+            <span class="row-label">{t.contact.hoursLabel}</span>
+            <span class="row-value">{lang === 'fr' ? CONFIG.HOURS_FR : CONFIG.HOURS_EN}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Contact details as a stacked list with 20px saffron #F2A65A icon, uppercase label #E8D9C5, white value, 1px divider -->
-    <div class="contact-details-stacked">
-      <!-- Phone -->
-      <div class="contact-row">
-        <div class="contact-row-icon">
-          <Phone size={20} class="saffron-icon" />
-        </div>
-        <div class="contact-row-content">
-          <span class="row-label">{t.contact.phoneLabel}</span>
-          <a href={`tel:${CONFIG.PHONE_LINK}`} class="row-value row-link">{CONFIG.PHONE_DISPLAY}</a>
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="contact-row">
-        <div class="contact-row-icon">
-          <Mail size={20} class="saffron-icon" />
-        </div>
-        <div class="contact-row-content">
-          <span class="row-label">{t.contact.emailLabel}</span>
-          <a href={`mailto:${CONFIG.EMAIL}`} class="row-value row-link">{CONFIG.EMAIL}</a>
-        </div>
-      </div>
-
-      <!-- WhatsApp: "Chat on WhatsApp" / "Discuter sur WhatsApp" linked to wa.me (No phone number) -->
-      <div class="contact-row">
-        <div class="contact-row-icon">
-          <MessageCircle size={20} class="saffron-icon" />
-        </div>
-        <div class="contact-row-content">
-          <span class="row-label">{t.contact.whatsappLabel || 'WhatsApp'}</span>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="row-value row-link whatsapp-text-link">
-            {t.contact.chatOnWhatsapp}
-          </a>
-        </div>
-      </div>
-
-      <!-- Address -->
-      <div class="contact-row">
-        <div class="contact-row-icon">
-          <MapPin size={20} class="saffron-icon" />
-        </div>
-        <div class="contact-row-content">
-          <span class="row-label">{t.contact.addressLabel}</span>
-          <span class="row-value">{CONFIG.ADDRESS}</span>
-        </div>
-      </div>
-
-      <!-- Hours -->
-      <div class="contact-row">
-        <div class="contact-row-icon">
-          <Clock size={20} class="saffron-icon" />
-        </div>
-        <div class="contact-row-content">
-          <span class="row-label">{t.contact.hoursLabel}</span>
-          <span class="row-value">{lang === 'fr' ? CONFIG.HOURS_FR : CONFIG.HOURS_EN}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Form Card Column -->
+    <!-- Right Column: Form Card -->
     <div class="contact-right-col">
       <div class="quote-card">
-        <!-- Rust #984421 header band -->
+        <!-- Rust #984421 Header Band -->
         <div class="card-header-band">
           <h3 class="band-title">{t.contact.cardHeaderTitle}</h3>
-          <p class="band-subtitle">{t.contact.cardHeaderSubtitle}</p>
+          <span class="band-required">{t.contact.requiredLabel}</span>
         </div>
 
         <!-- Success Container (replaces card body on success) -->
@@ -105,8 +107,6 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 
         <!-- Form Card Body -->
         <div id="form-body-wrapper" class="card-body">
-          <div class="required-note">{t.contact.requiredLabel}</div>
-
           <form 
             id="catering-contact-form" 
             class="catering-form" 
@@ -129,62 +129,47 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
               <input type="text" name="company_extra" id="company_extra" tabindex="-1" autocomplete="off" />
             </div>
 
-            <!-- Group 1: Your Details -->
-            <fieldset class="form-group-section">
-              <legend class="group-title">{t.contact.group1Title}</legend>
-              <hr class="group-divider" />
-
-              <!-- Row 1: Name (full width) -->
-              <div class="field-item full-width">
+            <!-- Single Form Grid: 2 equal columns, 16px col gap, 12px row gap -->
+            <div class="form-grid">
+              <!-- Row 1: Name* | Phone* -->
+              <div class="field-item">
                 <label for="field-name" class="field-label">{t.contact.fields.name}</label>
                 <input 
                   type="text" 
                   id="field-name" 
                   name="name" 
                   class="field-input" 
-                  placeholder={lang === 'fr' ? 'Jean Dupont' : 'John Doe'} 
                   required 
                 />
                 <span class="field-error" id="err-name">{t.contact.validation.nameRequired}</span>
               </div>
 
-              <!-- Row 2: Phone & Email (2 columns) -->
-              <div class="fields-two-col">
-                <div class="field-item">
-                  <label for="field-phone" class="field-label">{t.contact.fields.phone}</label>
-                  <input 
-                    type="tel" 
-                    id="field-phone" 
-                    name="phone" 
-                    class="field-input" 
-                    placeholder={t.contact.phoneHint} 
-                    required 
-                  />
-                  <span class="field-error" id="err-phone">{t.contact.validation.phoneRequired}</span>
-                </div>
-
-                <div class="field-item">
-                  <label for="field-email" class="field-label">{t.contact.fields.email}</label>
-                  <input 
-                    type="email" 
-                    id="field-email" 
-                    name="email" 
-                    class="field-input" 
-                    placeholder={t.contact.emailHint} 
-                    required 
-                  />
-                  <span class="field-error" id="err-email">{t.contact.validation.emailRequired}</span>
-                </div>
+              <div class="field-item">
+                <label for="field-phone" class="field-label">{t.contact.fields.phone}</label>
+                <input 
+                  type="tel" 
+                  id="field-phone" 
+                  name="phone" 
+                  class="field-input" 
+                  required 
+                />
+                <span class="field-error" id="err-phone">{t.contact.validation.phoneRequired}</span>
               </div>
-            </fieldset>
 
-            <!-- Group 2: Your Event -->
-            <fieldset class="form-group-section">
-              <legend class="group-title">{t.contact.group2Title}</legend>
-              <hr class="group-divider" />
+              <!-- Row 2: Email* | Event Type* -->
+              <div class="field-item">
+                <label for="field-email" class="field-label">{t.contact.fields.email}</label>
+                <input 
+                  type="email" 
+                  id="field-email" 
+                  name="email" 
+                  class="field-input" 
+                  required 
+                />
+                <span class="field-error" id="err-email">{t.contact.validation.emailRequired}</span>
+              </div>
 
-              <!-- Row 1: Event Type (full width dropdown) -->
-              <div class="field-item full-width">
+              <div class="field-item">
                 <label for="event-type-select" class="field-label">{t.contact.fields.eventType}</label>
                 <div class="select-wrapper">
                   <select id="event-type-select" name="event_type" class="field-input field-select" required>
@@ -198,74 +183,73 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
                 <span class="field-error" id="err-event-type">{t.contact.validation.eventTypeRequired}</span>
               </div>
 
-              <!-- Row 2: Event Date & Number of Guests (2 columns) -->
-              <div class="fields-two-col">
-                <div class="field-item">
-                  <label for="field-date" class="field-label">{t.contact.fields.eventDate}</label>
-                  <input 
-                    type="date" 
-                    id="field-date" 
-                    name="event_date" 
-                    class="field-input field-date" 
-                  />
-                </div>
-
-                <div class="field-item">
-                  <label for="field-guests" class="field-label">{t.contact.fields.guests}</label>
-                  <div class="select-wrapper">
-                    <select id="field-guests" name="guests_count" class="field-input field-select" required>
-                      <option value="" disabled selected>{t.contact.selectGuestsPlaceholder}</option>
-                      {t.contact.guestOptions.map((opt) => (
-                        <option value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <span class="field-error" id="err-guests">{t.contact.validation.guestsRequired}</span>
-                </div>
+              <!-- Row 3: Event Date | Number of Guests* -->
+              <div class="field-item">
+                <label for="field-date" class="field-label">{t.contact.fields.eventDate}</label>
+                <input 
+                  type="date" 
+                  id="field-date" 
+                  name="event_date" 
+                  class="field-input field-date" 
+                />
               </div>
-            </fieldset>
 
-            <!-- Group 3: Anything Else? -->
-            <fieldset class="form-group-section">
-              <legend class="group-title">{t.contact.group3Title}</legend>
-              <hr class="group-divider" />
+              <div class="field-item">
+                <label for="field-guests" class="field-label">{t.contact.fields.guests}</label>
+                <div class="select-wrapper">
+                  <select id="field-guests" name="guests_count" class="field-input field-select" required>
+                    <option value="" disabled selected>{t.contact.selectGuestsPlaceholder}</option>
+                    {t.contact.guestOptions.map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                </div>
+                <span class="field-error" id="err-guests">{t.contact.validation.guestsRequired}</span>
+              </div>
 
-              <div class="field-item full-width">
+              <!-- Row 4: Message (full width) -->
+              <div class="field-item col-span-full">
                 <label for="field-message" class="field-label">{t.contact.fields.message}</label>
                 <textarea 
                   id="field-message" 
                   name="message" 
                   class="field-input field-textarea" 
                   placeholder={t.contact.messagePlaceholder} 
-                  rows="4"
+                  rows="2"
                 ></textarea>
               </div>
-            </fieldset>
 
-            <!-- Below Groups: Consent Checkbox -->
-            <div class="consent-block">
-              <input type="checkbox" id="field-consent" name="consent" class="consent-box" required />
-              <label for="field-consent" class="consent-text">
-                {lang === 'fr' ? (
-                  <>J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la <a href={privacyLink} class="consent-anchor">politique de confidentialité</a>.</>
-                ) : (
-                  <>I agree that Best of India may use my details to respond to my request. See the <a href={privacyLink} class="consent-anchor">privacy policy</a>.</>
-                )}
-              </label>
-            </div>
-            <span class="field-error consent-error" id="err-consent">{t.contact.validation.consentRequired}</span>
+              <!-- Row 5: Consent checkbox and text (full width) -->
+              <div class="field-item col-span-full consent-wrapper">
+                <div class="consent-block">
+                  <input type="checkbox" id="field-consent" name="consent" class="consent-box" required />
+                  <label for="field-consent" class="consent-text">
+                    {lang === 'fr' ? (
+                      <>J'accepte que Best of India utilise mes coordonnées pour répondre à ma demande. Voir la <a href={privacyLink} class="consent-anchor">politique de confidentialité</a>.</>
+                    ) : (
+                      <>I agree that Best of India may use my details to respond to my request. See the <a href={privacyLink} class="consent-anchor">privacy policy</a>.</>
+                    )}
+                  </label>
+                </div>
+                <span class="field-error consent-error" id="err-consent">{t.contact.validation.consentRequired}</span>
+              </div>
 
-            <!-- Error Banner -->
-            <div id="form-error" class="form-error-banner" role="alert" style="display: none;">
-              {t.contact.error}
-            </div>
+              <!-- Error Banner (shown only on server failure) -->
+              <div id="form-error" class="form-error-banner col-span-full" role="alert" style="display: none;">
+                {t.contact.error}
+              </div>
 
-            <!-- Submit Button: Solid rust, full width, 58px high, white Ubuntu 500 15px uppercase, darkening to #7A3518 on hover -->
-            <div class="submit-block">
-              <button type="submit" id="submit-btn" class="submit-btn">
-                {t.contact.submitButton}
-              </button>
-              <p class="no-commitment-note">{t.contact.noCommitment}</p>
+              <!-- Row 6: Submit button (full width, 48px high) -->
+              <div class="col-span-full submit-wrapper">
+                <button type="submit" id="submit-btn" class="submit-btn">
+                  {t.contact.submitButton}
+                </button>
+              </div>
+
+              <!-- Row 7: Reassurance line (full width, centred, 12px, 8px above) -->
+              <div class="col-span-full reassurance-wrapper">
+                <p class="no-commitment-note">{t.contact.noCommitment}</p>
+              </div>
             </div>
           </form>
         </div>
@@ -275,82 +259,84 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 </section>
 
 <style>
-  /* SECTION: Background deep brown #2B1409. Padding 96px top/bottom desktop, 56px mobile. Container max-width 1200px. Left 40%, right 60%, 64px gap. */
+  /* SECTION: Background deep brown #2B1409. 56px top/bottom desktop. Container max 1120px, centred. */
   .contact-section {
     background-color: #2B1409;
     width: 100%;
-    padding: 96px 0;
+    padding: 56px 0;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
   }
 
+  /* 1024px AND UP: Left 38%, Right 62%, 48px gap, align-items: center */
   .contact-container {
-    max-width: 1200px;
+    max-width: 1120px;
     width: 100%;
+    margin: 0 auto;
     padding: 0 32px;
     display: grid;
-    grid-template-columns: 38% calc(62% - 64px);
-    grid-template-areas:
-      "header form"
-      "details form";
-    gap: 24px 64px;
-    align-items: flex-start;
+    grid-template-columns: calc((100% - 48px) * 0.38) calc((100% - 48px) * 0.62);
+    gap: 48px;
+    align-items: center;
     box-sizing: border-box;
   }
 
+  /* LEFT COLUMN: One continuous stack: Heading -> 12px gap -> Paragraph -> 24px gap -> Contact details */
+  .contact-left-col {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .contact-header-block {
-    grid-area: header;
     display: flex;
     flex-direction: column;
   }
 
   .contact-title {
     font-family: var(--font-heading);
-    font-size: 38px;
+    font-size: 34px;
     line-height: 1.2;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: #FFFFFF;
     font-weight: 400;
     text-transform: uppercase;
-    margin: 0;
+    margin: 0 0 12px 0;
     text-align: left;
   }
 
   .contact-desc {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.6;
     color: #F7EFE3;
-    margin: 20px 0 12px 0;
+    margin: 0 0 24px 0;
     overflow-wrap: break-word;
     text-wrap: pretty;
   }
 
-  .contact-details-stacked {
-    grid-area: details;
+  /* CONTACT DETAILS LIST: Thin dividers between rows, 10px padding top/bottom */
+  .contact-details-list {
     display: flex;
     flex-direction: column;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .contact-right-col {
-    grid-area: form;
     width: 100%;
   }
 
   .contact-row {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    padding: 16px 0;
+    gap: 14px;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-sizing: border-box;
   }
 
   .contact-row-icon {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -365,23 +351,24 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   .contact-row-content {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .row-label {
     font-family: var(--font-label);
     font-weight: 500;
     font-size: 11px;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     color: #E8D9C5;
+    line-height: 1.2;
   }
 
   .row-value {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.4;
     color: #FFFFFF;
     text-decoration: none;
     overflow-wrap: break-word;
@@ -396,7 +383,7 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     color: #F2A65A;
   }
 
-  /* RIGHT COLUMN: FORM CARD */
+  /* RIGHT COLUMN: FORM CARD (Target <= 600px total height at 1440x900) */
   .contact-right-col {
     width: 100%;
   }
@@ -404,120 +391,93 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   .quote-card {
     background-color: #FFFFFF;
     border-radius: 0;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    width: 100%;
   }
 
-  /* Rust #984421 header band */
+  /* HEADER BAND: padding 16px 28px, title 24px on one line, * Required aligned to the right */
   .card-header-band {
     background-color: #984421;
-    padding: 24px 40px;
+    padding: 16px 28px;
     color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
   }
 
   .band-title {
     font-family: var(--font-heading);
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1.2;
     letter-spacing: 1px;
     color: #FFFFFF;
     font-weight: 400;
     margin: 0;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
-  .band-subtitle {
+  .band-required {
     font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 12px;
     color: #FFFFFF;
-    margin: 6px 0 0 0;
-    opacity: 0.95;
+    opacity: 0.92;
+    white-space: nowrap;
   }
 
-  /* Card body padding 32px 40px 40px */
+  /* CARD BODY: padding 20px 28px 24px */
   .card-body {
-    padding: 32px 40px 40px;
+    padding: 20px 28px 24px;
     position: relative;
     box-sizing: border-box;
   }
 
-  .required-note {
-    font-family: var(--font-label);
-    font-size: 12px;
-    color: #6D6E71;
-    text-align: right;
-    margin-bottom: 8px;
-  }
-
-  /* Fieldset group styling */
-  .form-group-section {
-    border: none;
-    padding: 0;
-    margin: 0 0 28px 0;
-  }
-
-  .group-title {
-    font-family: var(--font-label);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: #984421;
-    padding: 0;
-    margin-bottom: 6px;
-    float: left;
-    width: 100%;
-  }
-
-  .group-divider {
-    width: 100%;
-    height: 1px;
-    background-color: #E4DACB;
-    border: none;
-    margin: 6px 0 20px 0;
-    clear: both;
-  }
-
-  .fields-two-col {
+  /* SINGLE FORM GRID: 2 equal columns, 16px col gap, 12px row gap */
+  .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    column-gap: 16px;
+    row-gap: 12px;
     width: 100%;
   }
 
   .field-item {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
-  }
-
-  .field-item.full-width {
     width: 100%;
   }
 
-  /* Label: Ubuntu 500, 13px, #2B1409, not uppercase */
+  .col-span-full {
+    grid-column: 1 / -1;
+  }
+
+  /* FIELD LABEL: 12px, Ubuntu 500, #2B1409, 4px beneath it */
   .field-label {
     font-family: var(--font-label);
     font-weight: 500;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.2;
     color: #2B1409;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     text-transform: none;
+    display: block;
+    white-space: nowrap;
   }
 
-  /* Input: 50px high, #FBF8F3 bg, 1px solid #BFAF9C border, square corners, left-aligned Montserrat 400, 16px, #19191A text */
+  /* INPUT & SELECT: 42px high, padding 0 12px, Montserrat 400, 14px on desktop */
   .field-input {
     width: 100%;
-    height: 50px;
+    height: 42px;
+    line-height: 42px;
     background-color: #FBF8F3;
     border: 1px solid #BFAF9C;
     border-radius: 0;
-    padding: 0 16px;
+    padding: 0 12px;
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     color: #19191A;
     box-sizing: border-box;
     outline: none;
@@ -529,7 +489,6 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     opacity: 0.85;
   }
 
-  /* Focus: 2px solid #984421 outline and white bg */
   .field-input:focus {
     background-color: #FFFFFF;
     border-color: #984421;
@@ -537,20 +496,21 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     outline-offset: -2px;
   }
 
-  /* Error state */
   .field-input.has-error {
     border: 1px solid #B3261E !important;
   }
 
+  /* ERROR MESSAGES: 12px, shown only on error, no space reserved when hidden */
   .field-error {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.2;
     color: #B3261E;
-    margin-top: 4px;
+    margin-top: 3px;
     display: none;
   }
 
-  /* Select styling with custom rust chevron */
+  /* SELECT: 42px high, padding right 32px, custom rust chevron */
   .select-wrapper {
     position: relative;
     width: 100%;
@@ -561,57 +521,61 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
-    padding-right: 40px;
+    padding-right: 32px;
   }
 
   .select-wrapper::after {
     content: '';
     position: absolute;
-    right: 16px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 10px;
-    height: 6px;
+    width: 8px;
+    height: 5px;
     background-color: #984421;
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     pointer-events: none;
   }
 
-  /* Date field */
+  /* DATE FIELD: 42px high, cursor pointer */
   .field-date {
     cursor: pointer;
   }
 
-  /* Textarea */
+  /* MESSAGE TEXTAREA: 72px high, padding 8px 12px, resizable vertically only */
   .field-textarea {
-    height: auto;
-    min-height: 108px;
-    padding: 14px 16px;
+    height: 72px;
+    min-height: 72px;
+    line-height: 1.4;
+    padding: 8px 12px;
     resize: vertical;
   }
 
-  /* Consent Block */
+  /* CONSENT: 16px checkbox, 12px text, line-height 1.4 */
+  .consent-wrapper {
+    margin-top: 2px;
+  }
+
   .consent-block {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin: 12px 0 6px 0;
+    gap: 10px;
   }
 
   .consent-box {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     accent-color: #984421;
     cursor: pointer;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .consent-text {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.4;
     color: #5A5A5A;
   }
 
@@ -621,39 +585,43 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   }
 
   .consent-error {
-    margin-bottom: 12px;
+    margin-top: 4px;
   }
 
+  /* ERROR BANNER */
   .form-error-banner {
     background-color: #FDF2F2;
     border: 1px solid #B3261E;
     color: #B3261E;
-    padding: 12px 16px;
+    padding: 8px 12px;
     font-family: var(--font-body);
-    font-size: 14px;
-    margin: 16px 0;
+    font-size: 12px;
+    line-height: 1.3;
+    margin: 4px 0;
+    box-sizing: border-box;
   }
 
-  /* Submit Button: Solid rust, full width, 58px high, white Ubuntu 500, 15px, uppercase, hover #7A3518 */
-  .submit-block {
-    margin-top: 24px;
-    text-align: center;
+  /* SUBMIT BUTTON: 48px high, solid rust, white Ubuntu 500, hover #7A3518 */
+  .submit-wrapper {
+    width: 100%;
+    margin-top: 2px;
   }
 
   .submit-btn {
     width: 100%;
-    height: 58px;
+    height: 48px;
     background-color: #984421;
     color: #FFFFFF;
     border: none;
     border-radius: 0;
     font-family: var(--font-label);
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    box-sizing: border-box;
   }
 
   .submit-btn:hover {
@@ -665,18 +633,24 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     cursor: not-allowed;
   }
 
+  /* REASSURANCE LINE: 12px, 8px above it, centred */
+  .reassurance-wrapper {
+    text-align: center;
+    width: 100%;
+  }
+
   .no-commitment-note {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.4;
     color: #5A5A5A;
-    margin-top: 12px;
-    margin-bottom: 0;
+    margin: 8px 0 0 0;
     text-align: center;
   }
 
-  /* Success Message Styling */
+  /* SUCCESS STATE (replaces card body) */
   .success-body {
-    padding: 60px 40px;
+    padding: 48px 28px;
     text-align: center;
   }
 
@@ -684,16 +658,16 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
   }
 
   .success-checkmark {
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background-color: #F6ECE0;
     color: #984421;
-    font-size: 32px;
+    font-size: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -702,7 +676,7 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 
   .success-title {
     font-family: var(--font-heading);
-    font-size: 26px;
+    font-size: 24px;
     color: #2B1409;
     margin: 0;
     text-transform: uppercase;
@@ -710,18 +684,20 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
 
   .success-desc {
     font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
     color: #3D3D3D;
     max-width: 440px;
     margin: 0;
   }
 
-  /* MOBILE (below 768px):
-     Order: heading and paragraph, form card, then contact details list.
-     Card spans width minus 16px margins. Header band padding 20px 24px. Card body padding 24px 20px.
-     All two-column rows become one column. */
-  @media (max-width: 767px) {
+  /* ==================================================
+     TABLET: 768px to 1023px
+     - Stack: heading and paragraph (1), form card (2), contact details (3)
+     - Keep 2-column form grid
+     - Contact details: 2 columns, without dividers
+     ================================================== */
+  @media (min-width: 768px) and (max-width: 1023px) {
     .contact-section {
       padding: 56px 0;
     }
@@ -729,55 +705,163 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     .contact-container {
       display: flex;
       flex-direction: column;
-      padding: 0 16px;
+      padding: 0 32px;
       gap: 32px;
+      max-width: 720px;
+    }
+
+    .contact-left-col {
+      display: contents;
     }
 
     .contact-header-block {
-      order: 1; /* Heading & paragraph */
+      order: 1;
+      width: 100%;
+    }
+
+    .contact-title {
+      font-size: 32px;
+    }
+
+    .contact-desc {
+      margin-bottom: 0;
+    }
+
+    .contact-right-col {
+      order: 2;
+      width: 100%;
+    }
+
+    .contact-details-list {
+      order: 3;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 24px;
+      border: none;
+      padding-top: 8px;
+    }
+
+    .contact-row {
+      border: none;
+      padding: 4px 0;
+    }
+  }
+
+  /* ==================================================
+     BELOW 768px: Mobile
+     - Section padding: 40px top and bottom, 16px side margins (extra bottom padding to clear floating bottom bar)
+     - Order: heading and paragraph, form card, contact details
+     - Heading: 28px. Paragraph: 15px.
+     - Header band: padding 14px 16px. Title: 21px. If title & "* Required" don't fit, "* Required" beneath title
+     - Card body: padding 16px
+     - Form grid: 1 column, 10px row gap
+     - Inputs and dropdowns: 44px high with 16px text (prevents iOS zoom)
+     - Message: 72px high
+     ================================================== */
+  @media (max-width: 767px) {
+    .contact-section {
+      padding: 40px 16px 88px;
+    }
+
+    .contact-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .contact-left-col {
+      display: contents;
+    }
+
+    .contact-header-block {
+      order: 1;
       width: 100%;
     }
 
     .contact-title {
       font-size: 28px;
+      line-height: 1.2;
+      margin-bottom: 8px;
     }
 
     .contact-desc {
       font-size: 15px;
+      line-height: 1.6;
       margin-bottom: 0;
     }
 
     .contact-right-col {
-      order: 2; /* Form card comes second */
+      order: 2;
       width: 100%;
-    }
-
-    .contact-details-stacked {
-      order: 3; /* Contact details list comes last */
-      width: 100%;
-      margin-top: 16px;
     }
 
     .card-header-band {
-      padding: 20px 24px;
+      padding: 14px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
     }
 
     .band-title {
-      font-size: 22px;
+      font-size: 21px;
+      white-space: normal;
+    }
+
+    .band-required {
+      font-size: 12px;
     }
 
     .card-body {
-      padding: 24px 20px;
+      padding: 16px;
     }
 
-    .fields-two-col {
+    .form-grid {
       grid-template-columns: 1fr;
-      gap: 0;
+      row-gap: 10px;
+      column-gap: 0;
     }
 
-    /* Inputs stay 16px to prevent iPhone zoom */
+    .col-span-full {
+      grid-column: auto;
+    }
+
+    .field-label {
+      font-size: 12px;
+      margin-bottom: 4px;
+      white-space: normal;
+    }
+
     .field-input {
+      height: 44px;
+      line-height: 44px;
       font-size: 16px;
+      padding: 0 12px;
+    }
+
+    .field-select {
+      padding-right: 32px;
+    }
+
+    .field-textarea {
+      height: 72px;
+      min-height: 72px;
+      font-size: 16px;
+      line-height: 1.4;
+      padding: 8px 12px;
+    }
+
+    .contact-details-list {
+      order: 3;
+      width: 100%;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-row {
+      padding: 10px 0;
     }
   }
 </style>
@@ -801,10 +885,15 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
     const utmCampaign = urlParams.get('utm_campaign') || '';
     const gclid = urlParams.get('gclid') || '';
 
-    (document.getElementById('utm_source') as HTMLInputElement).value = utmSource;
-    (document.getElementById('utm_medium') as HTMLInputElement).value = utmMedium;
-    (document.getElementById('utm_campaign') as HTMLInputElement).value = utmCampaign;
-    (document.getElementById('gclid') as HTMLInputElement).value = gclid;
+    const utmSourceEl = document.getElementById('utm_source') as HTMLInputElement | null;
+    const utmMediumEl = document.getElementById('utm_medium') as HTMLInputElement | null;
+    const utmCampaignEl = document.getElementById('utm_campaign') as HTMLInputElement | null;
+    const gclidEl = document.getElementById('gclid') as HTMLInputElement | null;
+
+    if (utmSourceEl) utmSourceEl.value = utmSource;
+    if (utmMediumEl) utmMediumEl.value = utmMedium;
+    if (utmCampaignEl) utmCampaignEl.value = utmCampaign;
+    if (gclidEl) gclidEl.value = gclid;
 
     const formBodyWrapper = document.getElementById('form-body-wrapper');
     const successCard = document.getElementById('form-success-card');
@@ -905,7 +994,10 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
       submitBtn.textContent = '...';
 
       // Record chosen tile
-      (document.getElementById('hidden-chosen-tile') as HTMLInputElement).value = eventTypeSelect.value;
+      const hiddenTile = document.getElementById('hidden-chosen-tile') as HTMLInputElement | null;
+      if (hiddenTile) {
+        hiddenTile.value = eventTypeSelect.value;
+      }
 
       try {
         const formData = new FormData(form);
