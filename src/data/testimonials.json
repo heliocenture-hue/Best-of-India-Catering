@@ -1,38 +1,56 @@
 [
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Daza007 Ferns",
+    "avatar": "D",
+    "rating": 5,
+    "quote_en": "What a wonderful experience! From the moment we walked in, we were welcomed by a lovely atmosphere, beautiful ambience and a warm, inviting setting that made the evening even more special. The food was simply outstanding! We ordered the Chettinad Mutton, Andhra Chicken, Chicken Biryani, Garlic Naan and Biryani Rice, and every dish was full of authentic Indian flavours, beautifully prepared and bursting with taste…",
+    "quote_fr": "Quelle merveilleuse expérience ! Dès notre arrivée, nous avons été accueillis par une atmosphère chaleureuse qui a rendu la soirée encore plus spéciale. La cuisine était tout simplement exceptionnelle ! Le mouton Chettinad, le poulet Andhra, le biryani et les naans à l'ail étaient remplis de saveurs indiennes authentiques, magnifiquement préparés…",
+    "isOriginalEn": true,
+    "verified": true
   },
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Damien PINGARD",
+    "avatar": "D",
+    "rating": 5,
+    "quote_en": "Very warm welcome and authentic, delicious dishes, we will definitely return.",
+    "quote_fr": "Très bon accueil et des plats authentiques et délicieux, nous reviendrons.",
+    "isOriginalEn": false,
+    "verified": true
   },
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Peter Smith",
+    "avatar": "P",
+    "rating": 5,
+    "quote_en": "We weren't terribly hungry so we settled for the chicken soup, the tomato soup, naan bread and a cucumber/pineapple salad. Everything was excellent and the service was pleasant and efficient. What more could we want? We'll return.",
+    "quote_fr": "Tout était excellent et le service était agréable et efficace. Les soupes, les naans et les salades étaient parfaits. Que demander de plus ? Nous reviendrons.",
+    "isOriginalEn": true,
+    "verified": true
   },
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Beate Czech",
+    "avatar": "B",
+    "rating": 5,
+    "quote_en": "Very friendly staff, very flexible — we arrived as a group earlier than planned, but that was no problem at all. Delicious food, also great options for vegetarians and vegans! Highly recommended.",
+    "quote_fr": "Personnel très sympathique et très flexible : nous sommes arrivés en groupe plus tôt que prévu, mais cela n'a posé aucun problème. Nourriture délicieuse, également d'excellentes options pour les végétariens et les végétaliens ! Hautement recommandé.",
+    "isOriginalEn": true,
+    "verified": true
   },
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Saranya Mani",
+    "avatar": "S",
+    "rating": 5,
+    "quote_en": "Authentic South Indian taste in Paris! The dosas and thali are wonderful, and the staff treats every guest with immense warmth and hospitality.",
+    "quote_fr": "Un goût authentique d'Inde du Sud à Paris ! Les dosas et les thalis sont merveilleux, et le personnel accueille chaque invité avec une immense chaleur et hospitalité.",
+    "isOriginalEn": true,
+    "verified": true
   },
   {
-    "quote_en": "",
-    "quote_fr": "",
-    "name": "",
-    "verified": false
+    "name": "Choufoer Rob",
+    "avatar": "C",
+    "rating": 5,
+    "quote_en": "Very good food and nice and relaxed atmosphere.",
+    "quote_fr": "Très bonne cuisine et une ambiance agréable et détendue.",
+    "isOriginalEn": true,
+    "verified": true
   }
 ]

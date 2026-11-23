@@ -1,5 +1,6 @@
 ---
 import { getTranslations, type Language } from '../i18n/utils';
+import { CONFIG } from '../config';
 
 interface Props {
   lang: Language;
@@ -7,6 +8,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
+const restaurantUrl = lang === 'fr' ? CONFIG.WEBSITE_FR : CONFIG.WEBSITE_EN;
 ---
 
 <section id="menu" class="sample-menu-section" aria-label="Sample Menu">
@@ -53,6 +55,26 @@ const t = getTranslations(lang);
     <!-- One centred outline button: about 46px below, with 60px beneath it -->
     <div class="menu-cta-container">
       <a href="#contact" class="btn-outline">{t.menu.button}</a>
+    </div>
+
+    <!-- Dine In at Best of India Mini-Banner -->
+    <div class="dine-in-banner">
+      <div class="dine-in-content">
+        <h3 class="dine-in-title">{t.menu.dineIn?.title || (lang === 'fr' ? 'Dîner au restaurant Best of India' : 'Dine in at Best of India')}</h3>
+        <p class="dine-in-desc">{t.menu.dineIn?.desc || (lang === 'fr' ? 'Envie de déguster nos spécialités sur place ? Visitez le site officiel de notre restaurant pour consulter la carte, réserver votre table et commander à emporter.' : 'Want to dine with us? Visit our restaurant website for the full menu, reservations and takeaway.')}</p>
+      </div>
+      <a 
+        href={restaurantUrl} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="dine-in-btn"
+      >
+        <span>{t.menu.dineIn?.button || (lang === 'fr' ? 'Visiter le site du restaurant' : 'Visit Restaurant Website')}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dine-in-arrow" aria-hidden="true">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
@@ -186,6 +208,74 @@ const t = getTranslations(lang);
     width: 100%;
   }
 
+  /* Dine In Mini-Banner */
+  .dine-in-banner {
+    width: 100%;
+    max-width: 930px;
+    margin-top: 50px;
+    padding: 32px 40px;
+    background-color: var(--panel);
+    border: 1px solid rgba(152, 68, 33, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    box-sizing: border-box;
+  }
+
+  .dine-in-content {
+    flex: 1;
+    text-align: left;
+  }
+
+  .dine-in-title {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text);
+    margin: 0 0 8px 0;
+  }
+
+  .dine-in-desc {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .dine-in-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--accent);
+    color: var(--white);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .dine-in-btn:hover {
+    background-color: #7A3518;
+    transform: translateY(-2px);
+  }
+
+  .dine-in-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .dine-in-btn:hover .dine-in-arrow {
+    transform: translate(2px, -2px);
+  }
+
   /* Mobile Layout (< 768px): One column */
   @media (max-width: 767px) {
     .sample-menu-container {
@@ -210,6 +300,28 @@ const t = getTranslations(lang);
     }
     .menu-cta-container {
       margin-top: 36px;
+    }
+    .dine-in-banner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px 20px;
+      margin-top: 36px;
+      gap: 20px;
+    }
+    .dine-in-content {
+      text-align: center;
+    }
+    .dine-in-title {
+      font-size: 20px;
+    }
+    .dine-in-desc {
+      font-size: 13.5px;
+    }
+    .dine-in-btn {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
     }
   }
 </style>

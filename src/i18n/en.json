@@ -11,7 +11,8 @@
     "reviews": "Reviews",
     "ourMenu": "Our Menu",
     "whyChooseUs": "Why Choose Us",
-    "contact": "Contact"
+    "contact": "Contact",
+    "restaurantWebsite": "Restaurant Website"
   },
   "hero": {
     "altPrefix": "Best of India authentic South Indian catering presentation"
@@ -21,7 +22,7 @@
     "paragraph1": "Best of India brings the rich flavours of South Indian and Chettinad cuisine to your celebrations, with catering in Paris and the Île-de-France region.",
     "paragraph2": "Whether you are planning a wedding, a corporate event, an engagement, a baby shower, a reception or a birthday party, our team will help you create the right menu for your event and your budget. If your occasion is not listed below, simply get in touch.",
     "numbers": {
-      "expNum": "50+",
+      "expNum": "20+",
       "expLabel": "Years of Experience",
       "clientsNum": "100+",
       "clientsLabel": "Satisfied Clients",
@@ -102,7 +103,12 @@
   },
   "reviews": {
     "heading": "Reviews",
-    "intro": "With more than 50 years of experience and over 5 million people served, here is what our clients say.",
+    "intro": "With more than 20 years of experience and over 5 million people served, here is what our clients say.",
+    "ratingValue": "4.6",
+    "ratingSub": "Based on 3,655+ Google reviews",
+    "googleReview": "Google review",
+    "readGoogleReviews": "Read all reviews on Google",
+    "translatedFrom": "Translated from English",
     "placeholderQuote": "[Real client review goes here]",
     "placeholderName": "[Client name]",
     "prevAria": "Previous review",
@@ -165,14 +171,19 @@
         "image": "/assets/menu/placeholder-menu-desserts.webp",
         "alt": "Traditional Indian desserts: golden gulab jamun in brass bowl, sliced pistachio kulfi and South Indian filter coffee"
       }
-    ]
+    ],
+    "dineIn": {
+      "title": "Dine in at Best of India",
+      "desc": "Want to dine with us? Visit our restaurant website for the full menu, reservations and takeaway.",
+      "button": "Visit Restaurant Website"
+    }
   },
   "why": {
     "eyebrow": "Why Us",
     "heading": "Why Hosts Choose Best of India",
     "items": [
       {
-        "title": "50+ Years of Experience",
+        "title": "20+ Years of Experience",
         "desc": "Decades of expertise behind every dish we serve."
       },
       {
@@ -204,6 +215,7 @@
     "phoneLabel": "Phone",
     "emailLabel": "Email",
     "addressLabel": "Address",
+    "viewOnGoogle": "View us on Google Maps",
     "whatsappLabel": "WhatsApp",
     "chatOnWhatsapp": "Chat on WhatsApp",
     "cardHeaderTitle": "Request Your Free Quote",
@@ -252,7 +264,7 @@
     "reviews": "Reviews",
     "whyChooseUs": "Why Choose Us",
     "contact": "Contact",
-    "fullWebsite": "Full Website",
+    "fullWebsite": "Restaurant Website",
     "rights": "All Rights Reserved 2026 © Best of India Paris",
     "privacy": "Privacy & Cookies",
     "legal": "Legal Notice",

@@ -11,7 +11,8 @@
     "reviews": "Avis",
     "ourMenu": "Notre menu",
     "whyChooseUs": "Pourquoi nous choisir",
-    "contact": "Contact"
+    "contact": "Contact",
+    "restaurantWebsite": "Site du restaurant"
   },
   "hero": {
     "altPrefix": "Présentation du service traiteur indien authentique Best of India"
@@ -21,7 +22,7 @@
     "paragraph1": "Best of India apporte les riches saveurs de la cuisine d'Inde du Sud et du Chettinad à vos célébrations, avec un service traiteur à Paris et toute l'Île-de-France.",
     "paragraph2": "Que vous organisiez un mariage, un événement d'entreprise, des fiançailles, une baby shower, une réception ou un anniversaire, notre équipe vous aide à composer le menu idéal pour votre événement et votre budget. Si votre occasion ne figure pas ci-dessous, contactez-nous simplement.",
     "numbers": {
-      "expNum": "50+",
+      "expNum": "20+",
       "expLabel": "ans d'expérience",
       "clientsNum": "100+",
       "clientsLabel": "clients satisfaits",
@@ -102,7 +103,12 @@
   },
   "reviews": {
     "heading": "Avis",
-    "intro": "Avec plus de 50 ans d'expérience et plus de 5 millions de personnes servies, voici ce que disent nos clients.",
+    "intro": "Avec plus de 20 ans d'expérience et plus de 5 millions de personnes servies, voici ce que disent nos clients.",
+    "ratingValue": "4.6",
+    "ratingSub": "Basé sur 3 655+ avis Google",
+    "googleReview": "Avis Google",
+    "readGoogleReviews": "Lire tous les avis sur Google",
+    "translatedFrom": "Traduit de l'anglais",
     "placeholderQuote": "[Real client review goes here]",
     "placeholderName": "[Client name]",
     "prevAria": "Avis précédent",
@@ -165,14 +171,19 @@
         "image": "/assets/menu/placeholder-menu-desserts.webp",
         "alt": "Desserts indiens : gulab jamun dorés en coupelle de laiton, kulfi à la pistache et café filtre indien"
       }
-    ]
+    ],
+    "dineIn": {
+      "title": "Dîner au restaurant Best of India",
+      "desc": "Envie de déguster nos spécialités sur place ? Visitez le site officiel de notre restaurant pour consulter la carte, réserver votre table et commander à emporter.",
+      "button": "Visiter le site du restaurant"
+    }
   },
   "why": {
     "eyebrow": "Pourquoi nous",
     "heading": "Pourquoi choisir Best of India",
     "items": [
       {
-        "title": "Plus de 50 ans d'expérience",
+        "title": "Plus de 20 ans d'expérience",
         "desc": "Des décennies de savoir-faire derrière chaque plat."
       },
       {
@@ -204,6 +215,7 @@
     "phoneLabel": "Téléphone",
     "emailLabel": "E-mail",
     "addressLabel": "Adresse",
+    "viewOnGoogle": "Voir sur Google Maps",
     "whatsappLabel": "WhatsApp",
     "chatOnWhatsapp": "Discuter sur WhatsApp",
     "cardHeaderTitle": "Demandez votre devis gratuit",

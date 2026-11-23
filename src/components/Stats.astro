@@ -10,7 +10,7 @@ const { lang } = Astro.props;
 const t = getTranslations(lang);
 
 const statsData = [
-  { target: 50, suffix: '+', numberStr: t.stats.stat1_number, label: t.stats.stat1_label },
+  { target: 20, suffix: '+', numberStr: t.stats?.stat1_number || t.titleCard?.numbers?.expNum || '20+', label: t.stats?.stat1_label || t.titleCard?.numbers?.expLabel || 'Years of Experience' },
   { target: 100, suffix: '+', numberStr: t.stats.stat2_number, label: t.stats.stat2_label },
   { target: 5, suffix: 'M+', numberStr: t.stats.stat3_number, label: t.stats.stat3_label }
 ];

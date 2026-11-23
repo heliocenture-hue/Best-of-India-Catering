@@ -70,7 +70,28 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
           </div>
           <div class="contact-row-content">
             <span class="row-label">{t.contact.addressLabel}</span>
-            <span class="row-value">{CONFIG.ADDRESS}</span>
+            <a 
+              href={CONFIG.GMB_URL} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="row-value row-link"
+              title={t.contact.viewOnGoogle || (lang === 'fr' ? 'Voir sur Google Maps' : 'View us on Google Maps')}
+            >
+              {CONFIG.ADDRESS}
+            </a>
+            <a 
+              href={CONFIG.GMB_URL} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="google-maps-sublink"
+            >
+              <span>{t.contact.viewOnGoogle || (lang === 'fr' ? 'Voir sur Google Maps' : 'View us on Google Maps')}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -381,6 +402,24 @@ const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURICom
   .whatsapp-text-link {
     font-weight: 500;
     color: #F2A65A;
+  }
+
+  .google-maps-sublink {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: #F2A65A;
+    text-decoration: none;
+    margin-top: 4px;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+  }
+
+  .google-maps-sublink:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
   }
 
   /* RIGHT COLUMN: FORM CARD (Target <= 600px total height at 1440x900) */

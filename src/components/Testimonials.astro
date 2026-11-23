@@ -1,5 +1,6 @@
 ---
 import { getTranslations, type Language } from '../i18n/utils';
+import { CONFIG } from '../config';
 import rawReviews from '../data/testimonials.json';
 
 interface Props {
@@ -9,80 +10,145 @@ interface Props {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-// Check for unfilled entries and issue a build warning
-const unfilledCount = rawReviews.filter(r => !r.verified || !r.quote_en || !r.name).length;
-if (unfilledCount > 0) {
-  console.warn(`[BOI CATERING BUILD WARNING]: ${unfilledCount} of ${rawReviews.length} client reviews in src/data/testimonials.json are unverified/placeholder entries.`);
-}
-
-// Map reviews to current language with placeholder fallback
+// Format verified reviews
 const reviews = rawReviews.map((r) => {
-  const isVerified = r.verified === true;
-  const quote = isVerified
-    ? (lang === 'fr' ? (r.quote_fr || r.quote_en) : r.quote_en)
-    : t.reviews.placeholderQuote;
-  const author = isVerified && r.name ? r.name : t.reviews.placeholderName;
-
-  return { quote, author };
+  return {
+    name: r.name,
+    avatar: r.avatar || r.name.charAt(0).toUpperCase(),
+    rating: r.rating || 5,
+    quote_en: r.quote_en,
+    quote_fr: r.quote_fr,
+    isOriginalEn: r.isOriginalEn !== false
+  };
 });
 ---
 
 <section id="reviews" class="reviews-section" aria-label="Customer Reviews">
   <div class="reviews-container">
     <!-- Centred Section Header -->
+    <span class="eyebrow-script">{lang === 'fr' ? 'Avis clients' : 'Client Feedback'}</span>
     <h2 class="reviews-heading">{t.reviews.heading}</h2>
 
-    <!-- Intro Text: 681px wide -->
+    <!-- Intro Text -->
     <p class="reviews-intro">{t.reviews.intro}</p>
 
-    <!-- Carousel Container -->
-    <div class="reviews-carousel-wrapper" id="reviews-carousel">
-      <!-- Large Tan Quotation Mark behind text (100 x 100px, color --quote-mark) -->
-      <div class="quote-mark" aria-hidden="true">“</div>
-
-      <!-- Left chevron arrow: 50 x 50px -->
-      <button class="review-nav-btn prev-btn" id="review-prev-btn" aria-label={t.reviews.prevAria}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <polyline points="15 18 9 12 15 6"></polyline>
+    <!-- Google Rating Summary Header Strip -->
+    <div class="google-rating-strip">
+      <div class="google-logo-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" class="google-icon" aria-hidden="true">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
         </svg>
-      </button>
+      </div>
 
-      <!-- Review Slides -->
-      <div class="review-slides">
-        {reviews.map((item, idx) => (
-          <div 
-            class={`review-slide ${idx === 0 ? 'is-active' : ''}`}
-            data-index={idx}
-          >
-            <!-- Review text 790px wide in Ubuntu uppercase -->
-            <blockquote class="review-quote-text">
-              {item.quote}
-            </blockquote>
-            <!-- Client name in script about 40px below the review -->
-            <cite class="review-client-name">
-              {item.author}
-            </cite>
+      <div class="rating-info">
+        <div class="rating-score-row">
+          <span class="score-number">{t.reviews.ratingValue || '4.6'}</span>
+          <div class="stars-strip" aria-label="4.6 out of 5 stars">
+            {[...Array(5)].map(() => (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#E87A1E" class="star-icon" aria-hidden="true">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            ))}
           </div>
+        </div>
+        <span class="rating-count-text">{t.reviews.ratingSub || 'Based on 3,655+ Google reviews'}</span>
+      </div>
+    </div>
+
+    <!-- Review Cards: 3 columns grid on desktop, smooth swipe carousel on mobile -->
+    <div class="reviews-grid-wrapper">
+      <div class="reviews-grid" id="reviews-slider">
+        {reviews.map((item) => (
+          <article class="review-card">
+            <!-- Review Card Header: Avatar, Name, Google Badge -->
+            <div class="card-top">
+              <div class="reviewer-avatar" aria-hidden="true">
+                {item.avatar}
+              </div>
+              <div class="reviewer-meta">
+                <span class="reviewer-name">{item.name}</span>
+                <span class="google-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" class="inline-g" aria-hidden="true">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                  </svg>
+                  {t.reviews.googleReview || 'Google review'}
+                </span>
+              </div>
+            </div>
+
+            <!-- 5 Orange Stars -->
+            <div class="card-stars" aria-label="5 stars">
+              {[...Array(item.rating)].map(() => (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#E87A1E" class="card-star-icon" aria-hidden="true">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              ))}
+            </div>
+
+            <!-- Review Text -->
+            <div class="card-body">
+              {lang === 'fr' ? (
+                <>
+                  <p class="review-text">{item.isOriginalEn ? item.quote_en : item.quote_fr}</p>
+                  {item.isOriginalEn && item.quote_fr && (
+                    <div class="review-translation">
+                      <span class="translation-tag">{t.reviews.translatedFrom || "Traduit de l'anglais"} :</span>
+                      <p class="translated-text">{item.quote_fr}</p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p class="review-text">{item.quote_en}</p>
+              )}
+            </div>
+          </article>
         ))}
       </div>
 
-      <!-- Right chevron arrow: 50 x 50px -->
-      <button class="review-nav-btn next-btn" id="review-next-btn" aria-label={t.reviews.nextAria}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <polyline points="9 18 15 12 9 6"></polyline>
+      <!-- Mobile Carousel Swipe Indicators -->
+      <div class="mobile-dots" id="mobile-dots" aria-hidden="true">
+        {reviews.map((_, idx) => (
+          <span class={`dot ${idx === 0 ? 'is-active' : ''}`} data-dot={idx}></span>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA: Read all reviews on Google Button -->
+    <div class="reviews-cta-wrap">
+      <a 
+        href={CONFIG.GMB_URL} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="btn-read-reviews"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" class="btn-g-icon" aria-hidden="true">
+          <path fill="#FFFFFF" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+          <path fill="#FFFFFF" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+          <path fill="#FFFFFF" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          <path fill="#FFFFFF" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
         </svg>
-      </button>
+        <span>{t.reviews.readGoogleReviews || 'Read all reviews on Google'}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow-icon" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  /* REVIEWS: Background --panel, minimum height 480px. Everything is centred. */
+  /* REVIEWS: Background --panel (#F6EFE9), clean cream background */
   .reviews-section {
     background-color: var(--panel);
-    min-height: 480px;
     width: 100%;
-    padding: 66px 20px 60px 20px;
+    padding: 72px 24px 64px 24px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -92,244 +158,393 @@ const reviews = rawReviews.map((r) => {
 
   .reviews-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1160px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    position: relative;
+    overflow: hidden;
   }
 
-  /* Heading: Italiana, uppercase, centred */
+  /* Eyebrow Script */
+  .eyebrow-script {
+    font-family: var(--font-script);
+    font-size: 32px;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* Heading: Athelas 42px */
   .reviews-heading {
     font-family: var(--font-heading);
-    font-size: 35px;
-    line-height: 42px;
-    letter-spacing: 3.5px;
-    text-transform: uppercase;
-    color: var(--heading);
+    font-size: 42px;
     font-weight: 400;
-    margin: 0 0 16px 0;
+    line-height: 1.15;
+    color: var(--text);
+    margin: 0 0 12px 0;
+    text-transform: capitalize;
   }
 
-  /* Intro text: 681px wide */
+  /* Intro: Montserrat 300, 15px */
   .reviews-intro {
-    max-width: 681px;
     font-family: var(--font-body);
     font-weight: 300;
-    font-size: 14px;
-    line-height: 25.2px;
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--text);
+    max-width: 640px;
     margin: 0 auto 36px auto;
   }
 
-  /* Carousel Wrapper */
-  .reviews-carousel-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 1080px;
-    min-height: 230px;
+  /* Google Rating Header Strip */
+  .google-rating-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--white);
+    padding: 12px 28px;
+    border: 1px solid rgba(152, 68, 33, 0.12);
+    box-shadow: 0 2px 10px rgba(43, 20, 9, 0.05);
+    margin-bottom: 44px;
+  }
+
+  .google-logo-box {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
-  /* Large tan quotation mark: 100 x 100px behind text */
-  .quote-mark {
-    position: absolute;
-    top: -24px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-heading);
-    font-size: 140px;
-    line-height: 1;
-    color: var(--quote-mark);
-    opacity: 0.45;
-    pointer-events: none;
-    z-index: 1;
-    user-select: none;
-  }
-
-  /* Chevron Buttons: 50 x 50px */
-  .review-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
-    background: transparent;
-    border: none;
-    color: var(--accent);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    padding: 0;
-  }
-
-  .review-nav-btn:hover {
-    opacity: 0.7;
-  }
-
-  .prev-btn {
-    left: 20px;
-  }
-
-  .next-btn {
-    right: 20px;
-  }
-
-  /* Review Slides: Crossfade 6s */
-  .review-slides {
-    position: relative;
-    width: 100%;
-    max-width: 790px;
-    min-height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-
-  .review-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+  .rating-info {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .rating-score-row {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    gap: 8px;
   }
 
-  .review-slide.is-active {
-    opacity: 1;
-    visibility: visible;
-    position: relative;
+  .score-number {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 20px;
+    color: #202124;
+    line-height: 1;
   }
 
-  /* Review text: 790px wide in Ubuntu uppercase */
-  .review-quote-text {
+  .stars-strip {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .rating-count-text {
     font-family: var(--font-ui);
     font-weight: 500;
+    font-size: 12px;
+    color: #5F6368;
+    margin-top: 3px;
+    letter-spacing: 0.2px;
+  }
+
+  /* Reviews Grid: 3 columns on desktop */
+  .reviews-grid-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Review Card: White background, subtle shadow, orange stars, square corners */
+  .review-card {
+    background-color: var(--white);
+    border: 1px solid rgba(152, 68, 33, 0.12);
+    box-shadow: 0 4px 16px rgba(43, 20, 9, 0.06);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(43, 20, 9, 0.1);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #984421;
+    color: var(--white);
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .reviewer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .reviewer-name {
+    font-family: var(--font-ui);
+    font-weight: 700;
     font-size: 14px;
-    line-height: 25.2px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
     color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .google-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    color: #70757A;
+  }
+
+  .card-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 14px;
+  }
+
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .review-text {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #3C4043;
     margin: 0;
-    font-style: normal;
   }
 
-  /* Client name in script about 40px below review */
-  .review-client-name {
-    font-family: var(--font-script);
-    font-size: 44px;
-    line-height: 1;
+  .review-translation {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(152, 68, 33, 0.2);
+  }
+
+  .translation-tag {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-style: italic;
     color: var(--accent);
-    margin-top: 36px;
     display: block;
-    font-style: normal;
+    margin-bottom: 4px;
   }
 
-  /* Mobile Layout (< 768px):
-     - Heading, intro, large centred quotation mark, review text, script name,
-       with arrows at the left and right edges. */
-  @media (max-width: 767px) {
-    .reviews-section {
-      padding: 48px 16px 40px 16px;
-      min-height: auto;
+  .translated-text {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.55;
+    color: #4A4A4A;
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* Dots indicator for mobile */
+  .mobile-dots {
+    display: none;
+  }
+
+  /* Primary Button: Read all reviews on Google */
+  .reviews-cta-wrap {
+    margin-top: 8px;
+  }
+
+  .btn-read-reviews {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--accent);
+    color: var(--white);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(152, 68, 33, 0.25);
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+
+  .btn-read-reviews:hover {
+    background-color: #7A3518;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(152, 68, 33, 0.35);
+  }
+
+  .btn-arrow-icon {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-read-reviews:hover .btn-arrow-icon {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1023px) {
+    .reviews-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
     .reviews-heading {
-      font-size: 26px;
-      line-height: 32px;
-      letter-spacing: 2px;
+      font-size: 36px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .reviews-section {
+      padding: 54px 16px 48px 16px;
+    }
+    .eyebrow-script {
+      font-size: 28px;
+    }
+    .reviews-heading {
+      font-size: 30px;
     }
     .reviews-intro {
-      font-size: 15px;
-      line-height: 24px;
+      font-size: 14px;
       margin-bottom: 24px;
     }
-    .reviews-carousel-wrapper {
-      padding: 0 44px;
+    .google-rating-strip {
+      padding: 10px 18px;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 320px;
       box-sizing: border-box;
+      justify-content: center;
     }
-    .prev-btn {
-      left: -6px;
+
+    /* Swipe Carousel on Mobile */
+    .reviews-grid-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+      padding-bottom: 4px;
     }
-    .next-btn {
-      right: -6px;
+
+    .reviews-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+      padding: 6px 4px 16px 4px;
+      scrollbar-width: none;
     }
-    .review-quote-text {
-      font-size: 13px;
-      line-height: 22px;
+
+    .reviews-grid::-webkit-scrollbar {
+      display: none;
     }
-    .review-client-name {
-      font-size: 36px;
-      margin-top: 24px;
+
+    .review-card {
+      flex: 0 0 84%;
+      max-width: 310px;
+      scroll-snap-align: center;
+      padding: 20px 18px;
+    }
+
+    /* Mobile Dots Indicator */
+    .mobile-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(152, 68, 33, 0.25);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .dot.is-active {
+      background-color: var(--accent);
+      transform: scale(1.3);
+    }
+
+    .btn-read-reviews {
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+      padding: 13px 20px;
+      font-size: 12px;
+      box-sizing: border-box;
     }
   }
 </style>
 
 <script>
-  function setupReviewsCarousel() {
-    const wrapper = document.getElementById('reviews-carousel');
-    if (!wrapper) return;
+  // Mobile Carousel Dots Sync
+  function initReviewsCarousel() {
+    const slider = document.getElementById('reviews-slider');
+    const dots = document.querySelectorAll('#mobile-dots .dot');
+    if (!slider || !dots.length) return;
 
-    const slides = wrapper.querySelectorAll<HTMLElement>('.review-slide');
-    const prevBtn = document.getElementById('review-prev-btn');
-    const nextBtn = document.getElementById('review-next-btn');
-    if (slides.length <= 1) return;
+    slider.addEventListener('scroll', () => {
+      const scrollLeft = slider.scrollLeft;
+      const cardWidth = slider.querySelector('.review-card')?.clientWidth || 300;
+      const activeIndex = Math.min(
+        Math.round(scrollLeft / (cardWidth + 16)),
+        dots.length - 1
+      );
 
-    let currentIndex = 0;
-    let timer: number | null = null;
-    const intervalDuration = 6000;
-
-    function goToSlide(index: number) {
-      slides[currentIndex].classList.remove('is-active');
-      currentIndex = (index + slides.length) % slides.length;
-      slides[currentIndex].classList.add('is-active');
-    }
-
-    function startTimer() {
-      if (timer) clearInterval(timer);
-      timer = window.setInterval(() => {
-        goToSlide(currentIndex + 1);
-      }, intervalDuration);
-    }
-
-    function stopTimer() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
-    }
-
-    prevBtn?.addEventListener('click', () => {
-      stopTimer();
-      goToSlide(currentIndex - 1);
-      startTimer();
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      stopTimer();
-      goToSlide(currentIndex + 1);
-      startTimer();
-    });
-
-    // Pause on hover
-    wrapper.addEventListener('mouseenter', stopTimer);
-    wrapper.addEventListener('mouseleave', startTimer);
-
-    // Initial start
-    startTimer();
+      dots.forEach((dot, idx) => {
+        if (idx === activeIndex) {
+          dot.classList.add('is-active');
+        } else {
+          dot.classList.remove('is-active');
+        }
+      });
+    }, { passive: true });
   }
 
-  setupReviewsCarousel();
-  document.addEventListener('astro:page-load', setupReviewsCarousel);
+  document.addEventListener('DOMContentLoaded', initReviewsCarousel);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initReviewsCarousel();
+  }
 </script>

@@ -23,6 +23,9 @@ export interface SiteConfig {
   INSTAGRAM: string;
   FACEBOOK: string;
   WEBSITE: string;
+  WEBSITE_EN: string;
+  WEBSITE_FR: string;
+  GMB_URL: string;
   MAP_EMBED: string;
   WHATSAPP_NUMBER: string;
   FORM_ENDPOINT: string;
@@ -45,6 +48,9 @@ export const CONFIG: SiteConfig = {
   INSTAGRAM: "https://www.instagram.com/bestofindia_paris/",
   FACEBOOK: "https://www.facebook.com/Restaurant.indien.bestofindia.paris",
   WEBSITE: "https://bestofindiaparis.com/en/",
+  WEBSITE_EN: "https://bestofindiaparis.com/en/",
+  WEBSITE_FR: "https://bestofindiaparis.com/fr/",
+  GMB_URL: "https://share.google/XMFLM2g4avmLLFYFp",
   MAP_EMBED: "https://maps.google.com/maps?q=Best%20of%20India%2C%20170%20Rue%20du%20Faubourg%20Saint-Denis%2C%2075010%20Paris&t=m&z=17&output=embed&iwloc=near",
 
   // TODO [CONFIRM: number in international format, digits only]

@@ -1,5 +1,6 @@
 ---
 import { getTranslations, type Language } from '../i18n/utils';
+import { CONFIG } from '../config';
 
 interface Props {
   lang: Language;
@@ -9,17 +10,42 @@ const { lang } = Astro.props;
 const t = getTranslations(lang);
 const otherLang: Language = lang === 'fr' ? 'en' : 'fr';
 const otherLangPath = lang === 'fr' ? '/en/' : '/';
+const restaurantUrl = lang === 'fr' ? CONFIG.WEBSITE_FR : CONFIG.WEBSITE_EN;
 ---
 
 <header id="site-header" class="site-header">
   <div class="header-inner">
-    <!-- Logo container: flush top-left, white rectangle about 240px wide -->
-    <a href={lang === 'fr' ? '/' : '/en/'} class="header-logo-box" aria-label="Best of India Home">
-      <img src="/assets/boi-logo.png" alt="Best of India Restaurant Indien Paris" class="logo-img" width="220" height="65" />
+    <!-- Circular Logo container: aspect-ratio 1/1, border-radius 50%, white background, thin orange border / soft shadow -->
+    <a href="#top" class="header-logo-circle" aria-label="Best of India Paris logo">
+      <picture>
+        <source srcset="/assets/boi-circle-logo.webp" type="image/webp" />
+        <img 
+          src="/assets/boi-circle-logo.png" 
+          alt="Best of India Paris logo" 
+          class="circle-logo-img" 
+          width="68" 
+          height="68" 
+        />
+      </picture>
     </a>
 
-    <!-- Right Controls: Language switch + Hamburger -->
+    <!-- Right Controls: Restaurant Link + Language switch + Hamburger -->
     <div class="header-right">
+      <a 
+        href={restaurantUrl} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="header-restaurant-link"
+        aria-label={t.nav.restaurantWebsite}
+      >
+        <span>{t.nav.restaurantWebsite}</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </a>
+
       <div class="lang-switch-box">
         <a 
           href={otherLangPath} 
@@ -75,6 +101,12 @@ const otherLangPath = lang === 'fr' ? '/en/' : '/';
         <li><a href="#menu" class="menu-link">{t.nav.ourMenu}</a></li>
         <li><a href="#why" class="menu-link">{t.nav.whyChooseUs}</a></li>
         <li><a href="#contact" class="menu-link">{t.nav.contact}</a></li>
+        <li class="menu-restaurant-item">
+          <a href={restaurantUrl} target="_blank" rel="noopener noreferrer" class="menu-link restaurant-menu-link">
+            <span>{t.nav.restaurantWebsite}</span>
+            <span class="external-arrow">↗</span>
+          </a>
+        </li>
       </ul>
     </nav>
   </aside>
@@ -108,23 +140,86 @@ const otherLangPath = lang === 'fr' ? '/en/' : '/';
     padding: 0;
   }
 
-  /* Logo top-left inside a small white rectangle, about 240px wide, flush with top and left edges */
-  .header-logo-box {
+  /* Circular Logo Container: 68px desktop, 54px mobile, aspect-ratio 1/1, 50% border-radius */
+  .header-logo-circle {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 68px;
+    height: 68px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
     background-color: var(--white);
-    width: 240px;
-    height: 100%;
-    padding: 8px 16px;
+    border: 2px solid #E87A1E;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    margin-left: 36px;
     text-decoration: none;
-    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .logo-img {
-    max-width: 100%;
-    max-height: 54px;
-    object-fit: contain;
+  .header-logo-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(232, 122, 30, 0.35);
+  }
+
+  .circle-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Restaurant Website Link in Top Bar */
+  .header-restaurant-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background-color: rgba(20, 15, 12, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+  }
+
+  .header-restaurant-link:hover {
+    background-color: #E87A1E;
+    border-color: #E87A1E;
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(232, 122, 30, 0.3);
+  }
+
+  .is-scrolled .header-restaurant-link {
+    color: var(--accent);
+    background-color: rgba(152, 68, 33, 0.08);
+    border-color: rgba(152, 68, 33, 0.25);
+  }
+
+  .is-scrolled .header-restaurant-link:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .external-icon {
+    opacity: 0.85;
+    transition: transform 0.2s ease;
+  }
+
+  .header-restaurant-link:hover .external-icon {
+    transform: translate(2px, -2px);
+    opacity: 1;
   }
 
   /* Right Controls */
@@ -227,16 +322,25 @@ const otherLangPath = lang === 'fr' ? '/en/' : '/';
     overflow-y: auto;
     z-index: 1020;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    transform: translateX(calc(100% + 40px));
-    visibility: hidden;
+    display: none;
     pointer-events: none;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
   }
 
   .menu-panel.is-open {
-    transform: translateX(0);
-    visibility: visible;
+    display: block;
     pointer-events: auto;
+    animation: menuFadeIn 0.25s ease forwards;
+  }
+
+  @keyframes menuFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .menu-top-row {
@@ -318,19 +422,46 @@ const otherLangPath = lang === 'fr' ? '/en/' : '/';
     opacity: 1;
   }
 
+  .menu-restaurant-item {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(152, 68, 33, 0.18);
+  }
+
+  .restaurant-menu-link {
+    color: #E87A1E !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .restaurant-menu-link:hover {
+    color: var(--accent) !important;
+  }
+
+  .external-arrow {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  .restaurant-menu-link:hover .external-arrow {
+    transform: translate(3px, -3px);
+  }
+
   /* Mobile Layout (< 768px):
      Logo left, switch and hamburger right. The menu panel becomes nearly full width. */
   @media (max-width: 767px) {
     .site-header {
-      height: 64px;
+      height: 70px;
     }
-    .header-logo-box {
-      width: 160px;
-      padding: 6px 10px;
-      flex-shrink: 0;
+    .header-logo-circle {
+      width: 54px;
+      height: 54px;
+      margin-left: 16px;
+      border-width: 1.5px;
     }
-    .logo-img {
-      max-height: 40px;
+    .header-restaurant-link {
+      display: none;
     }
     .header-right {
       padding-right: 14px;

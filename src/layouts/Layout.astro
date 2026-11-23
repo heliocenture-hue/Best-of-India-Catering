@@ -21,7 +21,7 @@ const canonicalUrl = lang === 'en'
 const frUrl = 'https://traiteur.bestofindiaparis.com/';
 const enUrl = 'https://traiteur.bestofindiaparis.com/en/';
 
-// Schema JSON-LD FoodEstablishment with NO reviews or ratings
+// Schema JSON-LD FoodEstablishment with verified Google aggregate rating
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": ["FoodEstablishment", "Restaurant"],
@@ -44,8 +44,15 @@ const jsonLd = {
   },
   "servesCuisine": ["Indian", "South Indian", "Chettinad"],
   "openingHours": "Mo-Su 11:30-23:00",
-  "sameAs": [CONFIG.INSTAGRAM, CONFIG.FACEBOOK, CONFIG.WEBSITE],
-  "image": "https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp"
+  "sameAs": [CONFIG.INSTAGRAM, CONFIG.FACEBOOK, CONFIG.WEBSITE_EN, CONFIG.WEBSITE_FR, CONFIG.GMB_URL],
+  "image": "https://traiteur.bestofindiaparis.com/assets/images/boi/hero-1.webp",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.6",
+    "reviewCount": "3655",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
 };
 ---
 
@@ -64,8 +71,9 @@ const jsonLd = {
     <link rel="alternate" hreflang="x-default" href={frUrl} />
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/assets/boi-logo.png" />
-    <link rel="apple-touch-icon" href="/assets/boi-logo.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Preload Critical Self-Hosted Fonts -->
     <link
