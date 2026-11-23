@@ -62,10 +62,10 @@ const { lang } = Astro.props;
     if (!video || !heroSection) return;
 
     const isMobile = window.innerWidth < 768;
-    const desktopVideo = '/assets/video/hero-desktop.mp4';
-    const mobileVideo = '/assets/video/hero-mobile.mp4';
-    const desktopPoster = '/assets/video/hero-poster-desktop.jpg';
-    const mobilePoster = '/assets/video/hero-poster-mobile.jpg';
+    const desktopVideo = '/assets/video/hero-desktop-v2.mp4';
+    const mobileVideo = '/assets/video/hero-mobile-v2.mp4';
+    const desktopPoster = '/assets/video/hero-poster-desktop-v2.jpg';
+    const mobilePoster = '/assets/video/hero-poster-mobile-v2.jpg';
 
     // Set poster immediately based on viewport
     video.poster = isMobile ? mobilePoster : desktopPoster;
@@ -83,7 +83,9 @@ const { lang } = Astro.props;
     function loadAndPlay() {
       // Pick source before loading so only ONE video file downloads
       const chosenSource = isMobile ? mobileVideo : desktopVideo;
-      video.src = chosenSource;
+      if (video.src !== window.location.origin + chosenSource && !video.src.endsWith(chosenSource)) {
+        video.src = chosenSource;
+      }
 
       // Autoplay attempt
       video.play().catch(() => {
@@ -113,11 +115,11 @@ const { lang } = Astro.props;
       }
     }
 
-    // Start loading video after window load event so it does not slow first paint
-    if (document.readyState === 'complete') {
+    // Start loading video without waiting for external iframes (Google Maps) to finish
+    if (document.readyState !== 'loading') {
       loadAndPlay();
     } else {
-      window.addEventListener('load', loadAndPlay, { once: true });
+      document.addEventListener('DOMContentLoaded', loadAndPlay, { once: true });
     }
   }
 
